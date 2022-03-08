@@ -22,40 +22,38 @@ html_template = """
 		<div class="col-3-24 margin"></div>
 		<div class="col-18-24" id="main-content-col">
 
-
 				<div class="row" id="title-row">
-					<div class="col-2 margin"></div>
-					<div class="col-20" id="title-col">
+					<div class="col-2-24 margin"></div>
+					<div class="col-20-24" id="title-col">
 						<img class="pure-img" id="logo_main" src="img/ref-logo.png">
 						<h1>PhyloAcc: Bayesian estimation of substitution rates in conserved non-coding regions along a phylogeny</h1>
 					</div>
-					<div class="col-2 margin"></div>
+					<div class="col-2-24 margin"></div>
 				</div>
 
 				<div class="row header-row">
-					<div class="col-24-24 header-col">
+					<div class="col-2-24 margin"></div>
+					<div class="col-20-24 header-col">
 						<h2>
 							Install
 						</h2>
 					</div>
+					<div class="col-2-24 margin"></div>
 				</div>
 
 				<div class="row" id="install-row">
-					<div class="col-6 margin"></div>
-					<div class="col-12-24" id="install-col">
+					<div class="col-2-24 margin"></div>
+					<div class="col-20-24" id="install-col">
 						<div id="install-cont">
-							COMING SOON! <code>conda install -c bioconda phyloacc</code>
+							<code>conda install phyloacc</code>
 						</div>
 					</div>
-					<div class="col-6 margin"></div>
+					<div class="col-2-24 margin"></div>
 				</div>
 
 				<div class="row" id="about-row">
-					<div class="col-2 margin"></div>
-					<div class="col-20" id="about-col">
-
-
-
+					<div class="col-2-24 margin"></div>
+					<div class="col-20-24" id="about-col">
 
 						<h2>About</h2>
 						<p>
@@ -92,9 +90,8 @@ html_template = """
 
 
 					</div>
-					<div class="col-2 margin"></div>
+					<div class="col-2-24 margin"></div>
 				</div>
-
 
 		</div>
 		<div class="col-3-24 margin"></div>

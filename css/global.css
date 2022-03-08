@@ -16,14 +16,20 @@ h1 {
 	line-height:1.25em;
 }
 
+#main-content-row {
+	min-height: 92vh;
+	display: flex;
+	align-items:flex-start;
+}
+
 #main-content-col {
-	padding: 30px 60px;
+	padding: 30px 0px;
 	margin-bottom: 30px;
 	font-size: 18px;
 	font-weight: 200;
 	line-height: 30px;
 	color: inherit;
-	overflow:auto;
+	/* overflow:auto; */
 	background-color: rgba(238, 238, 238, 0.95);
 	-webkit-border-radius: 0px 0px 6px 6px;
 	   -moz-border-radius: 0px 0px 6px 6px;
@@ -269,8 +275,6 @@ the dropdowns
 #buffer {
 	padding-left:10px;
 }
-
-
 
 
 /*------------------------------------------------------*/
