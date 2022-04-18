@@ -44,9 +44,20 @@ html_template = """
 				<div class="row" id="install-row">
 					<div class="col-2-24 margin"></div>
 					<div class="col-20-24" id="install-col">
+						<p>
+							For those with the most up to date version of Anaconda installed, you can 
+							<a href="https://bioconda.github.io/recipes/phyloacc/README.html" target="_blank"><img src="https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat" /></a>
+							in a fresh environment with a single command:
+						</p>
+
 						<div id="install-cont">
 							<code>conda install phyloacc</code>
 						</div>
+
+						<p>
+							For more help or troubleshooting installation, please see the Install page.
+						</p>
+
 					</div>
 					<div class="col-2-24 margin"></div>
 				</div>
@@ -63,6 +74,12 @@ html_template = """
 						</p>
 
 						<p>
+							Substitution rates are estimated per lineage in the input species tree while accounting for underlying phylogenetic discordance. Three separate models
+							are fit to the data: one allowing only conserved rates on all lineages, one allowing accelerated rates on specified target lineages, and a full model
+							that allows accelerated rates on every lineage. The likelihoods of these nested models are compared for each element with Bayes Factors and questions
+							can be formulated based on these comparisons.
+
+							<!--
 							The underlying model assumes a latent discrete state (Z) of relative substitution 
 							rate along each branch of the phylogeny. This rate can be classifed as neutral, conserved, or accelerated. For each genomic element, PhyloAcc assumes a neutral 
 							or conserved state at the common ancestor of the phylogeny, transit to conserved state if not yet being conserved and then reach an accelerated 
@@ -72,6 +89,7 @@ html_template = """
 							model (M1) in which branches leading to target species are accelerated; and a full model (M2), with no constraints on latent states. Then we use 
 							two Bayes factors: between M1 and M0 (BF1) and between M1 and M2 (BF2) as criteria to identify DNA elements accelerated exclusively in target 
 							lineages.
+							-->
 						</p>
 
 						<div id="buttons_container">

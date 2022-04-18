@@ -1,0 +1,196 @@
+
+<!doctype html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='shortcut icon' href='img/favicon.ico' type='image/x-icon'/ >
+    <link type="text/css" rel="stylesheet" href="css/grid.css"  media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/global.css"  media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/file.css"  media="screen,projection" />
+    <link rel='shortcut icon' href='img/favicon.png' type='image/x-icon'/ >
+    <title>PhyloAcc - Install</title>
+</head>
+
+<body>
+    <div class="row" id="desktop-nav">
+    <div class="col-3-24" id="margin"></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="index.html">PhyloAcc</a></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" id="active" href="#">Install</a></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="#">README</a></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="#">Walkthrough</a></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="https://github.com/phyloacc/PhyloAcc">Github</a></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="#">Links</a></div>
+
+    <div class="col-3-24" id="margin"></div>
+</div>
+
+<div class="row" id="mobile_nav">
+    <div class="col-24-24 dropdown" id="nav_link_cell">
+        <a href="#" class="nav_link"><img id="mobile_logo_nav" src="img/nav.png"></a> Navigation
+        <div class="dropdown_container mobile_drop">
+            <ul class="dropdown_list">
+                <li class="dropdown_list_item"><a href="index.html" id="mobile_nav_link">PhyloAcc</a></li>
+                <li class="dropdown_list_item"><a href="#" id="mobile_nav_link">Install</a></li>
+                <li class="dropdown_list_item"><a href="#" id="mobile_nav_link">README</a></li>
+                <li class="dropdown_list_item"><a href="#" id="mobile_nav_link">Walkthrough</a></li>
+                <li class="dropdown_list_item"><a href="https://github.com/phyloacc/PhyloAcc" id="mobile_nav_link">Github</a></li>
+                <li class="dropdown_list_item"><a href="#" id="mobile_nav_link">Links</a></li>
+            </ul>
+        </div>
+    </div>  
+</div>
+
+ <a class="internal-link" name="step-by-step"></a>
+   	<!-- <div class="row" id="header">Command concepts</div> -->
+
+    <div class="row" id="body-row">
+        <div class="col-4-24" id="side-nav-cont">
+            <div id="side-nav">
+                <span id="side-header">Page contents</span>
+                <ul>
+                    <li><a href="install.html#step-by-step">Step-by-step instructions and best practices</a></li>
+                    <ol>
+                        <li><a href="install.html#install-anaconda">Installing Anaconda</a></li>
+                        <li><a href="install.html#activate-anaconda">Activating Anaconda</a></li>
+                    </ol>
+                    <li><a href="install.html#troubleshooting">Troubleshooting common problems</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-17-24" id="main-content-col-f">
+
+            <div class="row" id="top-row-cont">
+                <div class="col-24-24" id="top-row"></div>
+            </div>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Step-by-step installation instructions and best practices</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+                            <p>
+                                PhyloAcc is a mix of Python and C++ code with dependencies for each. As such, we do not support building from source as dependency 
+                                installation will vary from system to system. Instead, we offer a pre-build package through 
+                                <a href="https://bioconda.github.io/recipes/phyloacc/README.html" target="_blank">bioconda</a> which allows installation with the
+                                package manager <code class="inline">conda</code>.
+                            </p>
+
+                            <p>
+                                This section outlines in detail the steps starting from installation of Anaconda to installation of PhyloAcc. If you already have
+                                experience with Anaconda or <code class="inline">conda</code> feel free to skip steps that you are familiar with.
+                            </p>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="warn_banner">Warning - PhyloAcc is currently not compatible with Windows</div>
+                                    <div id="warn_text">
+                                        <p>
+                                            Unfortunately we're still working on a bioconda build with Windows, so for now these instructions are only valid for
+                                            Linux and OSX systems.
+                                        </p>
+
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a class="internal-link" name="install-anaconda"></a>
+                            <h2>1. Installing <a href="https://www.anaconda.com/" target="_blank">Anaconda</a></h2>
+
+                            <p>
+                                <b>Anaconda</b> is a distribution of the Python programming language with other software to facilitate data science tasks. We are
+                                interested in the package manager associated with Anaconda, <code class="inline">conda</code>, as it will handle the installation
+                                of PhyloAcc and its dependencies. So, to use <code class="inline">conda</code> we need to first install the Anaconda distribution.
+                            </p>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="rec_banner">Tip - check if Anaconda/conda is already installed</div>
+                                    <div id="rec_text">
+                                        <p>
+                                            If you are on an institutional server or cluster, it is possible they already have Anaconda and <code class="inline">conda</code>
+                                            installed and activated. You can check this by simply running the command:
+                                        </p>
+
+                                        <center><code class>conda --version</code></center>
+
+                                        <p>
+                                            If you see the text <code>conda X.XX.X</code>, with each X being a number indicating the version, then <code class="inline">conda</code> 
+                                            is already installed and you can skip to step 3!
+                                        </p>
+
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                To install Anacaonda, navigate to <a href="https://www.anaconda.com/products/distribution",target="_blank">the Anaconda downloads page</a> and
+                                click on the link to download the install file.
+                            </p>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="msg_banner">Caution - check the version you are downloading</div>
+                                    <div id="msg_text">
+                                        <p>
+                                            The Anaconda website automatically detects the operating system of the computer that has browsed to the site and recommends 
+                                            the Anaconda version for that OS. If you are installing Anaconda on your personal computer this should be fine. However,
+                                            if you are installing on a remote server or cluster the OS is likely different. Click on the appropriate version for the OS on your
+                                            desired install system under <em>Get Additional Installers</em> to get the correct version.
+                                        </p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                This should download a <code>.sh</code> file for Linux and OSX. Next, place the downloaded file in the location on your system where you want 
+                                to install Anaconda. If you are installing on a remote server, you'll need either download on that system directly with something like 
+                                <code class="inline">wget</code> or use another file transfer program to move the file over. You'll need to place this file somewhere on the
+                                remote system where you have write permissions, like your home directory.
+                            </p>
+
+                            <p>
+                                Next, run the install script by running the command:
+                            </p>
+
+                            <center><pre class="cmd"><code>bash filename.sh</code></pre></center>
+
+                            <p>
+                                where <code>filename</code> is the name of the script. Follow the prompts and let the script run and Anaconda should be installed!
+                            </p>
+
+                            <a class="internal-link" name="activate-anaconda"></a>
+                            <h2>3. Activating Anaconda</a></h2>
+
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-3-24" id="margin"></div>
+    </div>
+
+
+
+
+
+
+    <div class="row" id="footer">
+    <div class="col-1">
+        <div id="footer_text">
+            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 04/18/2022 14:21:37 Eastern Daylight Time</center>
+        </div>
+    </div>
+</div>
+</body>

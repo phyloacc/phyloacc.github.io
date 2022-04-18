@@ -1,0 +1,211 @@
+/*------------------------------------------------------*/
+/* Page side navigation styles */
+#body-row {
+	/* border: 1px solid green; */
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+#main-cont {
+	/* min-height:100vh; */
+	border: 1px solid purple;
+}
+#side-nav-cont{
+	display: flex;
+	position: -webkit-sticky;
+	position:sticky;
+	top: 5vh;
+    height:95vh;
+	/* text-align: left; */
+	/* border: 1px solid red; */
+    background-color: #cccccc;
+	/* padding: 5px; */
+}
+#side-nav{
+	display: block;
+	width: 100%;
+	/* border: 1px solid blue */
+}
+#side-header{
+	display:block;
+	/* width:100%; */
+	background-color: #333333;
+	color: #fff;
+	padding: 5px;
+	/* border: 1px solid black; */
+}
+#side-nav ul{
+	/* list-style: none; */
+}
+#side-nav li{
+	padding-top:10px;
+}
+#side-nav a{
+    text-decoration: none;
+}
+@media (max-width: 1025px) {
+	#side-nav-cont { display: none; }
+	#main-cont { width: 100%; }
+}
+
+
+
+
+#main-content-col-f {
+	/* padding: 30px 0px;
+	margin-bottom: 30px; */
+	font-size: 18px;
+	font-weight: 200;
+	line-height: 30px;
+	color: inherit;
+	/* overflow:auto; */
+	background-color: rgba(238, 238, 238, 0.95);
+	/* -webkit-border-radius: 0px 0px 6px 6px;
+	   -moz-border-radius: 0px 0px 6px 6px;
+			border-radius: 0px 0px 6px 6px; */
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+
+
+/*------------------------------------------------------*/
+/* Header styles */
+
+#header {
+    color:#fff;
+	background-color: #294157;
+	font-size:1.8em;
+	padding-top:10px;
+	padding-bottom:10px;
+	text-align: center;
+	vertical-align: middle;
+	/* border-bottom:1px solid #333; */
+}
+#header::after {
+	font-size:unset;
+}
+#top-row-cont{
+	background-color: #ececec;
+}
+#top-row{
+	height:2vh;
+	background-color: #ececec;
+}
+#section-header-row {
+	background-color: #ececec;
+	/* border:1px solid red; */
+}
+#section-header {
+	background-color: #ececec;
+	color: #333;
+	padding: 5px 20px;
+	font-size:1.6em;
+	font-weight:bold;
+	border-bottom: 2px solid #294157;
+	border-left: 2px solid #294157;
+	width: 90%;
+	margin:auto;
+}
+@media (max-width: 1025px) {
+	#section-header  { padding:0; }
+	#section-header-row { width: 100%; text-align:center; }
+}
+
+
+
+
+
+
+/*------------------------------------------------------*/
+/* Message box styles */
+#msg_cont {
+    width:100%;
+    display:flex;
+	justify-content:center;
+    align-items:center;
+    min-height:10vh;
+}
+#msg {
+    width:80%;
+}
+#msg_banner {
+    width:100%;
+	align-items:left;
+    background-color:#ffd9b3;
+    padding:5px;
+    font-size:1.4em;
+    border-left: 5px solid #db6d00;
+    border-top-left-radius:2px;
+    border-top-right-radius:2px;
+    box-shadow: 2px 2px 2px #cccccc;
+}
+#msg_text {
+    width:100%;
+	align-items:left;
+    background-color:#ffffff;
+	padding:1px 5px;
+	font-size:0.9em;
+    border-left: 5px solid #db6d00;
+    border-bottom-left-radius:2px;
+    border-bottom-right-radius:2px;
+    box-shadow: 2px 2px 2px #cccccc;
+}
+#msg_text p {
+    padding: 0px 20px;
+    font-style:italic;
+}
+
+#rec_banner {
+    width:100%;
+	align-items:left;
+    background-color:#8cd9af;
+    padding:5px;
+    font-size:1.4em;
+    border-left: 5px solid #3CB371;
+    border-top-left-radius:2px;
+    border-top-right-radius:2px;
+    box-shadow: 2px 2px 2px #cccccc;
+}
+#rec_text {
+    width:100%;
+	align-items:left;
+    background-color:#ffffff;
+	padding:1px 5px;
+	font-size:0.9em;
+    border-left: 5px solid #3CB371;
+    border-bottom-left-radius:2px;
+    border-bottom-right-radius:2px;
+    box-shadow: 2px 2px 2px #cccccc;
+}
+#rec_text p {
+    padding: 0px 20px;
+    font-style:italic;
+}
+
+#warn_banner {
+    width:100%;
+	align-items:left;
+    background-color:#ffb3b3;
+    padding:5px;
+    font-size:1.4em;
+    border-left: 5px solid #ff3333;
+    border-top-left-radius:2px;
+    border-top-right-radius:2px;
+    box-shadow: 2px 2px 2px #cccccc;
+}
+#warn_text {
+    width:100%;
+	align-items:left;
+    background-color:#ffffff;
+	padding:1px 5px;
+	font-size:0.9em;
+    border-left: 5px solid #ff3333;
+    border-bottom-left-radius:2px;
+    border-bottom-right-radius:2px;
+    box-shadow: 2px 2px 2px #cccccc;
+}
+#warn_text p {
+    padding: 0px 20px;
+    font-style:italic;
+}
