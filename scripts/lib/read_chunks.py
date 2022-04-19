@@ -3,9 +3,9 @@
 # Functions to read static html chunks
 ############################################################
 
-def readHead(title):
+def readHead(title, page_style):
     headfile = "../html-chunks/head.html";
-    return open(headfile, "r").read().replace("TMPTITLE", title);
+    return open(headfile, "r").read().replace("TMPTITLE", title).replace("PAGESTYLESHEET", page_style);
 
 def readNav(active_url):
     navfile = "../html-chunks/nav.html";

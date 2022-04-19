@@ -16,7 +16,7 @@
     <div class="col-3-24" id="margin"></div>
     <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="index.html">PhyloAcc</a></div>
     <div class="col-3-24" id="nav-link-cell"><a class="nav-link" id="active" href="#">Install</a></div>
-    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="#">README</a></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="readme.html">README</a></div>
     <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="#">Walkthrough</a></div>
     <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="https://github.com/phyloacc/PhyloAcc">Github</a></div>
     <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="#">Links</a></div>
@@ -31,7 +31,7 @@
             <ul class="dropdown_list">
                 <li class="dropdown_list_item"><a href="index.html" id="mobile_nav_link">PhyloAcc</a></li>
                 <li class="dropdown_list_item"><a href="#" id="mobile_nav_link">Install</a></li>
-                <li class="dropdown_list_item"><a href="#" id="mobile_nav_link">README</a></li>
+                <li class="dropdown_list_item"><a href="readme.html" id="mobile_nav_link">README</a></li>
                 <li class="dropdown_list_item"><a href="#" id="mobile_nav_link">Walkthrough</a></li>
                 <li class="dropdown_list_item"><a href="https://github.com/phyloacc/PhyloAcc" id="mobile_nav_link">Github</a></li>
                 <li class="dropdown_list_item"><a href="#" id="mobile_nav_link">Links</a></li>
@@ -41,8 +41,6 @@
 </div>
 
  <a class="internal-link" name="step-by-step"></a>
-   	<!-- <div class="row" id="header">Command concepts</div> -->
-
     <div class="row" id="body-row">
         <div class="col-4-24" id="side-nav-cont">
             <div id="side-nav">
@@ -52,17 +50,26 @@
                     <ol>
                         <li><a href="install.html#install-anaconda">Installing Anaconda</a></li>
                         <li><a href="install.html#activate-anaconda">Activating Anaconda</a></li>
+                        <li><a href="install.html#environment">Creating a conda environment for PhyloAcc</a></li>
+                        <li><a href="install.html#activate-env">Activating your PhyloAcc conda environment </a></li>
+                        <li><a href="install.html#install-phyloacc">Installing PhyloAcc from bioconda </a></li>
                     </ol>
                     <li><a href="install.html#troubleshooting">Troubleshooting common problems</a></li>
+                    <ol>
+                        <li><a href="install.html#conda-not-found">conda: command not found</a></li>
+                        <li><a href="install.html#solve-fail">conda cannot solve the environment</a></li>
+                        <li><a href="install.html#phyloacc-not-found">phyloacc.py: command not found</a></li>
+                    </ol>
                 </ul>
             </div>
         </div>
 
-        <div class="col-17-24" id="main-content-col-f">
+        <div class="col-17-24" id="main-content-col-page">
 
             <div class="row" id="top-row-cont">
                 <div class="col-24-24" id="top-row"></div>
             </div>
+            
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
                     <div id="section-header">Step-by-step installation instructions and best practices</div>
@@ -76,7 +83,7 @@
                         <div class="col-20-24" id="section-content">
                             <p>
                                 PhyloAcc is a mix of Python and C++ code with dependencies for each. As such, we do not support building from source as dependency 
-                                installation will vary from system to system. Instead, we offer a pre-build package through 
+                                installation will vary from system to system. Instead, we offer a pre-built package through 
                                 <a href="https://bioconda.github.io/recipes/phyloacc/README.html" target="_blank">bioconda</a> which allows installation with the
                                 package manager <code class="inline">conda</code>.
                             </p>
@@ -130,14 +137,14 @@
                                 </div>
                             </div>
 
-                            <p>
-                                To install Anacaonda, navigate to <a href="https://www.anaconda.com/products/distribution",target="_blank">the Anaconda downloads page</a> and
+                            <h3>
+                                To install Anacaonda, first navigate to <a href="https://www.anaconda.com/products/distribution",target="_blank">the Anaconda downloads page</a> and
                                 click on the link to download the install file.
-                            </p>
+                            </h3>
 
                             <div id="msg_cont">
                                 <div id="msg">
-                                    <div id="msg_banner">Caution - check the version you are downloading</div>
+                                    <div id="msg_banner">Caution - Make sure you're downloading the right version for your OS</div>
                                     <div id="msg_text">
                                         <p>
                                             The Anaconda website automatically detects the operating system of the computer that has browsed to the site and recommends 
@@ -151,25 +158,159 @@
                             </div>
 
                             <p>
-                                This should download a <code>.sh</code> file for Linux and OSX. Next, place the downloaded file in the location on your system where you want 
-                                to install Anaconda. If you are installing on a remote server, you'll need either download on that system directly with something like 
+                                This should download a <code>.sh</code> file for Linux and OSX.
+                            </p>
+                            
+                            <p>
+                                Next, place the downloaded file in the location on your system where you want 
+                                to install Anaconda. If you are installing on a remote server, you'll to need either download on that system directly with something like 
                                 <code class="inline">wget</code> or use another file transfer program to move the file over. You'll need to place this file somewhere on the
-                                remote system where you have write permissions, like your home directory.
+                                remote system where you have permission to run programs, like your home directory.
                             </p>
 
                             <p>
-                                Next, run the install script by running the command:
+                                Finally, run the install script by running the command:
                             </p>
 
-                            <center><pre class="cmd"><code>bash filename.sh</code></pre></center>
+                            <center><pre class="cmd"><code>bash &lt;filename&gt;.sh</code></pre></center>
 
                             <p>
-                                where <code>filename</code> is the name of the script. Follow the prompts and let the script run and Anaconda should be installed!
+                                where <code>&lt;filename&gt;</code> is the name of the script. Follow the prompts and let the script run and Anaconda should be installed!
                             </p>
 
                             <a class="internal-link" name="activate-anaconda"></a>
-                            <h2>3. Activating Anaconda</a></h2>
+                            <h2>2. Activating Anaconda</a></h2>
 
+                            <p>
+                                When Anaconda has been installed, it needs to be activated for the system to know to use its software (like <code class="inline">conda</code>).
+                                To activate, run:
+                            </p>
+
+                            <center><pre class="cmd-skel"><code>source /&lt;path&gt;/&lt;to&gt;/anaconda3/bin/activate</code></pre></center>
+
+                            <p>
+                                Where <code>/&lt;path&gt;/&lt;to&gt;/</code> is the location where you installed Anaconda. For instance, if you installed Anaconda
+                                in your home directory, you should see the <code class="inline">anaconda3/</code> folder there, and you could activate with the command:
+                            </p>
+
+                            <center><pre class="cmd"><code>source ~/anaconda3/bin/activate</code></pre></center>
+
+                            <p>
+                                Once activated, you should be able to run <code class="inline">conda</code>:
+                            </p>
+
+                            <center><pre class="cmd"><code>conda --version</code></pre></center>
+
+                            <p>
+                                This should print out the text <code>conda X.XX.X</code>, with each X being a number indicating the version. If you get an error at this point, 
+                                something has gone wrong with installation or activation and you'll need to re-visit those steps.
+                            </p>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="rec_banner">Tip - Add the Anaconda activate command to your user profile</div>
+                                    <div id="rec_text">
+                                        <p>
+                                            You may want Anaconda to be activated automatically when you login, you could add the 
+                                            <code>source /&lt;path&gt;/&lt;to&gt;/anaconda3/bin/activate</code> command to your user profile. Your user 
+                                            profile is located in your home directory, though it is hidden (use <code>ls -a</code> to see hidden files). It will usually be called something like 
+                                            <code>.bash_profile</code> or <code>.profile</code>. If none of those files exist, you may be able to create them. 
+                                            Open your profile file and add the command and save. It will then be run whenever you login. For more information about bash profiles
+                                            see: <a href="https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html" target="_blank">Bash startup files</a>
+                                        </p>
+
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>                            
+
+                            <a class="internal-link" name="environment"></a>
+                            <h2>3. Creating a conda environment for PhyloAcc</a></h2>
+
+                            <p>
+                                <code class="inline">conda</code> is able to install and solve package dependencies by working in <em>environments</em>, self-contained file systems
+                                where the current user has full permissions. To create a new enviornment, run:
+                            </p>
+
+                            <center><pre class="cmd-skel"><code>conda create -n &lt;environment name&gt;</code></pre></center>
+
+                            <p>
+                                Where <code>&lt;environment name&gt;</code> is something descriptive for the purpose of the environment. For instance, for installing and running
+                                PhyloAcc, I would call this one <code>phyloacc-env</code>:
+                            </p>
+
+                            <center><pre class="cmd"><code>conda create -n phyloacc-env</code></pre></center>
+
+                            <p>
+                                Follow the prompts on the screen to create the environment.
+                            </p>
+
+                            <a class="internal-link" name="environment"></a>
+                            <h2>4. Activating your PhyloAcc conda environment</a></h2>
+
+                            <p>
+                                Even though an envrionment has been created, to install software or run software you've already installed in it you must <em>activate</em> it:
+                            </p>
+
+                            <center><pre class="cmd"><code>conda activate phyloacc-env</code></pre></center>
+
+                            <p>
+                                You might notice that your command prompt changes based on which environment you have activated. If you ever wish to exit an environment,
+                                simply type <code>conda deactivate</code>.
+                            </p>
+
+                            <a class="internal-link" name="install-phyloacc"></a>
+                            <h2>5. Installing PhyloAcc from bioconda</a></h2>
+
+                            <p>
+                                Now that a Anaconda has been installed and a conda environment set up you are ready to install PhyloAcc from bioconda!
+                            </p>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="msg_banner">Caution - <a href="https://bioconda.github.io/user/install.html#set-up-channels" target="_blank">Set-up conda channels</a></div>
+                                    <div id="msg_text">
+                                        <p>
+                                            If this is your first time using conda or bioconda, you may have to 
+                                            <a href="https://bioconda.github.io/user/install.html#set-up-channels" target="_blank">set-up your channels</a>. A channel
+                                            is a remote host for different types of software. For instance, lots of biology related software is found in the bioconda
+                                            channel and a lot of other software is found in the conda-forge channel. Since we are primarily interested in biological
+                                            software, we want to make sure that bioconda has priority. Follow the instructions in the link above to setup channels
+                                            for bioconda for the first time.
+                                        </p>
+
+                                        <p>
+                                            You can also change your channel order at any time by editing their order in your <code class="inline">.condarc</code> file
+                                            in your home directory
+                                        </p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                To install PhyloAcc, run the command:
+                            </p>
+
+                            <center><pre class="cmd"><code>conda install phyloacc</code></pre></center>
+
+                            <p>
+                                Follow the prompts on the screen and wait for the dependencies to install. Once finished, you should be ready to run PhyloAcc! To
+                                make sure, run the command:
+                            </p>
+
+                            <center><pre class="cmd"><code>phyloacc.py --version</code></pre></center>
+
+                            <p>
+                                which should print out the version info for PhyloAcc and:
+                            </p>
+
+                            <center><pre class="cmd"><code>phyloacc.py --depcheck</code></pre></center>
+
+                            <p>
+                                which ensures that the C++ binaries are installed. If you get an error during either of these commands, or one of the dependency
+                                checks fails, you will have to troubleshoot the installation process.
+                            </p>
 
                         </div>
                         <div class="col-2-24" id="inner-margin"></div>
@@ -177,19 +318,72 @@
                 </div>
             </div>
 
+            <div class="sep_div"></div>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Troubleshooting common installation problems</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+
+                            <a class="internal-link" name="conda-not-found"></a>
+                            <h2>1. conda: command not found</a></h2>
+
+                            <p>
+                                If you see the <code class="inline">conda: command not found</code> error when trying to install PhyloAcc it likely means:
+                                <ol>
+                                    <li>Anaconda isn't installed - See <a href="install.html#install-anaconda">here</a> for installation instructions</li>
+                                    <li>Anaconda isn't activated - See <a href="install.html#activate-anaconda">here</a> for activation instructions</li>
+                                </ol>
+                            </p>
+
+                            <a class="internal-link" name="solve-fail"></a>
+                            <h2>2. conda cannot solve the environment</a></h2>
+
+                            <p>
+                                If the <code class="inline">conda install phyloacc</code> command fails or hangs for a long time the program might be struggling
+                                with installing dependencies given the current settings. To solve this, try the following:
+                                <ol>
+                                    <li>
+                                        Make sure conda is up to date. To update conda, run the command: 
+                                        <center><pre class="cmd"><code>conda update -n base -c defaults conda</code></pre></center>
+                                    </li>
+                                    <li>
+                                        Make sure your <a href="https://bioconda.github.io/user/install.html#set-up-channels" target="_blank">channels are set-up to give bioconda priority</a>
+                                    </li>
+                                </ol>
+                            </p>
+
+                            <a class="internal-link" name="phyloacc-not-found"></a>
+                            <h2>3. phyloacc.py: command not found</a></h2>
+
+                            <p>
+                                If you see the <code class="inline">phyloacc.py: command not found</code> error some time after you have successfully run the
+                                <code>conda install phyloacc</code> command, it likely means you aren't in the same environment as where you installed PhyloAcc. Make sure
+                                you <a href="install.html#activate-env">activate the correct conda environment</a>.
+                            </p>
+
+                        </div>
+
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="sep_div"></div>
         </div>
         <div class="col-3-24" id="margin"></div>
+
     </div>
-
-
-
-
-
 
     <div class="row" id="footer">
     <div class="col-1">
         <div id="footer_text">
-            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 04/18/2022 14:21:37 Eastern Daylight Time</center>
+            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 04/19/2022 15:24:54 Eastern Daylight Time</center>
         </div>
     </div>
 </div>

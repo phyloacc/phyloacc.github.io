@@ -249,6 +249,7 @@ the dropdowns
 	border-radius:5px;
 	background-color:#fff;
 	text-align:center;
+	font-size: 1.4em;
 }
 
 #paper {
@@ -309,14 +310,14 @@ pre {
 
 /*------------------------------------------------------*/
 /* Spacing styles */
-#divider_row {
-	height:20px;
+.sep_div {
+	height:5vh;
 }
 #margin {}
 
 @media (max-width: 960px) {
 	#margin { display: none; }
-	#divider_row { display: none; }
+	.sep_div { display: none; }
 	#main_col { width: 100%; }
 	#buttons_container { display: none; }
 }
@@ -346,14 +347,12 @@ pre {
 	#footer_text { top: 25%; }
 }
 
-
-
 /*------------------------------------------------------*/
 /* Code block styles */
 pre {
 	overflow:auto;
 	background-color:#fff;
-	font-size:1.5em;
+	font-size:1.2em;
 	line-height:1.3em;
 	border: 1px dotted #666666;
 }
@@ -363,6 +362,9 @@ pre {
 }
 .cmd {
 	background-color: #c6ecd9;
+}
+.cmd-skel {
+	background-color: #ffffff
 }
 .cmd-ne {
 	background-color: #ffb3b3;

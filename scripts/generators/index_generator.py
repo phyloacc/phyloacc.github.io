@@ -31,12 +31,23 @@ html_template = """
 					<div class="col-2-24 margin"></div>
 				</div>
 
-				<div class="row header-row">
+				<div class="row" id="title-row">
 					<div class="col-2-24 margin"></div>
-					<div class="col-20-24 header-col">
-						<h2>
-							Install
-						</h2>
+					<div class="col-20-24" id="title-col">
+						<center>
+							<a href="https://bioconda.github.io/recipes/phyloacc/README.html" target="_blank">
+								<img src="https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat" />
+								<img src="https://anaconda.org/bioconda/phyloacc/badges/platforms.svg" />
+								<img src="https://img.shields.io/conda/vn/bioconda/phyloacc?label=version" />
+								<img src="https://anaconda.org/bioconda/phyloacc/badges/latest_release_date.svg" />
+								<img src="https://img.shields.io/conda/dn/bioconda/phyloacc.svg?style=flat" />
+							</a>
+							<a href="https://github.com/phyloacc" target="_blank">
+								<img src="https://img.shields.io/github/commits-since/phyloacc/PhyloAcc/v2.0.0" />
+								<img src="https://anaconda.org/bioconda/phyloacc/badges/license.svg" />
+							</a>
+							
+						</center>
 					</div>
 					<div class="col-2-24 margin"></div>
 				</div>
@@ -44,9 +55,12 @@ html_template = """
 				<div class="row" id="install-row">
 					<div class="col-2-24 margin"></div>
 					<div class="col-20-24" id="install-col">
+
+						<h2>Install</h2>
+
 						<p>
 							For those with the most up to date version of Anaconda installed, you can 
-							<a href="https://bioconda.github.io/recipes/phyloacc/README.html" target="_blank"><img src="https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat" /></a>
+							<a href="https://bioconda.github.io/recipes/phyloacc/README.html" target="_blank">install PhyloAcc with bioconda</a>
 							in a fresh environment with a single command:
 						</p>
 
@@ -54,9 +68,9 @@ html_template = """
 							<code>conda install phyloacc</code>
 						</div>
 
-						<p>
-							For more help or troubleshooting installation, please see the Install page.
-						</p>
+						<h3>
+							For more help or troubleshooting installation, please see the <a href="https://phyloacc.github.io/install.html">Install page</a>.
+						</h3>
 
 					</div>
 					<div class="col-2-24 margin"></div>
@@ -93,7 +107,8 @@ html_template = """
 						</p>
 
 						<div id="buttons_container">
-								<a class="main-btn" href="#.html">README &raquo;</a><span id="buffer"></span>
+								<a class="main-btn" href="https://phyloacc.github.io/install.html">Install &raquo;</a><span id="buffer"></span>
+								<a class="main-btn" href="readme.html">README &raquo;</a><span id="buffer"></span>
 								<a class="main-btn"" href="https://github.com/phyloacc/PhyloAcc/issues" target="_blank">Report Issue &raquo;</a>
 						</div>
 
@@ -125,8 +140,9 @@ html_template = """
 pagefile = "index.html";
 print("Generating " + pagefile + "...");
 title = "PhyloAcc"
+page_style = "NA"
 
-head = RC.readHead(title);
+head = RC.readHead(title, page_style);
 nav = RC.readNav(pagefile);
 footer = RC.readFooter();
 

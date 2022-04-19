@@ -4,8 +4,8 @@
 ############################################################
 
 import sys, os
-sys.path.append('..')
-import lib.read_chunks as RC
+sys.path.append(os.path.abspath('../lib/'))
+import read_chunks as RC
 
 ######################
 # HTML template
@@ -18,224 +18,345 @@ html_template = """
 <body>
     {nav}
 
-<div class="pure-g" id="main_row">
-		<div class="pure-u-3-24" id="margin"></div>
-		<div class="pure-u-18-24" id="main_col">
-			<div id="main_content">
-				<h1>Referee README</h1>
-                <h3>This page contains all info about the Referee program including its inputs, options, and outputs.</h3>
-
-                <div class="readme_divider"></div>
-				<h2>Installation</h2>
-                    <p>Clone or download the github repo: <a href="https://github.com/gwct/referee" target="_blank">Referee github</a></p>
-                    <p>The only dependency is Python 2.7 or higher. You may want to add the Referee folder to your $PATH variable for ease of use!</p>
-                
-                <div class="readme_divider"></div>
-                <h2>Usage</h2>
-                    <p>These are the general steps for scoring your genome:</p>
+ <a class="internal-link" name="step-by-step"></a>
+    <div class="row" id="body-row">
+        <div class="col-4-24" id="side-nav-cont">
+            <div id="side-nav">
+                <span id="side-header">Page contents</span>
+                <ul>
+                    <li><a href="install.html#step-by-step">Step-by-step instructions and best practices</a></li>
                     <ol>
-                        <li><p>Using any applicable software, map the reads from which you constructed your genome back to the finished 
-                            assembly. (A BAM file is usable by ANGSD for calculating genotype likelihoods in the next step)</p></li>
-                        <li><p>Compile a pileup file for Referee to calculate genotype likelihoods OR pre-calculate genotype 
-                            log-likelihoods for all 10 genotypes at every position in the genome (we recommend <a href="https://github.com/ANGSD/angsd">ANGSD</a> 
-                            for this).</p></li>
-                        <li><p>Score your genome with one of the following Referee commands:</p>
-                            <pre><code>python referee.py -gl [genotype likelihood file] -ref [reference genome FASTA file] --pileup</code></pre>
-                            <p>Alternatively, if you have multiple genotype likelihood files you wish to score with the same reference genome, you 
-                                could put the paths to each file in a text file with one file path per line for Referee to score them all:</p>
-                            <pre><code>python referee.py -i [text file with paths to genotype likelihood files] -ref [reference genome FASTA file] --pileup</code></pre>
-                            <p>If you have pre-calculated genotype likelihoods as input, exclude the <code>--pileup</code> flag.</p>
-                        </li>
+                        <li><a href="install.html#install-anaconda">Installing Anaconda</a></li>
+                        <li><a href="install.html#activate-anaconda">Activating Anaconda</a></li>
+                        <li><a href="install.html#environment">Creating a conda environment for PhyloAcc</a></li>
+                        <li><a href="install.html#activate-env">Activating your PhyloAcc conda environment </a></li>
+                        <li><a href="install.html#install-phyloacc">Installing PhyloAcc from bioconda </a></li>
                     </ol>
-
-                
-                    <h3>Input</h3>
-                        <p>There are two main inputs for the program:</p>
-                        <ol>
-                            <li><p>A genotype log-likelihood file (<code class="cb">-gl</code>) or files (<code class="cb">-i</code>). File(s) can be either 
-                                pre-calculated genotype log-likelihoods in a certain format (see below), or a pileups from which Referee will calculate 
-                                genotype likelihoods. See the <a href="walkthrough.html">walkthrough</a> for more info.</p>
-                                
-                                <p>If you use a pileup file as input, be sure to use the <code class="cb">--pileup</code> flag.</p>
-
-                                <p>If you have pre-calculated genotype log-likelihoods, they must be formatted in a tab delimited file with the following columns
-                                    and no column headers:
-
-                                <pre><code>Scaffold ID  Position    AA  AC  AG  AT  CC  CG  CT  GG  GT  TT</code></pre>
-
-                                <strong>If your input has a different column ordering, you will not get accurate scores!</strong></p>
-
-                                <p>For example, the following output snippet from ANGSD is acceptable:
-
-                                <pre><code>scaffold_0	5	0.000000	-0.693147	-0.693147	-0.693147	-15.374639	-15.374639	-15.374639	-15.374639	-15.374639	-15.374639
-scaffold_0	6	0.000000	-1.386294	-1.386294	-1.386294	-30.519020	-30.519020	-30.519020	-30.519020	-30.519020	-30.519020
-scaffold_0	7	-30.288761	-30.288761	-1.386294	-30.288761	-30.288761	-1.386294	-30.288761	0.000000	-1.386294	-30.288761
-scaffold_0	8	-27.986172	-1.386293	-27.986172	-27.986172	0.000000	-1.386293	-1.386293	-27.986172	-27.986172	-27.986172
-scaffold_0	9	-27.755912	-1.386292	-27.755912	-27.755912	0.000000	-1.386292	-1.386292	-27.755912	-27.755912	-27.755912
-scaffold_0	10	-8.689986	0.000000	-10.076280	-10.076280	-29.821151	-30.514277	-30.514277	-40.590558	-40.590558	-40.590558</code></pre>
-
-                                Note that ANGSD also scales the log likelihoods by subtracting the highest likelihood from each likelihood. 
-                                This has no effect on Referee's scoring.</p>
-
-                                <p>If you have multiple genotype log-likelihood files from the same genome, you can put the paths to those files in a text file and
-                                        give that to Referee as input through <code class="cb">-i</code> <strong>instead of</strong> <code class="cb">-gl</code></p>
-            
-                                    <p>Example <code>-i</code> input:
-                                        <pre><code>/path/to/gl/file1.txt
-/path/to/gl/file2.txt
-/path/to/gl/file3.txt
-/path/to/gl/file4.txt</code></pre>
-                                    </p>
-                                
-                            </li>
-
-                            <li>A reference FASTA file containing the sequences used to calculate genotype log-likelihoods (<code class="cb">-ref</code>).
-                                <strong>The FASTA headers in this file must match those in the first column of the ANGSD or pileup file(s) specified with 
-                                <code class="cb">-i</code> or <code class="cb">-gl</code></strong>. By default, Referee will trim the FASTA headers at
-                                the first occurrence of a space character, so be sure to account for this. I admit this is a shaky workaround, but given
-                                the non-standard nature of FASTA files its what I came up with. Please contact me if you would like some other header
-                                format implemented.</li>
-                        </ol>
-
-                    <h3>Output</h3>
-                        <p>With no specification, Referee will create one output file and one log file. A FASTQ output file can be created with
-                            the <code>--fastq</code> flag and a Bed file can be created with the <code>--bed</code> flag.</p>
-
-                        <p>By default, all outputs created by Referee will be files beginning with 
-                            <code>referee-out-[start date]-[start time]-[random 6 char string]</code>. To change this, use the <code>-o</code> option.
-                            For the following examples we assume <code>-o ref-out</code> has beend specified.</p>
-
-
-                        <ol>
-                            <li><h4>ref-out.log</h4>
-                                <p>This is a log file containing information about the Referee run, including the options used and specified
-                                    inputs and outputs. It also contains runtime and memory usage (if the Python module <code>psutil</code> is 
-                                    available) info for each step. If you have many inputs or use many processors these runtime statistics can
-                                    be distracting, so you can disable with <code>--quiet</code></p>
-                            </li>
-
-                            <li><h4>ref-out.txt</h4>
-                                <p>This is a tab delimited output file containing the Referee scores for every position in the input reference
-                                    genome. This file has the following columns:
-
-                                    <pre><code>Scaffold ID  Position    Referee score</code></pre></p>
-
-                                <p>Example:
-                                    <pre><code>scaffold_0	5	0
-scaffold_0	6	13
-scaffold_0	7	13
-scaffold_0	8	12
-scaffold_0	9	12
-scaffold_0	10	13</code></pre></p>
-
-                                <p>If you specify the <code>--correct</code> option, then Referee will also output higher scoring bases for
-                                    positions that score 0. This file will have two extra columns:
-                                    <pre><code>Scaffold ID  Position    Referee score   Corrected base    Referee score for corrected base</code></pre></p>
-
-                                    <p>Example with <code>--correct</code> and one position with a better scoring base (position 5):
-                                            <pre><code>scaffold_0	5	0	A	6
-scaffold_0	6	13		
-scaffold_0	7	13		
-scaffold_0	8	12		
-scaffold_0	9	12		
-scaffold_0	10	13</code></pre></p>
-
-                            </li>
-
-                            <li><h4>ref-out.fq</h4>
-                                <p>If <code>--fastq</code> is specified Referee will create a FASTQ file with the reference genome annotated with Referee's scores 
-                                    Referee scores are encoded as <a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a> characters with the following method:
-                                    
-                                    <center><code>FASTQ score = ascii(Integer score + 35)</code></center></p>
-
-                                    <p>For example, the <a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a>  character <code>S</code> corresponds 
-                                        to the decimal 83. That means the score at this position was 83 - 35 = 48.</p>
-
-                                    <p>Example FASTQ output:
-                                        <pre><code>@scaffold_0 1:40 length=40
-GGTGTAGCCAGAGAGTAAANAATATGGTGAAGCCAGAGAG
-+
-!!!!#00//0442.45=CK"CKKLLKLKLKSRRRSSRSSS</code></pre></p>
-
-                                    <p>If the <code>--correct</code> option is specified, corrected bases will be lower case. All others should be upper case.</p>
-                            </li>
-
-                            <li><h4>ref-out-bed-files/[scaffold ID].bed</h4>
-                                <p>If <code>--bed</code> is specified Referee will create Bed files to visualize Referee scores in genome browsers. Referee will
-                                    create one Bed file for every scaffold present in the input genotype likelihood file(s) and place them in the directory
-                                    <code>ref-out-bed-files/</code>.</p>
-                            </li>
-                        </ol>
-
-                    <div class="readme_divider"></div>
-                    <h2>Options Table</h2>
-                        <table class="pure-table pure-table-bordered pure-table-striped">
-                            <thead><tr><th>Option</th><th>Description</th></tr></thead>
-                            <tbody>
-                                <tr><td><code>-gl</code></td>
-                                    <td>A single pileup file or a single file containing log genotype likelihoods for every site in your genome with reads 
-                                        mapped to it. Can be gzip compressed or not. If using pre-calculated log likelihoods, see the important information 
-                                        below regarding the order of the columns in the file. Note: Only one of <code>-gl</code> or <code>-i</code> can be 
-                                        specified.</td></tr>
-
-                                <tr><td><code>-i</code></td>
-                                    <td>A file containing paths to multiple pileup files or multiple genotype log likelihood files. One file path per line. 
-                                        Note: Only one of <code>-gl</code> or <code>-i</code> can be specified.</td></tr>
-
-                                <tr><td><code>-ref</code></td>
-                                    <td>A FASTA formatted file containing the genome you wish to score. Can be gzip compressed or not. FASTA headers must 
-                                        match the sequence IDs in column one of the pileup or genotype log likelihood file.</td></tr>
-
-                                <tr><td><code>-o</code></td>
-                                    <td>Referee will create at least 2 output files: a tab delimited score file and a log file. Use this option to specify 
-                                        a prefix for these file names. Otherwise, they will default to <code>referee-out-[date]-[time]-[random string]</code>. 
-                                        If <code>-i</code> is specified, this will be the name of the output directory.</td></tr>
-                                        
-                                <tr><td><code>--pileup</code></td>
-                                    <td>If this option is set, Referee will read the input file(s) in pileup format and use this info to calculate genotype 
-                                        likelihoods prior to the reference quality score.</td></tr> 
-                                            
-                                <tr><td><code>--mapq</code></td>
-                                    <td>If pileup file(s) are given as input, set this to incorporate mapping quality into Referee's quality score calculation.
-                                        Mapping quality can be output by samtools mpileup with the <code>-s</code> option, and will appear in the 7th column of the file. 
-                                        If <code>--mapq</code> is not set, mapping qualities will be ignored even if they are present.</td></tr>
-
-                                <tr><td><code>--fastq</code></td>
-                                    <td>With this option, Referee scores will also be output in FASTQ format. Scores will be converted to 
-                                        <a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a> characters: score + 35 = ASCII char. Note 1: If 
-                                        <code>--correct</code> is set, corrected bases will appear as lower case. Note 2: This option cannot be set with 
-                                        <code>--mapped</code>.</td></tr>
-
-                                <tr><td><code>--bed</code></td>
-                                    <td>Referee can output scores in binned BED format for visualizing tracks of scores in most genome browsers. One <code>.bed</code>
-                                        file will be created for each scaffold scored and these will be placed in a directory ending with -bed-files. 
-                                        Note: This option cannot be set with <code>--mapped</code>.</td></tr>
-
-                                <tr><td><code>--haploid</code></td>
-                                    <td>Set this option if your input sequencing data comes from a haploid species. Referee will limit it's likelihood calculations
-                                        to single base states. Note: This option can only be used with an input <code>--pileup</code> file.</td></tr>
-
-                                <tr><td><code>--correct</code></td>
-                                    <td>With this option, sites where reads do not support the called reference base (score <= 0) will have a higher scoring base 
-                                        suggested. In the tab delimited output, the corrected base and score are reported in additional columns. In FASTQ output, the 
-                                        corrected positions are indicated by lower case bases.</td></tr>
-
-                                <tr><td><code>--mapped</code></td>
-                                    <td>Only report scores for sites with reads mapped to them. Note: This option cannot be set with <code>--fastq</code> 
-                                        or <code>--bed</code>.</td></tr>
-                                        
-                                <tr><td><code>--quiet</code></td>
-                                    <td>Set this option to prevent Referee from printing out runtime statistics for each step.</td></tr>
-
-                                <tr><td><code>-p</code></td>
-                                    <td>The number of processes Referee can use.</td></tr>      
-                            </tbody>
-                        </table>
-
+                    <li><a href="install.html#troubleshooting">Troubleshooting common problems</a></li>
+                    <ol>
+                        <li><a href="install.html#conda-not-found">conda: command not found</a></li>
+                        <li><a href="install.html#solve-fail">conda cannot solve the environment</a></li>
+                        <li><a href="install.html#phyloacc-not-found">phyloacc.py: command not found</a></li>
+                    </ol>
+                </ul>
             </div>
-		</div>
-		<div class="pure-u-3-24" id="margin"></div>
-	</div>
+        </div>
+
+        <div class="col-17-24" id="main-content-col-page">
+
+            <div class="row" id="top-row-cont">
+                <div class="col-24-24" id="top-row"></div>
+            </div>
+            
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Step-by-step installation instructions and best practices</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+                            <p>
+                                PhyloAcc is a mix of Python and C++ code with dependencies for each. As such, we do not support building from source as dependency 
+                                installation will vary from system to system. Instead, we offer a pre-built package through 
+                                <a href="https://bioconda.github.io/recipes/phyloacc/README.html" target="_blank">bioconda</a> which allows installation with the
+                                package manager <code class="inline">conda</code>.
+                            </p>
+
+                            <p>
+                                This section outlines in detail the steps starting from installation of Anaconda to installation of PhyloAcc. If you already have
+                                experience with Anaconda or <code class="inline">conda</code> feel free to skip steps that you are familiar with.
+                            </p>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="warn_banner">Warning - PhyloAcc is currently not compatible with Windows</div>
+                                    <div id="warn_text">
+                                        <p>
+                                            Unfortunately we're still working on a bioconda build with Windows, so for now these instructions are only valid for
+                                            Linux and OSX systems.
+                                        </p>
+
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a class="internal-link" name="install-anaconda"></a>
+                            <h2>1. Installing <a href="https://www.anaconda.com/" target="_blank">Anaconda</a></h2>
+
+                            <p>
+                                <b>Anaconda</b> is a distribution of the Python programming language with other software to facilitate data science tasks. We are
+                                interested in the package manager associated with Anaconda, <code class="inline">conda</code>, as it will handle the installation
+                                of PhyloAcc and its dependencies. So, to use <code class="inline">conda</code> we need to first install the Anaconda distribution.
+                            </p>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="rec_banner">Tip - check if Anaconda/conda is already installed</div>
+                                    <div id="rec_text">
+                                        <p>
+                                            If you are on an institutional server or cluster, it is possible they already have Anaconda and <code class="inline">conda</code>
+                                            installed and activated. You can check this by simply running the command:
+                                        </p>
+
+                                        <center><code class>conda --version</code></center>
+
+                                        <p>
+                                            If you see the text <code>conda X.XX.X</code>, with each X being a number indicating the version, then <code class="inline">conda</code> 
+                                            is already installed and you can skip to step 3!
+                                        </p>
+
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3>
+                                To install Anacaonda, first navigate to <a href="https://www.anaconda.com/products/distribution",target="_blank">the Anaconda downloads page</a> and
+                                click on the link to download the install file.
+                            </h3>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="msg_banner">Caution - Make sure you're downloading the right version for your OS</div>
+                                    <div id="msg_text">
+                                        <p>
+                                            The Anaconda website automatically detects the operating system of the computer that has browsed to the site and recommends 
+                                            the Anaconda version for that OS. If you are installing Anaconda on your personal computer this should be fine. However,
+                                            if you are installing on a remote server or cluster the OS is likely different. Click on the appropriate version for the OS on your
+                                            desired install system under <em>Get Additional Installers</em> to get the correct version.
+                                        </p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                This should download a <code>.sh</code> file for Linux and OSX.
+                            </p>
+                            
+                            <p>
+                                Next, place the downloaded file in the location on your system where you want 
+                                to install Anaconda. If you are installing on a remote server, you'll to need either download on that system directly with something like 
+                                <code class="inline">wget</code> or use another file transfer program to move the file over. You'll need to place this file somewhere on the
+                                remote system where you have permission to run programs, like your home directory.
+                            </p>
+
+                            <p>
+                                Finally, run the install script by running the command:
+                            </p>
+
+                            <center><pre class="cmd"><code>bash &lt;filename&gt;.sh</code></pre></center>
+
+                            <p>
+                                where <code>&lt;filename&gt;</code> is the name of the script. Follow the prompts and let the script run and Anaconda should be installed!
+                            </p>
+
+                            <a class="internal-link" name="activate-anaconda"></a>
+                            <h2>2. Activating Anaconda</a></h2>
+
+                            <p>
+                                When Anaconda has been installed, it needs to be activated for the system to know to use its software (like <code class="inline">conda</code>).
+                                To activate, run:
+                            </p>
+
+                            <center><pre class="cmd-skel"><code>source /&lt;path&gt;/&lt;to&gt;/anaconda3/bin/activate</code></pre></center>
+
+                            <p>
+                                Where <code>/&lt;path&gt;/&lt;to&gt;/</code> is the location where you installed Anaconda. For instance, if you installed Anaconda
+                                in your home directory, you should see the <code class="inline">anaconda3/</code> folder there, and you could activate with the command:
+                            </p>
+
+                            <center><pre class="cmd"><code>source ~/anaconda3/bin/activate</code></pre></center>
+
+                            <p>
+                                Once activated, you should be able to run <code class="inline">conda</code>:
+                            </p>
+
+                            <center><pre class="cmd"><code>conda --version</code></pre></center>
+
+                            <p>
+                                This should print out the text <code>conda X.XX.X</code>, with each X being a number indicating the version. If you get an error at this point, 
+                                something has gone wrong with installation or activation and you'll need to re-visit those steps.
+                            </p>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="rec_banner">Tip - Add the Anaconda activate command to your user profile</div>
+                                    <div id="rec_text">
+                                        <p>
+                                            You may want Anaconda to be activated automatically when you login, you could add the 
+                                            <code>source /&lt;path&gt;/&lt;to&gt;/anaconda3/bin/activate</code> command to your user profile. Your user 
+                                            profile is located in your home directory, though it is hidden (use <code>ls -a</code> to see hidden files). It will usually be called something like 
+                                            <code>.bash_profile</code> or <code>.profile</code>. If none of those files exist, you may be able to create them. 
+                                            Open your profile file and add the command and save. It will then be run whenever you login. For more information about bash profiles
+                                            see: <a href="https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html" target="_blank">Bash startup files</a>
+                                        </p>
+
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>                            
+
+                            <a class="internal-link" name="environment"></a>
+                            <h2>3. Creating a conda environment for PhyloAcc</a></h2>
+
+                            <p>
+                                <code class="inline">conda</code> is able to install and solve package dependencies by working in <em>environments</em>, self-contained file systems
+                                where the current user has full permissions. To create a new enviornment, run:
+                            </p>
+
+                            <center><pre class="cmd-skel"><code>conda create -n &lt;environment name&gt;</code></pre></center>
+
+                            <p>
+                                Where <code>&lt;environment name&gt;</code> is something descriptive for the purpose of the environment. For instance, for installing and running
+                                PhyloAcc, I would call this one <code>phyloacc-env</code>:
+                            </p>
+
+                            <center><pre class="cmd"><code>conda create -n phyloacc-env</code></pre></center>
+
+                            <p>
+                                Follow the prompts on the screen to create the environment.
+                            </p>
+
+                            <a class="internal-link" name="environment"></a>
+                            <h2>4. Activating your PhyloAcc conda environment</a></h2>
+
+                            <p>
+                                Even though an envrionment has been created, to install software or run software you've already installed in it you must <em>activate</em> it:
+                            </p>
+
+                            <center><pre class="cmd"><code>conda activate phyloacc-env</code></pre></center>
+
+                            <p>
+                                You might notice that your command prompt changes based on which environment you have activated. If you ever wish to exit an environment,
+                                simply type <code>conda deactivate</code>.
+                            </p>
+
+                            <a class="internal-link" name="install-phyloacc"></a>
+                            <h2>5. Installing PhyloAcc from bioconda</a></h2>
+
+                            <p>
+                                Now that a Anaconda has been installed and a conda environment set up you are ready to install PhyloAcc from bioconda!
+                            </p>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="msg_banner">Caution - <a href="https://bioconda.github.io/user/install.html#set-up-channels" target="_blank">Set-up conda channels</a></div>
+                                    <div id="msg_text">
+                                        <p>
+                                            If this is your first time using conda or bioconda, you may have to 
+                                            <a href="https://bioconda.github.io/user/install.html#set-up-channels" target="_blank">set-up your channels</a>. A channel
+                                            is a remote host for different types of software. For instance, lots of biology related software is found in the bioconda
+                                            channel and a lot of other software is found in the conda-forge channel. Since we are primarily interested in biological
+                                            software, we want to make sure that bioconda has priority. Follow the instructions in the link above to setup channels
+                                            for bioconda for the first time.
+                                        </p>
+
+                                        <p>
+                                            You can also change your channel order at any time by editing their order in your <code class="inline">.condarc</code> file
+                                            in your home directory
+                                        </p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                To install PhyloAcc, run the command:
+                            </p>
+
+                            <center><pre class="cmd"><code>conda install phyloacc</code></pre></center>
+
+                            <p>
+                                Follow the prompts on the screen and wait for the dependencies to install. Once finished, you should be ready to run PhyloAcc! To
+                                make sure, run the command:
+                            </p>
+
+                            <center><pre class="cmd"><code>phyloacc.py --version</code></pre></center>
+
+                            <p>
+                                which should print out the version info for PhyloAcc and:
+                            </p>
+
+                            <center><pre class="cmd"><code>phyloacc.py --depcheck</code></pre></center>
+
+                            <p>
+                                which ensures that the C++ binaries are installed. If you get an error during either of these commands, or one of the dependency
+                                checks fails, you will have to troubleshoot the installation process.
+                            </p>
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sep_div"></div>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Troubleshooting common installation problems</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+
+                            <a class="internal-link" name="conda-not-found"></a>
+                            <h2>1. conda: command not found</a></h2>
+
+                            <p>
+                                If you see the <code class="inline">conda: command not found</code> error when trying to install PhyloAcc it likely means:
+                                <ol>
+                                    <li>Anaconda isn't installed - See <a href="install.html#install-anaconda">here</a> for installation instructions</li>
+                                    <li>Anaconda isn't activated - See <a href="install.html#activate-anaconda">here</a> for activation instructions</li>
+                                </ol>
+                            </p>
+
+                            <a class="internal-link" name="solve-fail"></a>
+                            <h2>2. conda cannot solve the environment</a></h2>
+
+                            <p>
+                                If the <code class="inline">conda install phyloacc</code> command fails or hangs for a long time the program might be struggling
+                                with installing dependencies given the current settings. To solve this, try the following:
+                                <ol>
+                                    <li>
+                                        Make sure conda is up to date. To update conda, run the command: 
+                                        <center><pre class="cmd"><code>conda update -n base -c defaults conda</code></pre></center>
+                                    </li>
+                                    <li>
+                                        Make sure your <a href="https://bioconda.github.io/user/install.html#set-up-channels" target="_blank">channels are set-up to give bioconda priority</a>
+                                    </li>
+                                </ol>
+                            </p>
+
+                            <a class="internal-link" name="phyloacc-not-found"></a>
+                            <h2>3. phyloacc.py: command not found</a></h2>
+
+                            <p>
+                                If you see the <code class="inline">phyloacc.py: command not found</code> error some time after you have successfully run the
+                                <code>conda install phyloacc</code> command, it likely means you aren't in the same environment as where you installed PhyloAcc. Make sure
+                                you <a href="install.html#activate-env">activate the correct conda environment</a>.
+                            </p>
+
+                        </div>
+
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="sep_div"></div>
+        </div>
+        <div class="col-3-24" id="margin"></div>
+
+    </div>
 
     {footer}
 </body>
@@ -246,9 +367,10 @@ GGTGTAGCCAGAGAGTAAANAATATGGTGAAGCCAGAGAG
 ######################
 pagefile = "readme.html";
 print("Generating " + pagefile + "...");
-title = "Referee README"
+title = "PhyloAcc - README"
+page_style = "file";
 
-head = RC.readHead(title);
+head = RC.readHead(title, page_style);
 nav = RC.readNav(pagefile);
 footer = RC.readFooter();
 
