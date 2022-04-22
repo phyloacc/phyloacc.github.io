@@ -19,7 +19,7 @@ html_template = """
     {nav}
 
 	<div class="row" id="main-content-row">
-		<div class="col-3-24 margin"></div>
+		<div class="col-3-24 margin-main"></div>
 		<div class="col-18-24" id="main-content-col">
 
 				<div class="row" id="title-row">
@@ -134,7 +134,7 @@ html_template = """
 				</div>
 
 		</div>
-		<div class="col-3-24 margin"></div>
+		<div class="col-3-24 margin-main"></div>
 	</div>
 
     {footer}

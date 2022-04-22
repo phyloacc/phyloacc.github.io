@@ -65,9 +65,10 @@
     color: #0072b2;
     text-decoration: none;
 }
-@media (max-width: 1025px) {
+@media (max-width: 960px) {
 	#side-nav-cont { display: none; }
 	#main-cont { width: 100%; }
+	#main-content-col-page { width: 100%; }
 }
 
 

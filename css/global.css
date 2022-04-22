@@ -185,10 +185,11 @@ the dropdowns
 	position:sticky;
 	top:0px;
 	height:5vh;
-	background-color:#fff;
+	background-color:#333333;
 	width:100%;
 	padding:5px 0px;
 	border-bottom:1px solid black;
+	color:#ececec;
 }
 @media (max-width: 1025px) {
 	#mobile_nav { display: block; }
@@ -237,6 +238,10 @@ the dropdowns
 }
 #mobile_nav_link:hover {
 	background-color: rgb(206, 200, 208);
+}
+#nav-text {
+	font-size: 2em;
+	padding-left:20px;
 }
 
 /*------------------------------------------------------*/
@@ -291,7 +296,16 @@ the dropdowns
 #buffer {
 	padding-left:10px;
 }
-
+.margin-main  { width: 0; }
+@media (max-height: 550px) {
+	#logo-cont { height: 50vh; }
+}
+@media (max-width: 960px) {
+	.margin-main { width: 0; }
+	#main-content-col { width: 100%;
+		text-align: left; }
+	#logo-cont { display:none; }
+}
 
 /*------------------------------------------------------*/
 /* Calculations page styles */
