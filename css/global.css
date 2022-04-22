@@ -34,6 +34,9 @@ h1 {
 	-webkit-border-radius: 0px 0px 6px 6px;
 	   -moz-border-radius: 0px 0px 6px 6px;
 			border-radius: 0px 0px 6px 6px;
+
+	text-align: justify;
+	text-justify: inter-word;			
 }
 /* @media (max-width: 960px) {
 	#main_content { margin:0; padding: 30px; } */
@@ -238,9 +241,21 @@ the dropdowns
 
 /*------------------------------------------------------*/
 /* About page styles */
-#logo_main {
-	display:block;
-	margin:auto;
+#title-col {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+		
+}
+
+#logo-cont {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 25vh;
+}
+#logo-main {
+    height: 100%;
 }
 
 #install-cont {
@@ -310,6 +325,9 @@ pre {
 
 /*------------------------------------------------------*/
 /* Spacing styles */
+.sep-div-small {
+	height:3vh;
+}
 .sep_div {
 	height:5vh;
 }

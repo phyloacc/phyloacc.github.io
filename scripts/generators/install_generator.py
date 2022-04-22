@@ -42,7 +42,7 @@ html_template = """
             </div>
         </div>
 
-        <div class="col-17-24" id="main-content-col-page">
+        <div class="col-20-24" id="main-content-col-page">
 
             <div class="row" id="top-row-cont">
                 <div class="col-24-24" id="top-row"></div>
@@ -73,7 +73,7 @@ html_template = """
 
                             <div id="msg_cont">
                                 <div id="msg">
-                                    <div id="warn_banner">Warning - PhyloAcc is currently not compatible with Windows</div>
+                                    <div id="warn_banner">PhyloAcc is currently not compatible with Windows</div>
                                     <div id="warn_text">
                                         <p>
                                             Unfortunately we're still working on a bioconda build with Windows, so for now these instructions are only valid for
@@ -354,7 +354,7 @@ html_template = """
             </div>
             <div class="sep_div"></div>
         </div>
-        <div class="col-3-24" id="margin"></div>
+
 
     </div>
 
