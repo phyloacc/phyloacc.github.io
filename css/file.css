@@ -74,17 +74,17 @@
 
 /*------------------------------------------------------*/
 /* Header styles */
-#header {
-    color:#fff;
-	background-color: #294157;
-	font-size:1.8em;
+.header {
+    color:#333333;
+	background-color: #ececec;
+	font-size:2em;
 	padding-top:10px;
 	padding-bottom:10px;
 	text-align: center;
 	vertical-align: middle;
 	/* border-bottom:1px solid #333; */
 }
-#header::after {
+.header::after {
 	font-size:unset;
 }
 #top-row-cont{
@@ -110,11 +110,17 @@
 	width: 90%;
 	margin:auto;
 }
+.section-sub-header {
+	font-size: 1.4em;
+	font-weight: bold;
+}
 @media (max-width: 1025px) {
 	#section-header  { padding:0; }
 	#section-header-row { width: 100%; text-align:center; }
 }
 
+#section-content {
+}
 /*------------------------------------------------------*/
 /* Message box styles */
 #msg_cont {
@@ -213,4 +219,28 @@
     padding: 0px 20px;
     font-family:Arial, Helvetica, sans-serif;
     /* font-style:italic; */
+}
+
+/*------------------------------------------------------*/
+/* Table styles */
+.table-container {
+	padding:20px 50px 20px 50px;
+	overflow-y:auto;
+	display:flex;
+	align-items: center;
+	/* justify-content: center; */
+}
+.table-content {
+	background-color:#ffffff;
+	border: 1px solid #333333;
+	width: 100%;
+}
+
+.table-content  tr:nth-child(even) {
+	background-color:#E0DEDE;
+}
+
+.table-content td {
+	padding: 10px;
+	text-align: left;
 }

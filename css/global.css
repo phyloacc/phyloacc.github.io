@@ -395,6 +395,9 @@ pre {
 .cmd {
 	background-color: #c6ecd9;
 }
+.long-cmd {
+	background-color: #fdfce8;
+}
 .cmd-skel {
 	background-color: #ffffff
 }

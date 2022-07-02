@@ -96,7 +96,7 @@ html_template = """
 
 						<p>
 							Substitution rates are estimated per lineage in the input species tree while accounting for underlying phylogenetic discordance. Three separate models
-							are fit to the data: one allowing only conserved rates on all lineages, one allowing accelerated rates on specified target lineages, and a full model
+							are fit to the data: one allowing only conserved or background rates on all lineages, one allowing accelerated rates on specified target lineages, and a full model
 							that allows accelerated rates on every lineage. The likelihoods of these nested models are compared for each element with Bayes Factors and questions
 							can be formulated based on these comparisons.
 

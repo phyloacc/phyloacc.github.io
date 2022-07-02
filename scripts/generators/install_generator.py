@@ -296,6 +296,7 @@ html_template = """
                 </div>
             </div>
 
+            <a class="internal-link" name="troubleshooting"></a>
             <div class="sep_div"></div>
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
