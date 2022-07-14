@@ -824,7 +824,7 @@ html_template = """
                                 </table>
                             </div>
 
-                            <a class="internal-link" name="batching"></a>
+                            <a class="internal-link" name="batch"></a>
                             <div class="section-sub-header">Batching options</div>
 
                             <div class="table-container">
