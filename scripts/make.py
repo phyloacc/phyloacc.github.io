@@ -21,8 +21,6 @@ os.chdir("generators");
 
 pages = {
     'index' : args.index,
-    'calcs' : args.calcs,
-    'scores' : args.scores,
     'readme' : args.readme,
     'walkthrough' : args.walkthrough,
     'links' : args.links,
@@ -34,14 +32,11 @@ if args.all:
 if pages['index']:
     os.system("python index_generator.py");
 
-if pages['calcs']:
-    os.system("python calcs_generator.py");
-
-if pages['scores']:
-    os.system("python scores_generator.py");
-
 if pages['readme']:
     os.system("python readme_generator.py");
+
+if pages['walkthrough']:
+    os.system("python walkthrough_generator.py");
 
 if pages['links']:
     os.system("python links_generator.py");

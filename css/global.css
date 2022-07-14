@@ -73,7 +73,7 @@ h1 {
 	transform: translateY(-50%); */
 }
 
-#nav-link-cell{
+#nav-link-cell {
 	height:5vh;
 	display:table-cell;
 	vertical-align: middle;
@@ -81,9 +81,10 @@ h1 {
 }
 .nav-link {
 	color: #999999;
+	
 	transition: background-color .2s;
 	/* font-size:large; */
-	font-size:1.1em;
+	font-size:1.5em;
 	display: inline-block;
 	padding: 5px 15px;
 	cursor: pointer;
@@ -185,6 +186,7 @@ the dropdowns
 	position:sticky;
 	top:0px;
 	height:5vh;
+	min-height: 40px;
 	background-color:#333333;
 	width:100%;
 	padding:5px 0px;
@@ -204,6 +206,7 @@ the dropdowns
 }
 #mobile_logo_nav {
 	height:5vh;
+	min-height: 40px;
 	float:left;
 }
 .mobile_drop {
