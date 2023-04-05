@@ -1,22 +1,43 @@
-############################################################
-# For Referee docs, 11.19
-# This generates the file "walkthrough.html"
-############################################################
 
-import sys, os
-sys.path.append(os.path.abspath('../lib/'))
-import read_chunks as RC
-
-######################
-# HTML template
-######################
-
-html_template = """
 <!doctype html>
-    {head}
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='shortcut icon' href='img/favicon.ico' type='image/x-icon'/ >
+    <link type="text/css" rel="stylesheet" href="css/grid.css"  media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/global.css"  media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/file.css"  media="screen,projection" />
+    <title>PhyloAcc - Walkthrough</title>
+</head>
 
 <body>
-    {nav}
+    <div class="row" id="desktop-nav">
+    <div class="col-3-24" id="margin"></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="index.html">PhyloAcc</a></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="install.html">Install</a></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="readme.html">README</a></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" id="active" href="#">Walkthrough</a></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="https://github.com/phyloacc/PhyloAcc">Github</a></div>
+    <div class="col-3-24" id="nav-link-cell"><a class="nav-link" href="links.html">Links</a></div>
+
+    <div class="col-3-24" id="margin"></div>
+</div>
+
+<div class="row" id="mobile_nav">
+    <div class="col-24-24 dropdown" id="nav_link_cell">
+        <a href="#" class="nav_link"><img id="mobile_logo_nav" src="img/nav.png"></a> <span id="nav-text">Navigation</span>
+        <div class="dropdown_container mobile_drop">
+            <ul class="dropdown_list">
+                <li class="dropdown_list_item"><a href="index.html" id="mobile_nav_link">PhyloAcc</a></li>
+                <li class="dropdown_list_item"><a href="install.html" id="mobile_nav_link">Install</a></li>
+                <li class="dropdown_list_item"><a href="readme.html" id="mobile_nav_link">README</a></li>
+                <li class="dropdown_list_item"><a href="#" id="mobile_nav_link">Walkthrough</a></li>
+                <li class="dropdown_list_item"><a href="https://github.com/phyloacc/PhyloAcc" id="mobile_nav_link">Github</a></li>
+                <li class="dropdown_list_item"><a href="links.html" id="mobile_nav_link">Links</a></li>
+            </ul>
+        </div>
+    </div>  
+</div>
     
 <a class="internal-link" name="install"></a>
     <div class="row" id="body-row">
@@ -157,23 +178,11 @@ html_template = """
         </div>
     </div>
 
-    {footer}
+    <div class="row" id="footer">
+    <div class="col-1">
+        <div id="footer_text">
+            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 10/14/2022 19:22:36 EDT</center>
+        </div>
+    </div>
+</div>
 </body>
-"""
-
-######################
-# Main block
-######################
-pagefile = "walkthrough.html";
-print("Generating " + pagefile + "...");
-title = "PhyloAcc - Walkthrough"
-page_style = "file";
-
-head = RC.readHead(title, page_style);
-nav = RC.readNav(pagefile);
-footer = RC.readFooter();
-
-outfilename = "../../" + pagefile;
-
-with open(outfilename, "w") as outfile:
-    outfile.write(html_template.format(head=head, nav=nav, footer=footer));

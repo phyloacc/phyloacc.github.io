@@ -4,9 +4,8 @@
 ############################################################
 
 import sys, os
-sys.path.append('..')
-import lib.read_chunks as RC
-
+sys.path.append(os.path.abspath('../lib/'))
+import read_chunks as RC
 ######################
 # HTML template
 ######################
@@ -18,37 +17,22 @@ html_template = """
 <body>
     {nav}
 
-    <div class="pure-g" id="main_row">
-            <div class="pure-u-3-24" id="margin"></div>
-            <div class="pure-u-18-24" id="main_col">
-                <div id="main_content">
-                    <img class="pure-img" id="logo_main" src="img/ref-logo.png">
-                    <h1>Links</h1>
-                    <h3>People and places related to Referee:</h3>
-                        <ul>
-                            <p><a href="http://www.indiana.edu/~hahnlab/" target="_blank">Hahn lab</a> / Referee was developed in Matthew Hahn's lab 
-                                at Indiana University</p>
-                            <p><a href="https://github.com/gwct/referee" target="_blank">Referee github</a> / Referee's github repository.</p>	
-                        </ul>
-                    <h3>Helpful software:</h3>
-                        <ul>
-                            <p><a href="https://github.com/lh3/bwa" target="_blank">BWA</a> / Read mapping software.</p>
-                            <p><a href="https://broadinstitute.github.io/picard/" target="_blank">Picard</a> / Software for handling NGS data.</p>
-                            <p><a href="https://github.com/samtools/samtools" target="_blank">Samtools</a> / Software for handling NGS data, especially mapped reads.</p>
-                            <p><a href="https://github.com/ANGSD/angsd" target="_blank">ANGSD</a> / Software for calculating genotype log-likelihoods 
-                                (and many other things).</p>
-                            <p><a href="https://genome.ucsc.edu/" target="_blank">UCSC Genome browser</a> / A web based genome browser that accepts Referee's
-                                Bed file outputs for visualization.</p>
-                        </ul>
-                    <!-- <h3>Previous versions of GRAMPA</h3>
-                    <ul>
-                        <p><a href="prev/v1.1.zip" download>Version 1.1</a> / March 22, 2016 / Implemented gene tree filtering and several useful options. No parallelization.</p>
-                        <p><a href="prev/v1.0.zip" download>Version 1.0</a> / Summer 2015 / The first release. No gene tree filtering.</p>
-                    </ul> -->
+	<div class="row" id="main-content-row">
+		<div class="col-3-24 margin-main"></div>
+		<div class="col-18-24" id="main-content-col">
+            <div class="row" id="title-row">
+                <div class="col-2-24 margin"></div>
+                <div class="col-8-24" id="logo-cont">
+                    <img id="logo-main" src="img/logo2.png">
                 </div>
+
+                <div class="col-2-24 margin"></div>
             </div>
-            <div class="pure-u-18-24" id="margin"></div>
+
+            <center><h1>Coming soon!</h1></center>
         </div>
+        <div class="col-3-24 margin-main"></div>
+    </div>
 
     {footer}
 </body>
@@ -59,9 +43,10 @@ html_template = """
 ######################
 pagefile = "links.html";
 print("Generating " + pagefile + "...");
-title = "Referee links"
+title = "PhyloAcc - Links"
+page_style = "file";
 
-head = RC.readHead(title);
+head = RC.readHead(title, page_style);
 nav = RC.readNav(pagefile);
 footer = RC.readFooter();
 

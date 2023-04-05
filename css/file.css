@@ -241,6 +241,11 @@
 }
 
 .table-content td {
+	/* min-width: 8vw; */
 	padding: 10px;
 	text-align: left;
 }
+
+/* .table-content  tr td:nth-child(odd) {
+	min-width: 5vw;
+} */
