@@ -49,7 +49,7 @@ In response to a comment from the reviewer, we decided to re-estimate theta ($\h
 
 $$ \hat{\theta} = 2 \frac{l_1}{l_2} $$
 
-3. I recovered the theta values $\theta$ used as input for the simulations from the file `Yan-etal-2022/data/SimulatedData/neut_ver3_genetree2.named.mod`, as the number following the `#` symbol in the branch lenghts in the provided tree:
+3. I recovered the theta values $\theta$ used as input for the simulations from the file `Yan-etal-2022/data/SimulatedData/neut_ver3_genetree2.named.mod`, as the number following the `#` symbol in the branch lengths in the provided tree:
 
 ```
 ALPHABET: A C G T
