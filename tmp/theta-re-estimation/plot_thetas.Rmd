@@ -115,7 +115,7 @@ reg_p = ggplot(sim_data, aes(x=sim.theta, y=est.theta, color=sim, label=text)) +
   geom_abline(aes(slope=1, intercept=0, color="1:1"), size=1, linetype="dashed", show.legend=F) +
   #geom_text_repel(color="#333333", size=3) +
   #geom_text_repel(color="#333333", angle=90, nudge_y=0.2) +
-  xlab(expression('Simulated theta' ~ ( theta ))) +
+  xlab(expression('Input theta' ~ ( theta ))) +
   ylab(expression('Estimated theta' ~ ( hat(theta) ))) +
   scale_color_manual(values=c("1:1"="#999999", cols)) +
   bartheme()
@@ -145,7 +145,7 @@ diff_p = ggplot(sim_data, aes(x=label, y=theta.diff, fill=sim)) +
   #geom_text_repel(color="#333333", angle=90, nudge_y=0.2) +
   #ylim(c(-0.1,2)) +
   xlab("") +
-  ylab("Estimated theta - simulated theta") +
+  ylab("Estimated theta - input theta") +
   scale_fill_manual(values=c(cols)) +
   bartheme() +
   theme(axis.text.x = element_text(angle=35, hjust=1))
@@ -159,7 +159,7 @@ print(diff_p)
 
 # Case A
 
-For reference, here are the trees with various branch lengths
+## Trees
 
 ```{r plot-trees-A, out.width="60%", fig.align = "center", fig.height=4}
 
@@ -200,7 +200,7 @@ theta_t = ggtree(theta_tree, size=0.8, ladderize=F) +
   geom_tiplab(color="#333333", fontface='italic', size=2) +
   geom_text(aes(x=branch, label=ifelse(theta_tree_info$node.type=="internal", theta_tree_info$label, "")), nudge_y=-0.2, size=2) +
   #geom_text(aes(x=branch, label=ifelse(theta_tree_info$branch.length>0, signif(theta_tree_info$branch.length, 3), "")), nudge_y=0.35, size=2) +
-  ggtitle("Simulated theta")
+  ggtitle("Input theta")
 #print(theta_t)
 # Plot and display the tree
 
@@ -229,6 +229,8 @@ coal_t = ggtree(coal_tree, size=0.8, ladderize=F, aes(color=coal_tree_info$theta
 #print(coal_t)
 # Plot and display the tree
 
+####################
+
 leg = get_legend(sim_t)
 
 case_A_trees_main = plot_grid(sim_t + theme(legend.position="none"), 
@@ -240,12 +242,75 @@ print(case_A_trees)
 
 ```
 
+## Branch lengths and thetas
+
+```{r bl-theta-A, out.width="60%", fig.align = "center", fig.height=3.5}
+
+tree_info_long = sim_tree_info %>% 
+       filter(node.type=="internal") %>% 
+       select(label, bl.subs, bl.coal, sim.theta, est.theta) %>% 
+       pivot_longer(cols=c("est.theta", "sim.theta"), names_to="theta.cat", values_to="theta")
+# Stack the theta values by category (simulated and estimated)
+
+####################
+
+subs_p = ggplot(tree_info_long, aes(x=bl.subs, y=theta, color=theta.cat)) +
+  geom_point(size=3, alpha=0.5) +
+  geom_smooth(method="lm", se=F) +
+  #geom_abline(aes(slope=1, intercept=0), size=1, linetype="dashed", show.legend=F) +
+  #geom_text_repel(color="#333333", size=3) +
+  #geom_text_repel(color="#333333", angle=90, nudge_y=0.2) +
+  xlab("Theta") +
+  ylab("Branch length\n(substitutions)") +
+  scale_color_manual(labels=c("Estimated theta", "Input theta"), values=corecol(numcol=2)) +
+  bartheme() + 
+  theme(legend.position="bottom",
+        axis.text=element_text(size=10), 
+        axis.title=element_text(size=12),
+        legend.text=element_text(size=10))
+#print(subs_p)
+# Plot the theta values against the branch lengths in substitutions
+
+coal_p = ggplot(tree_info_long, aes(x=bl.coal, y=theta, color=theta.cat)) +
+  geom_point(size=3, alpha=0.5) +
+  geom_smooth(method="lm", se=F) +
+  #geom_abline(aes(slope=1, intercept=0), size=1, linetype="dashed", show.legend=F) +
+  #geom_text_repel(color="#333333", size=3) +
+  #geom_text_repel(color="#333333", angle=90, nudge_y=0.2) +
+  xlab("Theta") +
+  ylab("Branch length\n(coalescent)") +
+  scale_color_manual(labels=c("Estimated theta", "Input theta"), values=corecol(numcol=2)) +
+  bartheme() +
+  theme(axis.text=element_text(size=10), 
+    axis.title=element_text(size=12),
+    legend.text=element_text(size=10))
+#print(coal_p)
+# Plot the theta values against the branch lengths in coalescent units
+
+####################
+
+leg = get_legend(subs_p)
+
+case_A_regs_main = plot_grid(subs_p + theme(legend.position="none"), 
+                         coal_p + theme(legend.position="none"), 
+                         ncol=2)
+case_A_regs = plot_grid(case_A_regs_main, leg, nrow=2, rel_heights=c(1,0.075))
+
+print(case_A_regs)
+
+#case_A = plot_grid(case_A_trees, case_A_regs, nrow=2)
+#print(case_A)
+
+```
+
+## Summary table
+
 ```{r table-A, out.width="90%", fig.align = "center", fig.height=3}
 
 sim_data %>% 
   filter(sim=="A") %>% 
   select(label, bl.subs, bl.coal, est.theta, sim.theta, theta.diff) %>% 
-  rename(Branch=label, Branch.length.subs=bl.subs, Branch.length.coalescent=bl.coal, Estimated.theta=est.theta, Simulated.theta=sim.theta, Theta.diff=theta.diff) %>%
+  rename(Branch=label, Branch.length.subs=bl.subs, Branch.length.coalescent=bl.coal, Estimated.theta=est.theta, Input.theta=sim.theta, Theta.diff=theta.diff) %>%
   kable() %>% 
   kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
@@ -253,7 +318,7 @@ sim_data %>%
 
 # Case B
 
-For reference, here are the trees with various branch lengths
+## Trees
 
 ```{r plot-trees-B, out.width="60%", fig.align = "center", fig.height=4}
 
@@ -300,6 +365,8 @@ coal_t = ggtree(coal_tree, size=0.8, ladderize=F, aes(color=sim_tree_info$theta.
 #print(coal_t)
 # Plot and display the tree
 
+####################
+
 leg = get_legend(sim_t)
 
 case_B_trees_main = plot_grid(sim_t + theme(legend.position="none"), 
@@ -311,12 +378,75 @@ print(case_B_trees)
 
 ```
 
+## Branch lengths and thetas
+
+```{r bl-theta-B, out.width="60%", fig.align = "center", fig.height=3.5}
+
+tree_info_long = sim_tree_info %>% 
+       filter(node.type=="internal") %>% 
+       select(label, bl.subs, bl.coal, sim.theta, est.theta) %>% 
+       pivot_longer(cols=c("est.theta", "sim.theta"), names_to="theta.cat", values_to="theta")
+# Stack the theta values by category (simulated and estimated)
+
+####################
+
+subs_p = ggplot(tree_info_long, aes(x=bl.subs, y=theta, color=theta.cat)) +
+  geom_point(size=3, alpha=0.5) +
+  geom_smooth(method="lm", se=F) +
+  #geom_abline(aes(slope=1, intercept=0), size=1, linetype="dashed", show.legend=F) +
+  #geom_text_repel(color="#333333", size=3) +
+  #geom_text_repel(color="#333333", angle=90, nudge_y=0.2) +
+  xlab("Theta") +
+  ylab("Branch length\n(substitutions)") +
+  scale_color_manual(labels=c("Estimated theta", "Input theta"), values=corecol(numcol=2)) +
+  bartheme() + 
+  theme(legend.position="bottom",
+        axis.text=element_text(size=10), 
+        axis.title=element_text(size=12),
+        legend.text=element_text(size=10))
+#print(subs_p)
+# Plot the theta values against the branch lengths in substitutions
+
+coal_p = ggplot(tree_info_long, aes(x=bl.coal, y=theta, color=theta.cat)) +
+  geom_point(size=3, alpha=0.5) +
+  geom_smooth(method="lm", se=F) +
+  #geom_abline(aes(slope=1, intercept=0), size=1, linetype="dashed", show.legend=F) +
+  #geom_text_repel(color="#333333", size=3) +
+  #geom_text_repel(color="#333333", angle=90, nudge_y=0.2) +
+  xlab("Theta") +
+  ylab("Branch length\n(coalescent)") +
+  scale_color_manual(labels=c("Estimated theta", "Input theta"), values=corecol(numcol=2)) +
+  bartheme() +
+  theme(axis.text=element_text(size=10), 
+    axis.title=element_text(size=12),
+    legend.text=element_text(size=10))
+#print(coal_p)
+# Plot the theta values against the branch lengths in coalescent units
+
+####################
+
+leg = get_legend(subs_p)
+
+case_B_regs_main = plot_grid(subs_p + theme(legend.position="none"), 
+                         coal_p + theme(legend.position="none"), 
+                         ncol=2)
+case_B_regs = plot_grid(case_B_regs_main, leg, nrow=2, rel_heights=c(1,0.075))
+
+print(case_B_regs)
+
+#case_B = plot_grid(case_B_trees, case_B_regs, nrow=2)
+#print(case_B)
+
+```
+
+## Summary table
+
 ```{r table-B, out.width="90%", fig.align = "center", fig.height=3}
 
 sim_data %>% 
   filter(sim=="B") %>% 
   select(label, bl.subs, bl.coal, est.theta, sim.theta, theta.diff) %>% 
-  rename(Branch=label, Branch.length.subs=bl.subs, Branch.length.coalescent=bl.coal, Estimated.theta=est.theta, Simulated.theta=sim.theta, Theta.diff=theta.diff) %>%
+  rename(Branch=label, Branch.length.subs=bl.subs, Branch.length.coalescent=bl.coal, Estimated.theta=est.theta, Input.theta=sim.theta, Theta.diff=theta.diff) %>%
   kable() %>% 
   kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
@@ -324,7 +454,7 @@ sim_data %>%
 
 # Case C
 
-For reference, here are the trees with various branch lengths
+## Trees
 
 ```{r plot-trees-C, out.width="60%", fig.align = "center", fig.height=4}
 
@@ -371,6 +501,8 @@ coal_t = ggtree(coal_tree, size=0.8, ladderize=F, aes(color=sim_tree_info$theta.
 #print(coal_t)
 # Plot and display the tree
 
+####################
+
 leg = get_legend(sim_t)
 
 case_C_trees_main = plot_grid(sim_t + theme(legend.position="none"), 
@@ -382,12 +514,75 @@ print(case_C_trees)
 
 ```
 
+## Branch lengths and thetas
+
+```{r bl-theta-C, out.width="60%", fig.align = "center", fig.height=3.5}
+
+tree_info_long = sim_tree_info %>% 
+       filter(node.type=="internal") %>% 
+       select(label, bl.subs, bl.coal, sim.theta, est.theta) %>% 
+       pivot_longer(cols=c("est.theta", "sim.theta"), names_to="theta.cat", values_to="theta")
+# Stack the theta values by category (simulated and estimated)
+
+####################
+
+subs_p = ggplot(tree_info_long, aes(x=bl.subs, y=theta, color=theta.cat)) +
+  geom_point(size=3, alpha=0.5) +
+  geom_smooth(method="lm", se=F) +
+  #geom_abline(aes(slope=1, intercept=0), size=1, linetype="dashed", show.legend=F) +
+  #geom_text_repel(color="#333333", size=3) +
+  #geom_text_repel(color="#333333", angle=90, nudge_y=0.2) +
+  xlab("Theta") +
+  ylab("Branch length\n(substitutions)") +
+  scale_color_manual(labels=c("Estimated theta", "Input theta"), values=corecol(numcol=2)) +
+  bartheme() + 
+  theme(legend.position="bottom",
+        axis.text=element_text(size=10), 
+        axis.title=element_text(size=12),
+        legend.text=element_text(size=10))
+#print(subs_p)
+# Plot the theta values against the branch lengths in substitutions
+
+coal_p = ggplot(tree_info_long, aes(x=bl.coal, y=theta, color=theta.cat)) +
+  geom_point(size=3, alpha=0.5) +
+  geom_smooth(method="lm", se=F) +
+  #geom_abline(aes(slope=1, intercept=0), size=1, linetype="dashed", show.legend=F) +
+  #geom_text_repel(color="#333333", size=3) +
+  #geom_text_repel(color="#333333", angle=90, nudge_y=0.2) +
+  xlab("Theta") +
+  ylab("Branch length\n(coalescent)") +
+  scale_color_manual(labels=c("Estimated theta", "Input theta"), values=corecol(numcol=2)) +
+  bartheme() +
+  theme(axis.text=element_text(size=10), 
+    axis.title=element_text(size=12),
+    legend.text=element_text(size=10))
+#print(coal_p)
+# Plot the theta values against the branch lengths in coalescent units
+
+####################
+
+leg = get_legend(subs_p)
+
+case_C_regs_main = plot_grid(subs_p + theme(legend.position="none"), 
+                         coal_p + theme(legend.position="none"), 
+                         ncol=2)
+case_C_regs = plot_grid(case_C_regs_main, leg, nrow=2, rel_heights=c(1,0.075))
+
+print(case_C_regs)
+
+#case_C = plot_grid(case_C_trees, case_C_regs, nrow=2)
+#print(case_C)
+
+```
+
+## Summary table
+
 ```{r table-C, out.width="90%", fig.align = "center", fig.height=3}
 
 sim_data %>% 
   filter(sim=="C") %>% 
   select(label, bl.subs, bl.coal, est.theta, sim.theta, theta.diff) %>% 
-  rename(Branch=label, Branch.length.subs=bl.subs, Branch.length.coalescent=bl.coal, Estimated.theta=est.theta, Simulated.theta=sim.theta, Theta.diff=theta.diff) %>%
+  rename(Branch=label, Branch.length.subs=bl.subs, Branch.length.coalescent=bl.coal, Estimated.theta=est.theta, Input.theta=sim.theta, Theta.diff=theta.diff) %>%
   kable() %>% 
   kable_styling(bootstrap_options=c("striped", "condended", "responsive"), full_width=F)
 
