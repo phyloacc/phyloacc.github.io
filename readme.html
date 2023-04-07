@@ -58,7 +58,7 @@
                     <li><a href="readme.html#output">Output</a></li>
                     <ol>
                         <li><a href="readme.html#elem_lik">elem_lik.txt</a></li>
-                        <li><a href="readme.html#id-key">id_key.txt</a></li>
+                        <!-- <li><a href="readme.html#id-key">id_key.txt</a></li> -->
                         <li><a href="readme.html#elem_z">elem_z.txt</a></li>
                         <li><a href="readme.html#rate_postZ">rate_postZ_M*.txt</a></li>
                     </ol>
@@ -351,7 +351,7 @@
                             <div class="section-sub-header">elem_lik.txt</div>
 
                             <p>
-                                Marginal log-likelihood for all models (integrating out parameters and latent states).
+                                Marginal log-likelihood for all models (integrating out parameters and latent states), Bayes factors, rates, and states for each locus.
                             </p>
 
                             <div class="table-container">
@@ -363,52 +363,174 @@
 
                                     <tr>
                                         <td>
-                                            Locus ID 
+                                            phyloacc.id
                                         </td>
                                         <td>
-                                            [batch number]-[locus number]
+                                            The number assigned to this locus by PhyloAcc, with the format [batch number]-[locus number]
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            loglik_Null
+                                            original.id
                                         </td>
                                         <td>
-                                            Marginal log-likelihood under the null model
+                                            The ID of the locus provided in the input (bed file or fasta file)
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            loglik_Acc
+                                            best.fit.model
                                         </td>
                                         <td>
-                                            Marginal log-likelihood under accelerated model
+                                            The model (M0, M1, or M2) that best fits the data for this locus given the specified Bayes Factor cutoffs
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            loglik_Full
+                                            marginal.likelihood.m0
                                         </td>
                                         <td>
-                                            Marginal log-likelihood under the full model
+                                            Marginal log-likelihood under the null model (M0)
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            logBF1
+                                            marginal.likelihood.m1
                                         </td>
                                         <td>
-                                            log Bayes factor between null and accelerated model
+                                            Marginal log-likelihood under target model (M1)
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            logBF2
+                                            marginal.likelihood.m2
                                         </td>
                                         <td>
-                                            log Bayes factor between accelerated and full model
+                                            Marginal log-likelihood under the unrestricted full model (M2)
                                         </td>
-                                    </tr>                                                                                                                                                                                                        
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            logbf1
+                                        </td>
+                                        <td>
+                                            log Bayes factor between null (M0) and target (M1) models
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            logbf2
+                                        </td>
+                                        <td>
+                                            log Bayes factor between target (M1) and full (M2) models
+                                        </td>
+                                    </tr>   
+                                    <tr>
+                                        <td>
+                                            logbf3
+                                        </td>
+                                        <td>
+                                            log Bayes factor between full (M2) and null (M0) models
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            conserved.rate.m0
+                                        </td>
+                                        <td>
+                                            The posterior median of the conserved substitution rate under M0
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            accel.rate.m0
+                                        </td>
+                                        <td>
+                                            The posterior median of the accelerated substitution rate under M0
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            conserved.rate.m1
+                                        </td>
+                                        <td>
+                                            The posterior median of the conserved substitution rate under M1
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            accel.rate.m1
+                                        </td>
+                                        <td>
+                                            The posterior median of the accelerated substitution rate under M1
+                                        </td>
+                                    </tr>                                                                                                            
+                                    <tr>
+                                        <td>
+                                            conserved.rate.m2
+                                        </td>
+                                        <td>
+                                            The posterior median of the conserved substitution rate under M2
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            accel.rate.m2
+                                        </td>
+                                        <td>
+                                            The posterior median of the accelerated substitution rate under M2
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            num.accel.m1
+                                        </td>
+                                        <td>
+                                            The number of lineages inferred to be accelerated under M1
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            num.accel.m2
+                                        </td>
+                                        <td>
+                                            The number of lineages inferred to be accelerated under M2
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            conserved.lineages.m1
+                                        </td>
+                                        <td>
+                                            A comma separated list of the conserved lineages under M1
+                                        </td>
+                                    </tr>                                                                                                                                                                                    
+                                    <tr>
+                                        <td>
+                                            accel.lineages.m1
+                                        </td>
+                                        <td>
+                                            A comma separated list of the accelerated lineages under M1
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td>
+                                            conserved.lineages.m2
+                                        </td>
+                                        <td>
+                                            A comma separated list of the conserved lineages under M2
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td>
+                                            accel.lineages.m1
+                                        </td>
+                                        <td>
+                                            A comma separated list of the accelerated lineages under M1
+                                        </td>
+                                    </tr> 
+
+                                    <!--                                                                                                                                                                                                                                          
                                     <tr>
                                         <td>
                                             loglik_Max_M0, loglik_Max_M1, loglik_Max_M2 
@@ -421,11 +543,13 @@
                                             accelerated (<span class="math">\(M_1\)</span>), and
                                             full (<span class="math">\(M_2\)</span>) models: e.g. \( \max_{r, Z} P(Y, r|Z)\)
                                         </td>
-                                    </tr>      
+                                    </tr>
+                                    -->    
                                 </table>
                             </div>
 
 
+                            <!--
                             <a class="internal-link" name="id-key"></a>
                             <div class="section-sub-header">id-key.txt</div>
 
@@ -473,6 +597,7 @@
                                     </tr>    
                                 </table>
                             </div>
+                            -->
 
                             <a class="internal-link" name="elem_z"></a>
                             <div class="section-sub-header">[prefix]_M*_elem_Z.txt</div>
@@ -969,13 +1094,25 @@
 
                                     <tr>
                                         <td>
-                                            <code class="inline">-path [STRING]</code>
+                                            <code class="inline">-st-path [STRING]</code>
                                         </td>
                                         <td>
-                                            The path to the PhyloAcc binary.
+                                            The path to the PhyloAcc-ST binary.
                                         </td>
                                         <td>
-                                            PhyloAcc
+                                            <code class="inline">PhyloAcc-ST</code>
+                                        </td>                                        
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">-gt-path [STRING]</code>
+                                        </td>
+                                        <td>
+                                            The path to the PhyloAcc-GT binary if <code class="inline">-r gt</code> or <code class="inline">-r adaptive</code> are set.
+                                        </td>
+                                        <td>
+                                            <code class="inline">PhyloAcc-GT</code>
                                         </td>                                        
                                     </tr>
 
@@ -1016,6 +1153,33 @@
                                         <th>Option</th>
                                         <th>Description</th>
                                         <th>Default value</th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">-iqtree-path "[STRING]"</code>
+                                        </td>
+                                        <td>
+                                            When <code class="inline">--theta</code> is set, gene trees will be inferred from some loci with <a href="http://www.iqtree.org/" target="_blank">IQ-TREE</a>.
+                                            You can provide the path to your <code class="inline">iqtree</code> executable with this option
+                                        </td>
+                                        <td>
+                                            <code class="inline">iqtree</code>
+                                        </td>                                        
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">-coal-path "[STRING]"</code>
+                                        </td>
+                                        <td>
+                                            When <code class="inline">--theta</code> is set, branch lengths on your species tree will be estimated in coalescent units with an external program. Currently
+                                            <a href="https://github.com/smirarab/ASTRAL" target="_blank">ASTRAL</a> With this option you can provide the <b>command</b> to execute your <code class="inline">astral.jar</code> file, 
+                                            including any java options. For example, "<code class="inline">java -Xmx8g -jar astral.jar</code>" would be a valid command to specify, provided you had a jar file called <code class="inline">astral.jar</code>.
+                                        </td>
+                                        <td>
+                                            <code class="inline">java -jar astral.jar</code>
+                                        </td>                                        
                                     </tr>
 
                                     <tr>
@@ -1155,7 +1319,7 @@
     <div class="row" id="footer">
     <div class="col-1">
         <div id="footer_text">
-            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 10/14/2022 19:20:07 EDT</center>
+            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 04/07/2023 13:06:47 Eastern Daylight Time</center>
         </div>
     </div>
 </div>

@@ -22,7 +22,9 @@ html_template = """
     <div class="row" id="body-row">
         <div class="col-4-24" id="side-nav-cont">
             <div id="side-nav">
-                <span id="side-header">Page contents</span>
+                <span id="side-header">Coming soon!</span>
+                
+                <!--
                 <ul>
                     <li><a href="readme.html#install">Installation</a></li>
                     <li><a href="readme.html#inputs">Inputs</a></li>
@@ -52,6 +54,8 @@ html_template = """
                         <li><a href="readme.html#misc">Miscellaneous</a></li>
                     </ol>
                 </ul>
+                -->
+
             </div>
         </div>
 
@@ -66,10 +70,11 @@ html_template = """
             </div>
 
             <center>
-                <h3>This page contains all info about the PhyloAcc program including its inputs, options, and outputs.</h3>
+                <h3>Coming soon!</h3>
             </center>
             
 
+            <!--
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
                     <div id="section-header">Installation</div>
@@ -154,6 +159,8 @@ html_template = """
                     </div>
                 </div>
             </div>
+            -->
+
         </div>
     </div>
 
