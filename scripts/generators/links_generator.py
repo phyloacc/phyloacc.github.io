@@ -96,10 +96,17 @@ html_template = """
 
                             <p>
                                 Han Yan / 
-                                One of the lead developers of PhyloAcc</p>
+                                One of the lead developers of PhyloAcc
+                            </p>
+                                
                             <p>
                                 <a href="https://gwct.github.io/" target="_blank">Gregg Thomas</a> / 
                                 One of the lead developers of PhyloAcc
+                            </p>
+
+                            <p>
+                                <a href="https://oeb.harvard.edu/people/patrick-gemmell" target="_blank">Patrick Gemmell</a> / 
+                                A postdoctoral researcher in the Edwards and Liu labs at Harvard University developing new models for PhyloAcc
                             </p>
 
                             <p>
