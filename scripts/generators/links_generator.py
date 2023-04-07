@@ -55,7 +55,7 @@ html_template = """
 
                             <p>
                                 <a href="https://doi.org/10.1101/2022.12.23.521765" target="_blank">Discordance paper (Phyloacc-GT; pre-print)</a> / 
-                                The pre-print of hte manuscript in which the gene tree model was developed
+                                The pre-print of the manuscript in which the gene tree model was developed
                             </p>
 
                             <p>
