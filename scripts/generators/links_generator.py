@@ -57,6 +57,11 @@ html_template = """
                                 <a href="https://doi.org/10.1101/2022.12.23.521765" target="_blank">Discordance paper (Phyloacc-GT; pre-print)</a> / 
                                 The pre-print of hte manuscript in which the gene tree model was developed
                             </p>
+
+                            <p>
+                                <a href="https://news.harvard.edu/gazette/story/2019/05/harvard-study-explores-genetics-behind-evolution-of-flightless-birds/" target="_blank">The evolution of flightless birds</a> / 
+                                An article in The Harvard Gazette covering research related to PhyloAcc
+                            </p>                            
                         </ul>
 
                     <h3>Other helpful software</h3>
@@ -117,6 +122,7 @@ html_template = """
                                 PhyloAcc is developed in the Harvard Informatics group
                             </p>
                         </ul>
+
                 </div>
                 <div class="col-1-24 margin-main"></div>
             </div>
