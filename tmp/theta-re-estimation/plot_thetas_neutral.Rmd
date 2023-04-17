@@ -24,17 +24,13 @@ library(ggrepel)
 library(ggtree)
 library(viridis)
 library(kableExtra)
-#source("C:/bin/core/r/design.r")
-#source("C:/bin/core/r/get_tree_info.r")
-source("C:/Users/grt814/bin/core/r/design.r")
-source("C:/Users/grt814/bin/core/r/get_tree_info.r")
+source("C:/bin/core/r/design.r")
+source("C:/bin/core/r/get_tree_info.r")
+#source("C:/Users/grt814/bin/core/r/design.r")
+#source("C:/Users/grt814/bin/core/r/get_tree_info.r")
 library(here)
 #this.dir <- dirname(parent.frame(2)$ofile)
 #setwd(this.dir)
-
-
-## DIFF SUBS BL FOR EACH SIM
-## ERROR IN SIM 3 TREE FIGURE WITH COALESCENT LABELS??
 
 ```
 
@@ -94,6 +90,7 @@ sim_data = sim_data %>%
   mutate(est.theta = 2 * (bl.subs / bl.coal)) %>% 
   mutate(est.theta = replace(est.theta, is.infinite(est.theta), NA)) %>%
   mutate(theta.diff = est.theta - input.theta)
+  
 sim_data$sim = as.character(sim_data$sim)
 
 cols = corecol(pal="wilke", numcol=3)
@@ -651,6 +648,74 @@ diff_p = ggplot(sim_data, aes(x=label, y=bl.diff, fill=sim)) +
   #ylim(c(-0.1,2)) +
   xlab("") +
   ylab("Simulated bl - original bl") +
+  scale_fill_manual(values=c(cols)) +
+  bartheme() +
+  theme(axis.text.x = element_text(angle=35, hjust=1))
+print(diff_p)
+# Plot the data and display
+
+#theta_comps = plot_grid(reg_p, diff_p, ncol=2)
+#print(theta_comps)
+
+```
+
+# Another way to calculate theta?
+
+$$ \hat{\theta} = \frac{l_1 * \theta}{2} $$
+```{r plot-thetas-2, out.width="40%", fig.align = "center", fig.height=6}
+
+#sim_data = sim_data %>% mutate(est.theta.2 = bl.subs/bl.coal)
+sim_data = sim_data %>% 
+  mutate(est.theta.2 = (bl.subs + input.theta) / 2) %>% 
+  mutate(theta.diff.2 = est.theta.2 - input.theta)
+  
+sim_data$sim = as.character(sim_data$sim)
+
+cols = corecol(pal="wilke", numcol=3)
+names(cols) = c("1", "2", "3")
+# Set up the colors
+
+labels = sim_data %>% group_by(node) %>% summarize(theta=input.theta)
+labels = unique(labels)
+# Another way to get some labels
+
+reg_p = ggplot(sim_data, aes(x=input.theta, y=est.theta.2, color=sim)) +
+  geom_point(size=4, alpha=0.5) +
+  geom_smooth(method="lm", se=F) +
+  geom_abline(aes(slope=1, intercept=0, color="1:1"), size=1, linetype="dashed", show.legend=F) +
+  #geom_text_repel(color="#333333", size=3) +
+  #geom_text_repel(color="#333333", angle=90, nudge_y=0.2) +
+  xlab(expression('Input theta' ~ ( theta ))) +
+  ylab(expression('Estimated theta' ~ ( hat(theta) ))) +
+  scale_color_manual(values=c("1:1"="#999999", cols)) +
+  bartheme()
+print(reg_p)
+# Plot the data and display
+
+```
+
+## Differences
+
+```{r plot-diffs-2, out.width="40%", fig.align = "center", fig.height=6}
+
+min_diffs = sim_data %>% group_by(label) %>% summarize(min.theta.diff.2=min(theta.diff.2))
+max_theta_diff = max(sim_data$theta.diff.2)
+
+cols = corecol(pal="wilke", numcol=3)
+names(cols) = c("1", "2", "3")
+# Set up the colors
+
+diff_p = ggplot(sim_data, aes(x=label, y=theta.diff.2, fill=sim)) +
+  #geom_segment(data=min_diffs, aes(x=label, xend=label, y=0, yend=min.theta.diff), color="#666666", linetype="dotted") +
+  #geom_point(size=2, alpha=0.5) +
+  geom_bar(stat="identity", position="dodge", width=0.75) +
+  #geom_smooth(method="lm", se=F) +
+  #geom_abline(aes(slope=1, intercept=0, color="1:1"), size=1, linetype="dashed", show.legend=F) +
+  #geom_text_repel(color="#333333", size=3) +
+  #geom_text_repel(color="#333333", angle=90, nudge_y=0.2) +
+  #ylim(c(-0.1,2)) +
+  xlab("") +
+  ylab("Estimated theta - input theta") +
   scale_fill_manual(values=c(cols)) +
   bartheme() +
   theme(axis.text.x = element_text(angle=35, hjust=1))
