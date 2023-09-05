@@ -198,7 +198,7 @@ html_template = """
     -b [bed file with coordinates for loci in the alignment file] \\
     -m [mod file from phyloFit with input tree and neutral rate matrix] \\
     -o [desired output directory] \\
-    -t "[comma separated list of target branches in the species tree]" \\
+    -t "[semi-colon separated list of target branches in the species tree]" \\
     -j [number of jobs/batches to split the input alignments into]" \\
     -p [processes to use per job/batch of alignments] \\
     -batch [number of alignments per job/batch] \\
@@ -210,7 +210,7 @@ html_template = """
     -d [directory containing multiple FASTA formatted nucleotide alignments] \\
     -m [mod file from phyloFit with input tree and neutral rate matrix] \\
     -o [desired output directory] \\
-    -t "[comma separated list of target branches in the species tree]" \\
+    -t "[semi-colon separated list of target branches in the species tree]" \\
     -j [number of jobs/batches to split the input alignments into] \\
     -p [processes to use per job/batch of alignments] \\
     -batch [number of alignments per job/batch] \\
@@ -224,7 +224,7 @@ html_template = """
     -r gt \\
     -l [file with Newick formatted species tree with branch lengths in coalescent units] \\
     -o [desired output directory] \\
-    -t "[comma separated list of target branches in the species tree]" \\
+    -t "[semi-colon separated list of target branches in the species tree]" \\
     -j [number of jobs/batches to split the input alignments into] \\
     -p [processes to use per job/batch of alignments] \\
     -batch [number of alignments per job/batch] \\
@@ -238,7 +238,7 @@ html_template = """
     -r gt \\
     --theta \\
     -o [desired output directory] \\
-    -t "[comma separated list of target branches in the species tree]" \\
+    -t "[semi-colon separated list of target branches in the species tree]" \\
     -j [number of jobs/batches to split the input alignments into] \\
     -p [processes to use per job/batch of alignments] \\
     -batch [number of alignments per job/batch] \\
@@ -253,7 +253,7 @@ html_template = """
     -r adaptive \\
     -l [file with Newick formatted species tree with branch lengths in coalescent units] \\
     -o [desired output directory] \\
-    -t "[comma separated list of target branches in the species tree]" \\
+    -t "[semi-colon separated list of target branches in the species tree]" \\
     -j [number of jobs/batches to split the input alignments into] \\
     -p [processes to use per job/batch of alignments] \\
     -batch [number of alignments per job/batch] \\

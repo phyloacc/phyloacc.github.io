@@ -73,11 +73,17 @@ html_template = """
 
                             <div id="msg_cont">
                                 <div id="msg">
-                                    <div id="warn_banner">PhyloAcc is currently not compatible with Windows</div>
+                                    <div id="warn_banner">PhyloAcc can be used on Windows via the WSL</div>
                                     <div id="warn_text">
                                         <p>
-                                            Unfortunately we're still working on a bioconda build with Windows, so for now these instructions are only valid for
-                                            Linux and OSX systems.
+                                            While we don't have a dedicated build for Windows up on bioconda yet, you can still install and run on your Windows PC via
+                                            the Windows Subsystem for Linux. This essentially installs a Linux distribution within Windows so that you can install Linux progams
+                                            and run Linux commands, and it works pretty seamlessly.
+                                        </p>
+
+                                        <p>
+                                            Check <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank">here for more info on installing WSL</a>. And once
+                                            you do you should be able to activate a bash shell within your Windows Powershell and follow the instructions below for Linux.
                                         </p>
 
                                         <p></p>
