@@ -73,8 +73,8 @@ html_template = """
 
                             <div id="msg_cont">
                                 <div id="msg">
-                                    <div id="warn_banner">PhyloAcc can be used on Windows via the WSL</div>
-                                    <div id="warn_text">
+                                    <div id="caution_banner">PhyloAcc can be used on Windows via the WSL</div>
+                                    <div id="caution_text">
                                         <p>
                                             While we don't have a dedicated build for Windows up on bioconda yet, you can still install and run on your Windows PC via
                                             the Windows Subsystem for Linux. This essentially installs a Linux distribution within Windows so that you can install Linux progams
@@ -128,8 +128,8 @@ html_template = """
 
                             <div id="msg_cont">
                                 <div id="msg">
-                                    <div id="msg_banner">Caution - Make sure you're downloading the right version for your OS</div>
-                                    <div id="msg_text">
+                                    <div id="caution_banner">Caution - Make sure you're downloading the right version for your OS</div>
+                                    <div id="caution_text">
                                         <p>
                                             The Anaconda website automatically detects the operating system of the computer that has browsed to the site and recommends 
                                             the Anaconda version for that OS. If you are installing Anaconda on your personal computer this should be fine. However,
@@ -252,8 +252,8 @@ html_template = """
 
                             <div id="msg_cont">
                                 <div id="msg">
-                                    <div id="msg_banner">Caution - <a href="https://bioconda.github.io/user/install.html#set-up-channels" target="_blank">Set-up conda channels</a></div>
-                                    <div id="msg_text">
+                                    <div id="caution_banner">Caution - <a href="https://bioconda.github.io/user/install.html#set-up-channels" target="_blank">Set-up conda channels</a></div>
+                                    <div id="caution_text">
                                         <p>
                                             If this is your first time using conda or bioconda, you may have to 
                                             <a href="https://bioconda.github.io/user/install.html#set-up-channels" target="_blank">set-up your channels</a>. A channel

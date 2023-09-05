@@ -119,7 +119,16 @@ html_template = """
 								<a class="main-btn"" href="https://github.com/phyloacc/PhyloAcc/issues" target="_blank">Report Issue &raquo;</a>
 						</div>
 
-						<h2>Citation</h2>
+						<h2>Citations</h2>
+                        <p id="paper">
+							Yan H, Hu Z, Thomas GWC, Edwards SV, Sackton TB, Liu JS.
+							2023.
+							PhyloAcc-GT: A Bayesian method for inferring patterns of substitution rate shifts on targeted lineages accounting for gene tree discordance.
+							<em>Molecular Biology and Evolution</em>
+							<a href="https://doi.org/10.1093/molbev/msad195" target="_blank">10.1093/molbev/msad195</a>
+						</p>
+                        
+                        Version 1 (the "species tree" version):
 						<p id="paper">
 							Hu Z, Sackton TB, Edwards SV, Liu JS.
 							2019.
