@@ -123,7 +123,7 @@
             <a class="internal-link" name="inputs"></a>
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
-                    <div id="section-header">Species tree</div>
+                    <div id="section-header">Species tree topology</div>
                 </div>
             </div>
 
@@ -133,12 +133,76 @@
                         <div class="col-2-24" id="inner-margin"></div>
                         <div class="col-20-24" id="section-content">
 
+                            <p>
+                                PhyloAcc requires a species tree to be provided as input. This tree should be in Newick format, and should contain branch lengths in terms relative number of substitutions for <b>neutral sites</b> (see below).
+                            </p>
+
+                            <h2>Inferring the species tree topology</h2>
+
+                            <p>
+                                There are many tools and guides available for inferring species trees from genomic data. Basically, you need to align orthologous sequences from each species, and then use a tool to infer the species tree topology from the alignments. Starting from
+                                the whole genome FASTA files and their annotations (.gtf or .gff files), one can predict orthology, extract and align loci, and infer locus and species trees. This is commonly done using protein coding genes (CDS) or ultraconserved elements (UCEs).
+                            </p>
+
+                            <p>
+                                There are many ways to infer the species tree, and the exact method you choose will depend on the loci and methods available to you. Here is a brief outline of one possible approach using genes:
+                            </p>
+
+                            <ol>
+                                <li>
+                                    Download the whole genome FASTA files and their annotations (.gtf or .gff files) for each species. You can get these from public databases such as 
+                                    <a href="https://www.ncbi.nlm.nih.gov/genome/" target="_blank">NCBI</a>, <a href="https://genome.ucsc.edu/" target="_blank">UCSC</a>, or <a href="https://useast.ensembl.org/index.html" target="_blank">Ensembl</a>, but you may also be able to find them
+                                    in a paper's supplement or you may have generated these yourself. Ensembl also provides ortholog predictions between species, which may allow you to skip step 3.
+                                </li>
+
+                                <li>
+                                    Extract the coding sequences (CDS) from each genome. This can be done using a tool such as <a href="https://github.com/harvardinformatics/degenotate" target="_blank">degenotate</a>. You will need to extract only a single isoform of each transcript. 
+                                    Commonly, the longest one is used.
+                                </li>
+
+                                <li>
+                                    Predict orthologous gene seqeuences between species. This can be done using a tool such as <a href="https://github.com/olsonanl/FastOrtho" target="_blank">FastOrtho</a>, which is a standalone re-implementation of 
+                                    <a href="https://orthomcl.org/orthomcl/app" target="_blank">OrthoMCL</a>. Note that there are many other tools available for predicting orthologs. These programs will output a file containing the orthologous gene sequences for each species,
+                                    you will need to use this output to extract the sequences from each species into separate FASTA files, one file per gene. You will also need to decide whether you want to predict your species tree from only single-copy orthologs 
+                                    (one sequence per species) or from all gene families.
+                                </li>
+
+                                <li>
+                                    Align the orthologous coding sequences.
+                                </li>
+
+
+
+
+                            </ol>
 
                         </div>
                         <div class="col-2-24" id="inner-margin"></div>
                     </div>
                 </div>
             </div>
+
+
+            <a class="internal-link" name="inputs"></a>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Species tree branch lengths</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+     
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
 
             <a class="internal-link" name="inputs"></a>
             <div class="row" id="section-header-cont">
@@ -164,6 +228,26 @@
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
                     <div id="section-header">Starting from: MAF</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+     
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="internal-link" name="inputs"></a>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Predicting conserved elements</div>
                 </div>
             </div>
 
