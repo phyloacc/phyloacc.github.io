@@ -91,14 +91,18 @@
             </div>
 
             <center>
-                <h3>Coming soon!</h3>
+                <h3>Here we try to provide some step-by-step instructions on how to predict accelerated substitution rates from genomic data</h3>
+                We will guide you through the process of obtaining the inputs needed to run PhyloAcc, running PhyloAcc, and interpreting the output.
+                Some of the steps have been automated in the <a href="https://github.com/phyloacc/phyloacc-workflows" target="_blank">PhyloAcc workflows</a> repository.
+
+                <b>This is still a work in progress.</b>
             </center>
             
 
-            <!--
+           
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
-                    <div id="section-header">Installation</div>
+                    <div id="section-header">Introduction</div>
                 </div>
             </div>
 
@@ -107,14 +111,7 @@
                     <div class="row" id="section-row">
                         <div class="col-2-24" id="inner-margin"></div>
                         <div class="col-20-24" id="section-content">
-                            <p>
-                                With Anaconda already setup, Phyloacc can be installed with the command <code class="inline">conda install phyloacc</code>.
-                                For more detailed installation instructions, see the <a href="">install page</a>.
-                            </p>
 
-                            <p>
-                                Note that PhyloAcc is currently only compatible on Linux and OSX operating systems.
-                            </p>
 
                         </div>
                         <div class="col-2-24" id="inner-margin"></div>
@@ -122,11 +119,31 @@
                 </div>
             </div>
 
+            
+            <a class="internal-link" name="inputs"></a>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Species tree</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
 
             <a class="internal-link" name="inputs"></a>
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
-                    <div id="section-header">Inputs</div>
+                    <div id="section-header">Starting from: HAL</div>
                 </div>
             </div>
 
@@ -135,52 +152,113 @@
                     <div class="row" id="section-row">
                         <div class="col-2-24" id="inner-margin"></div>
                         <div class="col-20-24" id="section-content">
-                            <p>
-                                You will need the following data to perform an analysis with PhyloAcc
-                            </p>
-
-                            <ol>
-                                <li>
-                                    A set of <b>alignments</b> for a set of species from the regions you wish to estimate substitution rates for (e.g. CNEEs).
-                                </li>
-
-                                <li>
-                                    A phylogenetic tree in Newick format from the same set of species with branch lengths estimated in terms of relative
-                                    number of substitutions corresponding to neutral/background substitution rates.
-                                </li>
-
-                                <li>
-                                    A transition rate matrix for bases in the neutral/background model.
-                                </li>
-
-                                <p>
-                                    (2) and (3) can be obtained running <a href="http://compgen.cshl.edu/phast/phyloFit-tutorial.php" target="_blank">phyloFit</a> on alignments
-                                    of likely neutrally evolving sites (e.g. 4-fold degenerate sites in genes) and will be given in a single .mod file output from that program.
-                                </p>
-
-                                <li>
-                                    For running the gene tree model, a phylogenetic tree with the same topology as the one provided in (2), but with branch lengths in 
-                                    coalescent units. This can be obtained from species tree inference methods like
-                                    <a href="http://faculty.franklin.uga.edu/lliu/mp-est" target="_blank">MP-EST</a> or 
-                                    <a href="https://github.com/smirarab/ASTRAL" target="_blank">ASTRAL</a>. 
-                                    PhyloAcc has the capability to to estimate this directly from the input alignments with the <code class="inline">--theta</code> option,  
-                                    by building locus trees using
-                                    <a href="http://www.iqtree.org/" target="_blank">IQ-TREE</a> 
-                                    and then using those as input to 
-                                    <a href="https://github.com/smirarab/ASTRAL" target="_blank">ASTRAL</a>. This will be done for at most the 5000 longest alignments that are
-                                    longer than 100bp and have at least 20% informative sites. These requirements are to ensure there is phylogenetic signal to infer this tree
-                                    given that some inputs to PhyloAcc may be conserved and have few variable sites.
-                                    However, you must be sure the alignments you are estimating rates for with PhyloAcc are also suitable for tree inference if you use this
-                                    option. Also note that using the <code class="inline">--theta</code> option may significantly add to the runtime of the workflow.
-                                </li>
-                            </ol>
+     
 
                         </div>
                         <div class="col-2-24" id="inner-margin"></div>
                     </div>
                 </div>
             </div>
-            -->
+
+            <a class="internal-link" name="inputs"></a>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Starting from: MAF</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+     
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="internal-link" name="inputs"></a>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Starting from: individual locus alignments</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+     
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="internal-link" name="inputs"></a>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Running the PhyloAcc interface</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+     
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="internal-link" name="inputs"></a>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Running PhyloAcc</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+     
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="internal-link" name="inputs"></a>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Processing PhyloAcc output</div>
+                </div>
+            </div>
+
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+     
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
