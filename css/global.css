@@ -249,11 +249,11 @@ the dropdowns
 
 /*------------------------------------------------------*/
 /* About page styles */
-#title-col {
+#title-row {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-		
+	/* border: 1px solid red; */
 }
 
 #logo-cont {
@@ -261,7 +261,16 @@ the dropdowns
 	align-items: center;
 	justify-content: center;
 	height: 25vh;
+	/* border: 1px solid green; */
 }
+
+#title-col {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* border: 1px solid blue; */
+}
+
 #logo-main {
     height: 100%;
 }
@@ -307,7 +316,10 @@ the dropdowns
 	.margin-main { width: 0; }
 	#main-content-col { width: 100%;
 		text-align: left; }
-	#logo-cont { display:none; }
+	#title-row { flex-direction: column; }
+	#logo-cont { width: 100%; }
+	#title-col { width: 100%; text-align: center; }
+	}
 }
 
 /*------------------------------------------------------*/
