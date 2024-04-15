@@ -26,9 +26,10 @@ html_template = """
                 <ul>
                     <li><a href="install.html#step-by-step">Step-by-step instructions and best practices</a></li>
                     <ol>
-                        <li><a href="install.html#install-anaconda">Installing Anaconda</a></li>
-                        <li><a href="install.html#activate-anaconda">Activating Anaconda</a></li>
-                        <li><a href="install.html#environment">Creating a conda environment for PhyloAcc</a></li>
+                        <li><a href="install.html#install-conda">Installing conda and mamba</a></li>
+                        <!-- <li><a href="install.html#activate-anaconda">Activating Anaconda</a></li> -->
+                        <li><a href="install.html#setup-channels">Set-up channels</a></li>
+                        <li><a href="install.html#create-env">Creating a conda environment for PhyloAcc</a></li>
                         <li><a href="install.html#activate-env">Activating your PhyloAcc conda environment </a></li>
                         <li><a href="install.html#install-phyloacc">Installing PhyloAcc from bioconda </a></li>
                     </ol>
@@ -67,8 +68,8 @@ html_template = """
                             </p>
 
                             <p>
-                                This section outlines in detail the steps starting from installation of Anaconda to installation of PhyloAcc. If you already have
-                                experience with Anaconda or <code class="inline">conda</code> feel free to skip steps that you are familiar with.
+                                This section outlines in detail the steps starting from installation of <code class="inline">conda</code> to installation of PhyloAcc. If you already have
+                                experience with <code class="inline">conda</code> feel free to skip steps that you are familiar with.
                             </p>
 
                             <div id="msg_cont">
@@ -91,29 +92,30 @@ html_template = """
                                 </div>
                             </div>
 
-                            <a class="internal-link" name="install-anaconda"></a>
-                            <h2>1. Installing <a href="https://www.anaconda.com/" target="_blank">Anaconda</a></h2>
+                            <a class="internal-link" name="install-conda"></a>
+                            <h2>1. Installing <a href="https://docs.conda.io/en/latest/" target="_blank">conda</a> and mamba</h2>
 
                             <p>
-                                <b>Anaconda</b> is a distribution of the Python programming language with other software to facilitate data science tasks. We are
-                                interested in the package manager associated with Anaconda, <code class="inline">conda</code>, as it will handle the installation
-                                of PhyloAcc and its dependencies. So, to use <code class="inline">conda</code> we need to first install the Anaconda distribution.
+                                <code class="inline">conda</code> is a cross-platform package manager, as well as the name of the command-line tool to access conda channels. 
+                                <code class="inline">mamba</code> is a reimplementation of the conda command-line tool and is much faster than <code class="inline">conda</code>. 
+                                We recommend using <code class="inline">mamba</code> and will do so through this walkthrough, but you can use <code class="inline">conda</code> if you prefer. 
+                                Simply replace <code class="inline">mamba</code> with <code class="inline">conda</code> in the commands below.
                             </p>
 
                             <div id="msg_cont">
                                 <div id="msg">
-                                    <div id="rec_banner">Tip - check if Anaconda/conda is already installed</div>
+                                    <div id="rec_banner">Tip - check if mamba/conda is already installed</div>
                                     <div id="rec_text">
                                         <p>
-                                            If you are on an institutional server or cluster, it is possible they already have Anaconda and <code class="inline">conda</code>
-                                            installed and activated. You can check this by simply running the command:
+                                            If you are on an institutional server or cluster, it is possible they already have <code class="inline">mamba</code> 
+                                            (or <code class="inline">conda</code>) installed and activated. You can check this by simply running the command:
                                         </p>
 
-                                        <center><code class>conda --version</code></center>
+                                        <center><code class>mamba --version</code></center>
 
                                         <p>
-                                            If you see the text <code>conda X.XX.X</code>, with each X being a number indicating the version, then <code class="inline">conda</code> 
-                                            is already installed and you can skip to step 3!
+                                            If you see the text <code>mamba X.X.X conda X.X.X</code>, with each X being a number indicating the version, then <code class="inline">mamba</code> 
+                                            and <code class="inline">conda</code> are already installed and you can skip to step 3!
                                         </p>
 
                                         <p></p>
@@ -122,10 +124,12 @@ html_template = """
                             </div>
 
                             <h3>
-                                To install Anacaonda, first navigate to <a href="https://www.anaconda.com/products/distribution",target="_blank">the Anaconda downloads page</a> and
-                                click on the link to download the install file.
+                                To install conda and mamba, first navigate to <a href="https://github.com/conda-forge/miniforge",target="_blank">the Miniforge3 repository page</a>. Scroll down
+                                and you will see a table in the Download section titled Miniforge3, with links for different operating systems (OS). Click on the link that coincides with your OS 
+                                to download the install file.
                             </h3>
 
+                            <!--
                             <div id="msg_cont">
                                 <div id="msg">
                                     <div id="caution_banner">Caution - Make sure you're downloading the right version for your OS</div>
@@ -140,16 +144,16 @@ html_template = """
                                     </div>
                                 </div>
                             </div>
+                            -->
 
                             <p>
                                 This should download a <code>.sh</code> file for Linux and OSX.
                             </p>
                             
                             <p>
-                                Next, place the downloaded file in the location on your system where you want 
-                                to install Anaconda. If you are installing on a remote server, you'll to need either download on that system directly with something like 
-                                <code class="inline">wget</code> or use another file transfer program to move the file over. You'll need to place this file somewhere on the
-                                remote system where you have permission to run programs, like your home directory.
+                                Next, place the downloaded file in the location on your system where you want to install conda and mamba. If you are installing on a remote server, 
+                                you'll to need either download on that system directly with a tool like <code class="inline">wget</code> or use another file transfer program to move 
+                                the file over. You'll need to place this file somewhere on the remote system where you have permission to run programs, like your home directory.
                             </p>
 
                             <p>
@@ -159,14 +163,16 @@ html_template = """
                             <center><pre class="cmd"><code>bash &lt;filename&gt;.sh</code></pre></center>
 
                             <p>
-                                where <code>&lt;filename&gt;</code> is the name of the script. Follow the prompts and let the script run and Anaconda should be installed!
+                                where <code>&lt;filename&gt;</code> is the name of the script. Follow the prompts and let the script run and mamba and conda should be installed! 
+                                You will also need to restart your shell (re-login) for the changes to take effect.
                             </p>
 
+                            <!--
                             <a class="internal-link" name="activate-anaconda"></a>
                             <h2>2. Activating Anaconda</a></h2>
 
                             <p>
-                                When Anaconda has been installed, it needs to be activated for the system to know to use its software (like <code class="inline">conda</code>).
+                                When mamba has been installed, it needs to be activated for the system to know to use its software (like <code class="inline">conda</code>).
                                 To activate, run:
                             </p>
 
@@ -206,9 +212,49 @@ html_template = """
                                         <p></p>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>    
+                            -->                        
 
-                            <a class="internal-link" name="environment"></a>
+
+                            <a class="internal-link" name="setup-channels"></a>
+                            <h2>2. Setting up channels for bioconda</a></h2>
+
+                            <p>
+                                If this is your first time using conda or bioconda, you may have to set-up your channels. A channel is a remote host for different types of software. 
+                                For instance, lots of biology related software is found in the bioconda channel and a lot of other software is found in the conda-forge channel. 
+                                Since we are primarily interested in biological software, we want to make sure that bioconda has priority.
+                            </p>
+
+                            <p>
+                                To set-up channels, you'll need a file in your home directory called <code class="inline">.condarc</code> with the following contents:
+                            </p>
+
+                            <pre class="long-cmd"><code>channels:
+  - conda-forge
+  - bioconda
+  - defaults
+channel_priority: strict</code></pre>
+
+                            <p>
+                                <a href="https://bioconda.github.io/" target="_blank">bioconda</a> has instructions for automatically generating this file by running the following commands:
+                            </p>
+
+                            <pre class="cmd">conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda config --set channel_priority strict</code></pre>
+
+                            <p>
+                                Finally, you can confirm that your <code class="inline">.condarc</code> file is set up correctly by running the command:
+                            </p>
+
+                            <center><pre class="cmd"><code>cat ~/.condarc</code></pre></center>
+
+                            <p>
+                                The output should look like the yellow box above.
+                            </p>
+
+                            <a class="internal-link" name="create-env"></a>
                             <h2>3. Creating a conda environment for PhyloAcc</a></h2>
 
                             <p>
@@ -216,40 +262,41 @@ html_template = """
                                 where the current user has full permissions. To create a new enviornment, run:
                             </p>
 
-                            <center><pre class="cmd-skel"><code>conda create -n &lt;environment name&gt;</code></pre></center>
+                            <center><pre class="cmd-skel"><code>mamba create -n &lt;environment name&gt;</code></pre></center>
 
                             <p>
                                 Where <code>&lt;environment name&gt;</code> is something descriptive for the purpose of the environment. For instance, for installing and running
                                 PhyloAcc, I would call this one <code>phyloacc-env</code>:
                             </p>
 
-                            <center><pre class="cmd"><code>conda create -n phyloacc-env</code></pre></center>
+                            <center><pre class="cmd"><code>mamba create -n phyloacc-env</code></pre></center>
 
                             <p>
-                                Follow the prompts on the screen to create the environment.
+                                Follow any prompts on the screen to create the environment.
                             </p>
 
-                            <a class="internal-link" name="environment"></a>
+                            <a class="internal-link" name="activate-env"></a>
                             <h2>4. Activating your PhyloAcc conda environment</a></h2>
 
                             <p>
                                 Even though an envrionment has been created, to install software or run software you've already installed in it you must <em>activate</em> it:
                             </p>
 
-                            <center><pre class="cmd"><code>conda activate phyloacc-env</code></pre></center>
+                            <center><pre class="cmd"><code>mamba activate phyloacc-env</code></pre></center>
 
                             <p>
                                 You might notice that your command prompt changes based on which environment you have activated. If you ever wish to exit an environment,
-                                simply type <code>conda deactivate</code>.
+                                simply type <code>mamba deactivate</code>.
                             </p>
 
                             <a class="internal-link" name="install-phyloacc"></a>
                             <h2>5. Installing PhyloAcc from bioconda</a></h2>
 
                             <p>
-                                Now that a Anaconda has been installed and a conda environment set up you are ready to install PhyloAcc from bioconda!
+                                Now that a conda environment is set up you are ready to install PhyloAcc from bioconda!
                             </p>
 
+                            <!--
                             <div id="msg_cont">
                                 <div id="msg">
                                     <div id="caution_banner">Caution - <a href="https://bioconda.github.io/user/install.html#set-up-channels" target="_blank">Set-up conda channels</a></div>
@@ -271,12 +318,13 @@ html_template = """
                                     </div>
                                 </div>
                             </div>
+                            -->
 
                             <p>
                                 To install PhyloAcc, run the command:
                             </p>
 
-                            <center><pre class="cmd"><code>conda install phyloacc</code></pre></center>
+                            <center><pre class="cmd"><code>mamba install phyloacc</code></pre></center>
 
                             <p>
                                 Follow the prompts on the screen and wait for the dependencies to install. Once finished, you should be ready to run PhyloAcc! To
@@ -322,8 +370,11 @@ html_template = """
                             <p>
                                 If you see the <code class="inline">conda: command not found</code> error when trying to install PhyloAcc it likely means:
                                 <ol>
-                                    <li>Anaconda isn't installed - See <a href="install.html#install-anaconda">here</a> for installation instructions</li>
-                                    <li>Anaconda isn't activated - See <a href="install.html#activate-anaconda">here</a> for activation instructions</li>
+                                    <li>conda isn't installed - See <a href="install.html#install-conda">here</a> for installation instructions</li>
+                                    <li>conda or mamba hasn't been initialized - If you didn't say yes to the final prompt when <a href="install.html#install-conda">installing Miniforge3 (conda and mamba)</a>, 
+                                        your shell hasn't been setup yet. You may need to run <code class="inline">mamba init</code> and restart your shell. If you try
+                                        to run <code class="inline">mamba init</code> and get the same error, you'll have to provide the full path to the mamba executable,
+                                        which should be something like <code class="inline">/where/you/installed/miniforge3/bin/mamba</code></li>
                                 </ol>
                             </p>
 
@@ -331,7 +382,7 @@ html_template = """
                             <h2>2. conda cannot solve the environment</a></h2>
 
                             <p>
-                                If the <code class="inline">conda install phyloacc</code> command fails or hangs for a long time the program might be struggling
+                                If the <code class="inline">mamba install phyloacc</code> command fails or hangs for a long time the program might be struggling
                                 with installing dependencies given the current settings. To solve this, try the following:
                                 <ol>
                                     <li>
@@ -339,7 +390,7 @@ html_template = """
                                         <center><pre class="cmd"><code>conda update -n base -c defaults conda</code></pre></center>
                                     </li>
                                     <li>
-                                        Make sure your <a href="https://bioconda.github.io/user/install.html#set-up-channels" target="_blank">channels are set-up to give bioconda priority</a>
+                                        Make sure your <a href="install.html#setup-channels">channels are set-up to give bioconda priority</a>
                                     </li>
                                 </ol>
                             </p>
@@ -349,7 +400,7 @@ html_template = """
 
                             <p>
                                 If you see the <code class="inline">phyloacc.py: command not found</code> error some time after you have successfully run the
-                                <code>conda install phyloacc</code> command, it likely means you aren't in the same environment as where you installed PhyloAcc. Make sure
+                                <code>mamba install phyloacc</code> command, it likely means you aren't in the same environment as where you installed PhyloAcc. Make sure
                                 you <a href="install.html#activate-env">activate the correct conda environment</a>.
                             </p>
 
