@@ -11,7 +11,7 @@ import read_chunks as RC
 # HTML template
 ######################
 
-html_template = """
+html_template = r"""
 <!doctype html>
     {head}
 
@@ -31,6 +31,7 @@ html_template = """
                         <li><a href="readme.html#st">Species tree model</a></li>
                         <li><a href="readme.html#gt">Gene tree model</a></li>
                         <li><a href="readme.html#adaptive">Adaptive model</a></li>
+                        <li><a href="readme.html#config">Config file</a></li>
                         <li><a href="readme.html#snakemake">Executing snakemake</a></li>
                         <li><a href="readme.html#gather">Gather outputs</a></li>
                     </ol>
@@ -43,11 +44,16 @@ html_template = """
                     </ol>
                     <li><a href="readme.html#options">Options</a></li>
                     <ol>
-                        <li><a href="readme.html#io">Input/output</a></li>
-                        <li><a href="readme.html#mcmc">MCMC</a></li>
+                        <li><a href="readme.html#seq-input">Sequence input</a></li>
+                        <li><a href="readme.html#tree-input">Tree input</a></li>
+                        <li><a href="readme.html#phyloacc-method">PhyloAcc method</a></li>
+                        <li><a href="readme.html#other-input">Other input</a></li>
+                        <li><a href="readme.html#output">Output</a></li>
+                        <li><a href="readme.html#aln-options">Alignment</a></li>
                         <li><a href="readme.html#scf">sCF</a></li>
-                        <li><a href="readme.html#batch">Batching</a></li>
-                        <li><a href="readme.html#cluster">Cluster</a></li>
+                        <li><a href="readme.html#mcmc">MCMC</a></li>
+                        <li><a href="readme.html#batch">Batching & cluster</a></li>
+                        <li><a href="readme.html#paths">Executable paths</a></li>
                         <li><a href="readme.html#phyloacc">PhyloAcc</a></li>
                         <li><a href="readme.html#misc">Miscellaneous</a></li>
                     </ol>
@@ -87,7 +93,8 @@ html_template = """
                             </p>
 
                             <p>
-                                Note that PhyloAcc is currently only compatible on Linux and OSX operating systems.
+                                Note that PhyloAcc is currently only compatible on Linux and OSX operating systems, though can be run on Windows with the 
+                                <a href="https://learn.microsoft.com/en-us/windows/wsl/about" target="_blank">Windows Subsystem for Linux (WSL)</a>.
                             </p>
 
                         </div>
@@ -191,80 +198,169 @@ html_template = """
                                 and gather the outputs.
                             </p>
 
+                            <h3>NOTE: As of <a href="https://github.com/phyloacc/PhyloAcc/releases/tag/v2.3.1" target="_blank">v2.3.1</a>, you can now specify options to the phyloacc.py script in two ways:</h3>
+                                <ol>
+                                    <li>By passing the options in the command line (e.g. <code class="inline">phyloacc.py -d [alignment directory] -m [mod file] -o [output directory] ...</code>), as outlined here.</li>
+                                    <li>By specifying the option and value in a config file (e.g. <code class="inline">phyloacc.py --config [config file]</code>). See <a href="readme.html#config">below for more info</a>.</li>
+                                </ol>
+                            
 <!--
-                            <div class="section-sub-header">Setting up batches of loci for the species tree model with a concatenated alignment:</div>
-                            <pre class="long-cmd"><code>phyloacc.py \\
-    -a [nucleotide alignment file in FASTA format] \\
-    -b [bed file with coordinates for loci in the alignment file] \\
-    -m [mod file from phyloFit with input tree and neutral rate matrix] \\
-    -o [desired output directory] \\
-    -t "[semi-colon separated list of target branches in the species tree]" \\
-    -j [number of jobs/batches to split the input alignments into]" \\
-    -p [processes to use per job/batch of alignments] \\
-    -batch [number of alignments per job/batch] \\
+                            <div class="section-sub-header usage-sub-header">Setting up batches of loci for the species tree model with a concatenated alignment:</div>
+                            <pre class="long-cmd"><code>phyloacc.py \
+    -a [nucleotide alignment file in FASTA format] \
+    -b [bed file with coordinates for loci in the alignment file] \
+    -m [mod file from phyloFit with input tree and neutral rate matrix] \
+    -o [desired output directory] \
+    -t "[semi-colon separated list of target branches in the species tree]" \
+    -j [number of jobs/batches to split the input alignments into]" \
+    -p [processes to use per job/batch of alignments] \
+    -batch [number of alignments per job/batch] \
     -part "[comma separated list of SLURM partitions to submit batches to as jobs]"</code></pre>
 -->
                             <a class="internal-link" name="st"></a>
-                            <div class="section-sub-header">Setting up batches of loci for the species tree model with a directory of alignments:</div>
-                            <pre class="long-cmd"><code>phyloacc.py \\
-    -d [directory containing multiple FASTA formatted nucleotide alignments] \\
-    -m [mod file from phyloFit with input tree and neutral rate matrix] \\
-    -o [desired output directory] \\
-    -t "[semi-colon separated list of target branches in the species tree]" \\
-    -j [number of jobs/batches to split the input alignments into] \\
-    -p [processes to use per job/batch of alignments] \\
-    -batch [number of alignments per job/batch] \\
+                            <div class="section-sub-header usage-sub-header">1. Setting up batches of loci for the species tree model with a directory of alignments:</div>
+                            <pre class="long-cmd"><code>phyloacc.py \
+    -d [directory containing multiple FASTA formatted nucleotide alignments] \
+    -m [mod file from phyloFit with input tree and neutral rate matrix] \
+    -o [desired output directory] \
+    -t "[semi-colon separated list of target branches in the species tree]" \
+    -j [number of jobs/batches to split the input alignments into] \
+    -p [processes to use per job/batch of alignments] \
+    -batch [number of alignments per job/batch] \
     -part "[comma separated list of SLURM partitions to submit batches to as jobs]"</code></pre>
 
                             <a class="internal-link" name="gt"></a>
-                            <div class="section-sub-header">Setting up batches of loci for the gene tree model with a directory of alignments and a provided tree with branch lengths in coalescent units:</div>
-                            <pre class="long-cmd"><code>phyloacc.py \\
-    -d [directory containing multiple FASTA formatted nucleotide alignments] \\
-    -m [mod file from phyloFit with input tree and neutral rate matrix] \\
-    -r gt \\
-    -l [file with Newick formatted species tree with branch lengths in coalescent units] \\
-    -o [desired output directory] \\
-    -t "[semi-colon separated list of target branches in the species tree]" \\
-    -j [number of jobs/batches to split the input alignments into] \\
-    -p [processes to use per job/batch of alignments] \\
-    -batch [number of alignments per job/batch] \\
+                            <div class="section-sub-header usage-sub-header">2. Setting up batches of loci for the gene tree model with a directory of alignments and a provided tree with branch lengths in coalescent units:</div>
+                            <pre class="long-cmd"><code>phyloacc.py \
+    -d [directory containing multiple FASTA formatted nucleotide alignments] \
+    -m [mod file from phyloFit with input tree and neutral rate matrix] \
+    -r gt \
+    -l [file with Newick formatted species tree with branch lengths in coalescent units] \
+    -o [desired output directory] \
+    -t "[semi-colon separated list of target branches in the species tree]" \
+    -j [number of jobs/batches to split the input alignments into] \
+    -p [processes to use per job/batch of alignments] \
+    -batch [number of alignments per job/batch] \
     -part "[comma separated list of SLURM partitions to submit batches to as jobs]"</code></pre>
 
 <!--
-                            <div class="section-sub-header">Setting up batches of loci for the gene tree model with a directory of alignments and --theta to estimate a species tree with branch lengths in coalescent units:</div>
-                            <pre class="long-cmd"><code>phyloacc.py \\
-    -d [directory containing multiple FASTA formatted nucleotide alignments] \\
-    -m [mod file from phyloFit with input tree and neutral rate matrix] \\
-    -r gt \\
-    --theta \\
-    -o [desired output directory] \\
-    -t "[semi-colon separated list of target branches in the species tree]" \\
-    -j [number of jobs/batches to split the input alignments into] \\
-    -p [processes to use per job/batch of alignments] \\
-    -batch [number of alignments per job/batch] \\
+                            <div class="section-sub-header usage-sub-header">Setting up batches of loci for the gene tree model with a directory of alignments and --theta to estimate a species tree with branch lengths in coalescent units:</div>
+                            <pre class="long-cmd"><code>phyloacc.py \
+    -d [directory containing multiple FASTA formatted nucleotide alignments] \
+    -m [mod file from phyloFit with input tree and neutral rate matrix] \
+    -r gt \
+    --theta \
+    -o [desired output directory] \
+    -t "[semi-colon separated list of target branches in the species tree]" \
+    -j [number of jobs/batches to split the input alignments into] \
+    -p [processes to use per job/batch of alignments] \
+    -batch [number of alignments per job/batch] \
     -part "[comma separated list of SLURM partitions to submit batches to as jobs]"</code></pre>
 -->
 
                             <a class="internal-link" name="adaptive"></a>
-                            <div class="section-sub-header">Setting up batches of loci with the model determined by sCF cutoffs, with a directory of alignments, and with a provided tree with branch lengths in coalescent units:</div>
-                            <pre class="long-cmd"><code>phyloacc.py \\
-    -d [directory containing multiple FASTA formatted nucleotide alignments] \\
-    -m [mod file from phyloFit with input tree and neutral rate matrix] \\
-    -r adaptive \\
-    -l [file with Newick formatted species tree with branch lengths in coalescent units] \\
-    -o [desired output directory] \\
-    -t "[semi-colon separated list of target branches in the species tree]" \\
-    -j [number of jobs/batches to split the input alignments into] \\
-    -p [processes to use per job/batch of alignments] \\
-    -batch [number of alignments per job/batch] \\
+                            <div class="section-sub-header usage-sub-header">3. Setting up batches of loci with the model determined by sCF cutoffs, with a directory of alignments, and with a provided tree with branch lengths in coalescent units:</div>
+                            <pre class="long-cmd"><code>phyloacc.py \
+    -d [directory containing multiple FASTA formatted nucleotide alignments] \
+    -m [mod file from phyloFit with input tree and neutral rate matrix] \
+    -r adaptive \
+    -l [file with Newick formatted species tree with branch lengths in coalescent units] \
+    -o [desired output directory] \
+    -t "[semi-colon separated list of target branches in the species tree]" \
+    -j [number of jobs/batches to split the input alignments into] \
+    -p [processes to use per job/batch of alignments] \
+    -batch [number of alignments per job/batch] \
     -part "[comma separated list of SLURM partitions to submit batches to as jobs]"</code></pre>
 
+                            <a class="internal-link" name="config"></a>
+                            <div class="section-sub-header usage-sub-header">4. Specifying options with a config file:</div>    
+
+                            <p>
+                                Starting with <a href="https://github.com/phyloacc/PhyloAcc/releases/tag/v2.3.1" target="_blank">v2.3.1</a>, options for <code class="inline">phyloacc.py</code> 
+                                can be specified either in the command line, as above, or in a configuration file in YAML format and by using the <code class="inline">--config [config file]</code> syntax.
+                            </p>
+
+                            <p>
+                                We provide a template config file, which lists all the options for phyloacc.py with no values specified: 
+                                <a href="https://github.com/phyloacc/PhyloAcc/blob/main/phyloacc-cfg-template.yaml" target="_blank">Config file template</a>.
+                            </p>
+
+                            <p>
+                                In this file, options are specified in key: value pairs, with the key being the option name to the left of the colon and the desired value being to the right of the colon.
+                            </p>
+
+                            <p>
+                                For example, one could run the program with the following command:
+                            </p>
+
+                            <pre class="long-cmd"><code>phyloacc.py -a alignment.fa -b loci.bed -m model.mod -t "species1;species2;species3"</code></pre>
+
+                            <p>
+                                <em>OR</em> one could specify the same options in a config file named phyloacc-cfg.yaml like so:
+                            </p>
+
+                            <pre class="long-cmd"><code>alignment: alignment.fa
+bed: loci.bed
+mod: model.mod
+targets: "species1;species2;species3"</code></pre>
+
+                            <p>
+                                And then run the program with the following command:
+                            </p>
+
+                            <pre class="long-cmd"><code>phyloacc.py --config phyloacc-cfg.yaml</code></pre>
+
+                            <p>
+                                These are identical ways to run the same inputs.
+                            </p>
+
+                            <h3>IMPORTANT: Options given via the command line take precedence over those givin in the config file.</h3>
+
+                            <p>
+                                For instance, if I use the same config file above, but run the command:
+                            </p>
+
+                            <pre class="long-cmd"><code>phyloacc.py --config phyloacc-cfg.yaml -a other_alignment.fa</code></pre>
+
+                            <p>
+                                Then the <code class="inline">alignment.fa</code> input in the config file will be ignored and <code class="inline">other_alignment.fa</code> will be used instead.
+                            </p>
+
+                            <p>
+                                If an option is not specified in either the command line or the config file, a default value will be used. See the <a href="readme.html#options">Options</a> section for more details.
+                            </p>
+
+                            <h3>Boolean options in the config file</h3>
+
+                            For boolean options in the config file (<code class="inline">theta_flag</code>, <code class="inline">dollo_flag</code>, <code class="inline">overwrite_flag</code>, <code class="inline">labeltree</code>, 
+                            <code class="inline">summarize_flag</code>, <code class="inline">filter_alns</code>, <code class="inline">options_flag</code>, <code class="inline">append_log_flag</code>, <code class="inline">info_flag</code>, 
+                            <code class="inline">version_flag</code>, <code class="inline">quiet_flag</code>), 
+                            you can specify them in the config file as either <code class="inline">true</code> or <code class="inline">false</code>. In other words:
+
+                            <pre class="long-cmd"><code>phyloacc.py --config phyloacc-cfg.yaml --overwrite</code></pre>
+
+                            <p>
+                                <b>is equivalent to setting</b>
+                            </p>
+
+                            <pre class="long-cmd"><code>overwrite_flag: true</code></pre>
+
+                            <p>
+                                in the config file and running
+                            </p>
+
+                            <pre class="long-cmd"><code>phyloacc.py --config phyloacc-cfg.yaml</code></pre>
+
+                            <p>
+                                In practice, for many of these boolean options, using the command line option may be easier than changing the config file each time.
+                            </p>                        
+
                             <a class="internal-link" name="snakemake"></a>
-                            <div class="section-sub-header">Executing a generated snakefile to submit jobs to the cluster:</div>
-<pre class="long-cmd"><code>snakemake -p -s \\
-    [path to snakefile.smk] \\
-    [path to config file] \\
-    [path to cluster profile] \\
+                            <div class="section-sub-header usage-sub-header">5. Executing a generated snakefile to submit jobs to the cluster:</div>
+<pre class="long-cmd"><code>snakemake -p -s \
+    [path to snakefile.smk] \
+    --configfile [path to config file] \
+    --profile [path to cluster profile] \
     --dryrun</code></pre>
 
                             <p>
@@ -290,8 +386,8 @@ html_template = """
                             </br>
 
                             <a class="internal-link" name="gather"></a>
-                            <div class="section-sub-header">Gather outputs after all snakemake jobs are completed:</div>
-<pre class="long-cmd"><code>phyloacc_post.py \\
+                            <div class="section-sub-header usage-sub-header">6. Gather outputs after all snakemake jobs are completed:</div>
+<pre class="long-cmd"><code>phyloacc_post.py \
     -i [path output directory specified when running phyloacc.py]</code></pre>
 
                         </div>
@@ -515,12 +611,12 @@ html_template = """
                                             loglik_Max_M0, loglik_Max_M1, loglik_Max_M2 
                                         </td>
                                         <td>
-                                            Maximum joint likelihood of \(Y\) (observed sequences) and 
-                                            \(r\) (substitution rates) 
-                                            given \(Z\) (latent states) under 
-                                            null (<span class="math">\(M_0\)</span>),
-                                            accelerated (<span class="math">\(M_1\)</span>), and
-                                            full (<span class="math">\(M_2\)</span>) models: e.g. \( \max_{{r, Z}} P(Y, r|Z)\)
+                                            Maximum joint likelihood of (Y) (observed sequences) and 
+                                            (r) (substitution rates) 
+                                            given (Z) (latent states) under 
+                                            null (<span class="math">(M_0)</span>),
+                                            accelerated (<span class="math">(M_1)</span>), and
+                                            full (<span class="math">(M_2)</span>) models: e.g. ( \max_{{r, Z}} P(Y, r|Z))
                                         </td>
                                     </tr>
                                     -->    
@@ -598,7 +694,7 @@ html_template = """
 
                             <p>
                                 Posterior median of conserved rate, accelerated rate, probability of gain and loss conservation 
-                                (and \(\\beta = P(Z=1\\rightarrow Z=2)\)), and posterior probability of being in each latent state on each branch for each element.
+                                (and \(\beta = P(Z=1\rightarrow Z=2)\)), and posterior probability of being in each latent state on each branch for each element.
                             </p>
 
                             <div class="table-container">
@@ -637,7 +733,7 @@ html_template = """
                                             g_rate
                                         </td>
                                         <td>
-                                            Posterior median of \( \\alpha \)
+                                            Posterior median of \( \alpha \)
                                         </td>
                                     </tr>
                                     <tr>
@@ -645,7 +741,7 @@ html_template = """
                                             l_rate
                                         </td>
                                         <td>
-                                            Posterior median of \( \\beta \)
+                                            Posterior median of \( \beta \)
                                         </td>
                                     </tr>
                                     <tr>
@@ -653,7 +749,7 @@ html_template = """
                                             l2_rate
                                         </td>
                                         <td>
-                                            Posterior median of \( \\beta_2 = P(Z = 0 \\rightarrow Z = 2) \), which is 0 in current implementation
+                                            Posterior median of \( \beta_2 = P(Z = 0 \rightarrow Z = 2) \), which is 0 in current implementation
                                         </td>
                                     </tr>                                                                          
                                 </table>
@@ -687,13 +783,39 @@ html_template = """
                         <div class="col-2-24" id="inner-margin"></div>
                         <div class="col-20-24" id="section-content">
 
-                            <a class="internal-link" name="io"></a>
-                            <div class="section-sub-header">Input/Output options</div>
+                            <p>
+                                Below are the options available for the <code class="inline">phyloacc.py</code> script. The REQUIRED options are:
+                            </p>
+
+                            <ul>
+                                <li>Sequences: one of (<code class="inline">-a</code> and <code class="inline">-b</code>) or <code class="inline">-d</code></li>
+                                <li>Tree and model: <code class="inline">-m</code></li>
+                                <li>Target species: <code class="inline">-t</code></li>
+                                <li>Cluster partition: <code class="inline">-part</code></li>
+                            </ul>
+
+                            <p>
+                                All other parameters are optional and have default values. Options can be specified in the command line or in a config file. While they are optional, 
+                                it is encouraged to optimize the workflow by specifying the options that are relevant to your analysis. Specifically, a named output directory (<code class="inline">-o</code>) will
+                                help you organize your files. And the batching and cluster options should be set to match the resources available to you.
+                            </p>
+
+                            <p>
+                                Also note that while a cluster partition is required to be specified with <code class="inline">-part</code>, if you do not wish to run the resulting batches on a cluster you can specify any string
+                                since no checks are done to ensure the partition exists. Then you can run the batches via snakemake without specifying the <code class="inline">--profile</code> option, or run the batches individually 
+                                with the config files generated in <code class="inline">[your output directory]/phyloacc-job-files/cfgs/</code>. Though due to the run-time of the model, it his highly recommended to run the batches on a cluster.
+                            </p>
+
+                            <!-- ---------- Begin SEQUENCE INPUT options ---------- -->
+
+                            <a class="internal-link" name="seq-input"></a>
+                            <div class="section-sub-header">Sequence input options</div>
 
                             <div class="table-container">
                                 <table class="table-content">
                                     <tr>
-                                        <th>Option</th>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
                                         <th>Description</th>
                                         <th>Default value</th>
                                     </tr>
@@ -703,11 +825,14 @@ html_template = """
                                             <code class="inline">-a [FASTA FILE]</code>
                                         </td>
                                         <td>
+                                            <code class="inline">aln_file: [FASTA FILE]</code>
+                                        </td>                                        
+                                        <td>
                                             An alignment file with all loci concatenated. <code class="inline">-b</code> must also be specified. 
                                             Expected as FASTA format for now.
                                         </td>
                                         <td>
-                                             One of <code class="inline">-a</code>/<code class="inline">-b</code> or <code class="inline">-d</code> is <b>REQUIRED</b>.
+                                             One of (<code class="inline">-a</code> and <code class="inline">-b</code>) or <code class="inline">-d</code> is <b>REQUIRED</b>.
                                         </td>
                                     </tr>
 
@@ -716,11 +841,14 @@ html_template = """
                                             <code class="inline">-b [BED FILE]</code>
                                         </td>
                                         <td>
+                                            <code class="inline">bed_file: [BED FILE]</code>
+                                        </td>                                           
+                                        <td>
                                             A bed file with coordinates for the loci in the concatenated alignment file. 
                                             <code class="inline">-a</code> must also be specified.
                                         </td>
                                         <td>
-                                             One of <code class="inline">-a</code>/<code class="inline">-b</code> or <code class="inline">-d</code> is <b>REQUIRED</b>.
+                                             One of (<code class="inline">-a</code> and <code class="inline">-b</code>) or <code class="inline">-d</code> is <b>REQUIRED</b>.
                                         </td>                                        
                                     </tr>
 
@@ -728,6 +856,9 @@ html_template = """
                                         <td>
                                             <code class="inline">-i [TEXT FILE]</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">id_file: [TEXT FILE]</code>
+                                        </td>                                           
                                         <td>
                                             A text file with locus names, one per line, corresponding to regions in the input bed file. If provided,
                                             PhyloAcc will only be run on these loci. 
@@ -742,18 +873,41 @@ html_template = """
                                             <code class="inline">-d [DIRECTORY]</code>
                                         </td>
                                         <td>
+                                            <code class="inline">aln_dir: [DIRECTORY]</code>
+                                        </td>                                           
+                                        <td>
                                             A directory containing individual alignment files for each locus. 
                                             Expected as FASTA format for now.
                                         </td>
                                         <td>
-                                             One of <code class="inline">-a</code>/<code class="inline">-b</code> or <code class="inline">-d</code> is <b>REQUIRED</b>.
+                                             One of (<code class="inline">-a</code> and <code class="inline">-b</code>) or <code class="inline">-d</code> is <b>REQUIRED</b>.
                                         </td>                                        
                                     </tr>
+                                </table>
+                            </div>
 
+                            <!-- ---------- End SEQUENCE INPUT options ---------- --> 
+
+                            <!-- ---------- Begin TREE INPUT options ---------- -->                                   
+
+                            <a class="internal-link" name="tree-input"></a>
+                            <div class="section-sub-header">Tree input options</div>                            
+
+                            <div class="table-container">
+                                <table class="table-content">
+                                    <tr>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
+                                        <th>Description</th>
+                                        <th>Default value</th>
+                                    </tr>                            
                                     <tr>
                                         <td>
                                             <code class="inline">-m [MOD FILE]</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">mod_file: [MOD FILE]</code>
+                                        </td>                                        
                                         <td>
                                             A file with a background transition rate matrix and 
                                             phylogenetic tree with branch lengths as output from phyloFit.
@@ -762,23 +916,14 @@ html_template = """
                                             <b>REQUIRED</b>.
                                         </td>                                        
                                     </tr>
-
-                                    <tr>
-                                        <td>
-                                            <code class="inline">-o [DIRECTORY]</code>
-                                        </td>
-                                        <td>
-                                            Desired output directory. This will be created for you if it doesn't exist.
-                                        </td>
-                                        <td>
-                                             phyloacc-[date]-[time]
-                                        </td>                                        
-                                    </tr>
-
+                                    
                                     <tr>
                                         <td>
                                             <code class="inline">-t "[STRING]"</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">targets: [STRING]</code>
+                                        </td>                                        
                                         <td>
                                             Tip labels in the input tree to be used as target species. 
                                             Enter multiple labels separated by semi-colons (;).
@@ -793,11 +938,14 @@ html_template = """
                                             <code class="inline">-c "[STRING]"</code>
                                         </td>
                                         <td>
+                                            <code class="inline">conserved: [STRING]</code>
+                                        </td>                                        
+                                        <td>
                                             Tip labels in the input tree to be used as conserved species. 
                                             Enter multiple labels separated by semi-colons (;). 
                                         </td>
                                         <td>
-                                            Optional. Any species not specified in <code class="inline">-t</code> or <code class="inline">-g</code> will be inferred as conserved.
+                                            Optional. Any species not specified in <code class="inline">-t</code> or <code class="inline">-g</code> will be set as conserved.
                                         </td>                                        
                                     </tr>
 
@@ -806,18 +954,24 @@ html_template = """
                                             <code class="inline">-g "[STRING]"</code>
                                         </td>
                                         <td>
+                                            <code class="inline">outgroup: [STRING]</code>
+                                        </td>                                        
+                                        <td>
                                             Tip labels in the input tree to be used as outgroup species. 
                                             Enter multiple labels separated by semi-colons (;).
                                         </td>
                                         <td>
                                             Optional.
                                         </td>                                        
-                                    </tr>
+                                    </tr> 
 
                                     <tr>
                                         <td>
                                             <code class="inline">-l [NEWICK FILE]</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">coal_tree: [NEWICK FILE]</code>
+                                        </td>                                        
                                         <td>
                                             A file containing a rooted, Newick formatted tree with the same topology as the species tree in the mod file (<code class="inline">-m</code>), 
                                             but with branch lengths in coalescent units.
@@ -832,6 +986,9 @@ html_template = """
                                             <code class="inline">--theta</code>
                                         </td>
                                         <td>
+                                            <code class="inline">theta_flag: [true/false]</code>
+                                        </td>                                        
+                                        <td>
                                             Set this to add gene tree estimation with IQ-tree and species estimation with ASTRAL for estimation 
                                             of the theta prior. Note that a species tree with branch lengths in units of substitutions per site 
                                             is still required with <code class="inline">-m</code>. Also note that this may add substantial runtime to the pipeline.
@@ -840,27 +997,85 @@ html_template = """
                                             When the gene tree model is used, one of <code class="inline">-l</code> or <code class="inline">--theta</code> must be set.
                                         </td>                                        
                                     </tr>
+                                </table>
+                            </div>
 
+                            <!-- ---------- End TREE INPUT options ---------- -->
+
+                            <!-- ---------- Begin PHYLOACC METHOD options ---------- -->
+
+                            <a class="internal-link" name="phyloacc-method"></a>
+                            <div class="section-sub-header">PhyloAcc method options</div>
+
+                            <div class="table-container">
+                                <table class="table-content">
+                                    <tr>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
+                                        <th>Description</th>
+                                        <th>Default value</th>
+                                    </tr>     
                                     <tr>
                                         <td>
-                                            <code class="inline">-r [STRING]</code>
+                                            <code class="inline">-r [st/gt/adaptive]</code>
                                         </td>
                                         <td>
+                                            <code class="inline">run_mode: [st/gt/adaptive]</code>
+                                        </td>                                        
+                                        <td>
                                             Determines which version of PhyloAcc will be used. 
-                                            gt: use the gene tree model for all loci, 
                                             st: use the species tree model for all loci, 
+                                            gt: use the gene tree model for all loci,                                             
                                             adaptive: use the gene tree model on loci with many branches with low sCF and species tree model 
                                             on all other loci.
                                         </td>
                                         <td>
                                             st
                                         </td>                                        
+                                    </tr>     
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">--dollo</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">dollo_flag: [true/false]</code>
+                                        </td>                                        
+                                        <td>
+                                            Set this to use the Dollo assumption in the original model, which assumes that once a lineage has been inferred
+                                            to be in an accelerated state, it and its descendants cannot change state. By default, this assumption is no
+                                            longer used (false).
+                                        </td>
+                                        <td>
+                                            false
+                                        </td>                                        
                                     </tr>
-                                    
+                                </table>
+                            </div>
+
+                            <!-- ---------- End PHYLOACC METHOD options ---------- -->
+
+                            <!-- ---------- Begin OTHER INPUT options ---------- -->
+
+                            <a class="internal-link" name="other-input"></a>
+                            <div class="section-sub-header">Other input options</div>
+
+                            <div class="table-container">
+                                <table class="table-content">
+                                    <tr>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
+                                        <th>Description</th>
+                                        <th>Default value</th>
+                                    </tr>  
+
                                     <tr>
                                         <td>
                                             <code class="inline">-n [INT]</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">num_procs: [INT]</code>
+                                        </td>                                        
                                         <td>
                                             The number of processes that this script should use.
                                         </td>
@@ -868,47 +1083,127 @@ html_template = """
                                             1
                                         </td>                                        
                                     </tr>
-
                                 </table>
                             </div>
 
-                            <a class="internal-link" name="mcmc"></a>
-                            <div class="section-sub-header">MCMC options</div>
+                            <!-- ---------- End OTHER INPUT options ---------- -->
+
+                            <!-- ---------- Begin OUTPUT options ---------- -->
+
+                            <a class="internal-link" name="output"></a>
+                            <div class="section-sub-header">Output options</div>
 
                             <div class="table-container">
                                 <table class="table-content">
                                     <tr>
-                                        <th>Option</th>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
+                                        <th>Description</th>
+                                        <th>Default value</th>
+                                    </tr>  
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">-o [DIRECTORY]</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">out_dir: [DIRECTORY]</code>
+                                        </td>
+                                        <td>
+                                            Desired output directory. This will be created for you if it doesn't exist.
+                                        </td>
+                                        <td>
+                                             phyloacc-[date]-[time]
+                                        </td>                                        
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">--overwrite</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">overwrite_flag: [true/false]</code>
+                                        </td>                                        
+                                        <td>
+                                            Set this to overwrite existing files.
+                                        </td>
+                                        <td>
+                                            Optional.
+                                        </td>                                        
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">--labeltree</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">labeltree: [true/false]</code>
+                                        </td>                                        
+                                        <td>
+                                            Simply reads the tree from the input mod file (<code class="inline">-m</code>), labels the internal nodes, and exits.
+                                        </td>
+                                        <td>
+                                            Optional.
+                                        </td>                                        
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">--summarize</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">summarize_flag: [true/false]</code>
+                                        </td>                                        
+                                        <td>
+                                            Only generate the input summary plots and page. Do not write or overwrite batch job files.
+                                        </td>
+                                        <td>
+                                            Optional.
+                                        </td>                                        
+                                    </tr>                                        
+
+                                </table>
+                            </div>
+
+                            <!-- ---------- End OUTPUT options ---------- -->
+
+                            <!-- ---------- Begin ALIGNMENT options ---------- -->
+
+                            <a class="internal-link" name="aln-options"></a>
+                            <div class="section-sub-header">Alignment options</div>
+
+                            <div class="table-container">
+                                <table class="table-content">
+                                    <tr>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
                                         <th>Description</th>
                                         <th>Default value</th>
                                     </tr>
 
                                     <tr>
                                         <td>
-                                            <code class="inline">-burnin [INT]</code>
+                                            <code class="inline">--filter</code>
                                         </td>
                                         <td>
-                                            The number of steps to be discarded in the Markov chain as burnin.
-                                        </td>
-                                        <td>
-                                            500
+                                            <code class="inline">filter_alns: [true/false]</code>
                                         </td>                                        
-                                    </tr>
-
-                                    <tr>
                                         <td>
-                                            <code class="inline">-mcmc [INT]</code>
+                                            By default, any locus with at least 1 informative site is reatained for PhyloAcc.
+                                            Set this to filter out loci that have at least 50% of sites that are 50% or more gap charcaters
+                                            OR that have 50% of sequences that are made up of 50% or more gap charcaters.
                                         </td>
                                         <td>
-                                            The total number of steps in the Markov chain.
-                                        </td>
-                                        <td>
-                                            1000
+                                            Optional.
                                         </td>                                        
                                     </tr>
 
                                 </table>
-                            </div>
+                            </div>   
+
+                            <!-- ---------- End ALIGNMENT options ---------- -->
+
+                            <!-- ---------- Begin SCF options ---------- -->    
 
                             <a class="internal-link" name="scf"></a>
                             <div class="section-sub-header">sCF options</div>
@@ -916,15 +1211,19 @@ html_template = """
                             <div class="table-container">
                                 <table class="table-content">
                                     <tr>
-                                        <th>Option</th>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
                                         <th>Description</th>
                                         <th>Default value</th>
-                                    </tr>
+                                    </tr> 
 
                                     <tr>
                                         <td>
                                             <code class="inline">-scf [FLOAT]</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">scf_branch_cutoff: [FLOAT]</code>
+                                        </td>                                        
                                         <td>
                                             The value of sCF to consider as low for any given branch or locus. Must be between 0 and 1.
                                         </td>
@@ -938,6 +1237,9 @@ html_template = """
                                             <code class="inline">-s [FLOAT]</code>
                                         </td>
                                         <td>
+                                            <code class="inline">scf_prop: [FLOAT]</code>
+                                        </td>                                        
+                                        <td>
                                             A value between 0 and 1. If provided, this proportion of branches must have sCF below <code class="inline">-scf</code> 
                                             to be considered for the gene tree model. Otherwise, branch sCF values will be averaged for each locus.
                                         </td>
@@ -947,23 +1249,126 @@ html_template = """
                                     </tr>
 
                                 </table>
-                            </div>
+                            </div>      
 
-                            <a class="internal-link" name="batch"></a>
-                            <div class="section-sub-header">Batching options</div>
+                            <!-- ---------- End SCF options ---------- -->
+
+                            <!-- ---------- Begin MCMC options ---------- -->                                                                                                           
+
+                            <a class="internal-link" name="mcmc"></a>
+                            <div class="section-sub-header">MCMC options</div>
 
                             <div class="table-container">
                                 <table class="table-content">
                                     <tr>
-                                        <th>Option</th>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
                                         <th>Description</th>
                                         <th>Default value</th>
+                                    </tr> 
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">-mcmc [INT]</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">mcmc: [INT]</code>
+                                        </td>                                        
+                                        <td>
+                                            The total number of steps in the Markov chain.
+                                        </td>
+                                        <td>
+                                            1000
+                                        </td>                                        
+                                    </tr>                                    
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">-burnin [INT]</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">burnin: [INT]</code>
+                                        </td>                                        
+                                        <td>
+                                            The number of steps to be discarded in the Markov chain as burnin.
+                                        </td>
+                                        <td>
+                                            500
+                                        </td>                                        
                                     </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">-chain [INT]</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">chain: [INT]</code>
+                                        </td>                                        
+                                        <td>
+                                            The number of MCMC chains to run.
+                                        </td>
+                                        <td>
+                                            1
+                                        </td>                                        
+                                    </tr>                                    
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">-thin [INT]</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">thin: [INT]</code>
+                                        </td>                                        
+                                        <td>
+                                            For the gene tree model, the number of MCMC steps between gene tree sampling. 
+                                            The total number of MCMC steps specified with <code class="inline">-mcmc</code> will be scaled by this as mcmc*thin.
+                                        </td>
+                                        <td>
+                                            1
+                                        </td>                                        
+                                    </tr>
+                                    
+                                </table>
+                            </div>
+
+                            <!-- ---------- End MCMC options ---------- -->
+
+                            <!-- ---------- Begin BATCHING options ---------- -->
+
+                            <a class="internal-link" name="batch"></a>
+                            <div class="section-sub-header">Batching and cluster options</div>
+
+                            <div class="table-container">
+                                <table class="table-content">
+                                    <tr>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
+                                        <th>Description</th>
+                                        <th>Default value</th>
+                                    </tr> 
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">-batch [INT]</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">batch_size: [INT]</code>
+                                        </td>                                        
+                                        <td>
+                                            The number of loci to run per batch.
+                                        </td>
+                                        <td>
+                                            50
+                                        </td>                                        
+                                    </tr>                                    
 
                                     <tr>
                                         <td>
                                             <code class="inline">-p [INT]</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">procs_per_batch [INT]</code>
+                                        </td>                                        
                                         <td>
                                             The number of processes to use for each batch of PhyloAcc.
                                         </td>
@@ -977,6 +1382,9 @@ html_template = """
                                             <code class="inline">-j [INT]</code>
                                         </td>
                                         <td>
+                                            <code class="inline">num_jobs: [INT]</code>
+                                        </td>                                        
+                                        <td>
                                             The number of jobs (batches) to run in parallel.
                                         </td>
                                         <td>
@@ -986,33 +1394,11 @@ html_template = """
                                     
                                     <tr>
                                         <td>
-                                            <code class="inline">-batch [INT]</code>
-                                        </td>
-                                        <td>
-                                            The number of loci to run per batch.
-                                        </td>
-                                        <td>
-                                            50
-                                        </td>                                        
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <a class="internal-link" name="cluster"></a>
-                            <div class="section-sub-header">Cluster options</div>
-
-                            <div class="table-container">
-                                <table class="table-content">
-                                    <tr>
-                                        <th>Option</th>
-                                        <th>Description</th>
-                                        <th>Default value</th>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
                                             <code class="inline">-part "[STRING]"</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">cluster_part: [STRING]</code>
+                                        </td>                                        
                                         <td>
                                             The SLURM partition or list of partitions (separated by commas) on which to run PhyloAcc jobs.
                                         </td>
@@ -1026,6 +1412,9 @@ html_template = """
                                             <code class="inline">-nodes [INT]</code>
                                         </td>
                                         <td>
+                                            <code class="inline">cluster_nodes: [INT]</code>
+                                        </td>                                        
+                                        <td>
                                             The number of nodes on the specified partition to submit jobs to.
                                         </td>
                                         <td>
@@ -1037,6 +1426,9 @@ html_template = """
                                         <td>
                                             <code class="inline">-mem [INT]</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">cluster_mem: [INT]</code>
+                                        </td>                                        
                                         <td>
                                             The max memory for each job in GB.
                                         </td>
@@ -1050,6 +1442,9 @@ html_template = """
                                             <code class="inline">-time [INT]</code>
                                         </td>
                                         <td>
+                                            <code class="inline">cluster_time [INT]</code>
+                                        </td>                                        
+                                        <td>
                                             The time in hours to give each job.
                                         </td>
                                         <td>
@@ -1060,21 +1455,29 @@ html_template = """
                                 </table>
                             </div>
 
-                            <a class="internal-link" name="phyloacc"></a>
-                            <div class="section-sub-header">Other PhyloAcc options</div>
+                            <!-- ---------- End BATCHING options ---------- -->
+
+                            <!-- ---------- Begin PATH options ---------- -->
+
+                            <a class="internal-link" name="paths"></a>
+                            <div class="section-sub-header">Executable path options</div>
 
                             <div class="table-container">
                                 <table class="table-content">
                                     <tr>
-                                        <th>Option</th>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
                                         <th>Description</th>
                                         <th>Default value</th>
-                                    </tr>
+                                    </tr>                             
 
                                     <tr>
                                         <td>
                                             <code class="inline">-st-path [STRING]</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">phyloacc_st_path [STRING]</code>
+                                        </td>                                        
                                         <td>
                                             The path to the PhyloAcc-ST binary.
                                         </td>
@@ -1087,6 +1490,9 @@ html_template = """
                                         <td>
                                             <code class="inline">-gt-path [STRING]</code>
                                         </td>
+                                      <td>
+                                            <code class="inline">phyloacc_gt_path [STRING]</code>
+                                        </td>                                        
                                         <td>
                                             The path to the PhyloAcc-GT binary if <code class="inline">-r gt</code> or <code class="inline">-r adaptive</code> are set.
                                         </td>
@@ -1097,47 +1503,11 @@ html_template = """
 
                                     <tr>
                                         <td>
-                                            <code class="inline">-phyloacc "[STRING]"</code>
-                                        </td>
-                                        <td>
-                                            A catch-all option for other PhyloAcc parameters. 
-                                            Enter as a semi-colon delimited list of options: 'OPT1 value;OPT2 value'
-                                        </td>
-                                        <td>
-                                            Optional.
-                                        </td>                                        
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <code class="inline">--options</code>
-                                        </td>
-                                        <td>
-                                            Print the full list of PhyloAcc options that can be specified with <code class="inline">-phyloacc</code> and exit.
-                                        </td>
-                                        <td>
-                                            Optional.
-                                        </td>                                        
-                                    </tr>
-
-                                </table>
-                            </div>
-
-                            <a class="internal-link" name="misc"></a>
-                            <div class="section-sub-header">Miscellaneous options</div>
-
-                            <div class="table-container">
-                                <table class="table-content">
-                                    <tr>
-                                        <th>Option</th>
-                                        <th>Description</th>
-                                        <th>Default value</th>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
                                             <code class="inline">-iqtree-path "[STRING]"</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">iqtree_path: [STRING]</code>
+                                        </td>                                        
                                         <td>
                                             When <code class="inline">--theta</code> is set, gene trees will be inferred from some loci with <a href="http://www.iqtree.org/" target="_blank">IQ-TREE</a>.
                                             You can provide the path to your <code class="inline">iqtree</code> executable with this option
@@ -1152,6 +1522,9 @@ html_template = """
                                             <code class="inline">-coal-path "[STRING]"</code>
                                         </td>
                                         <td>
+                                            <code class="inline">coal_cmd: [STRING]</code>
+                                        </td>                                        
+                                        <td>
                                             When <code class="inline">--theta</code> is set, branch lengths on your species tree will be estimated in coalescent units with an external program. Currently
                                             <a href="https://github.com/smirarab/ASTRAL" target="_blank">ASTRAL</a> With this option you can provide the <b>command</b> to execute your <code class="inline">astral.jar</code> file, 
                                             including any java options. For example, "<code class="inline">java -Xmx8g -jar astral.jar</code>" would be a valid command to specify, provided you had a jar file called <code class="inline">astral.jar</code>.
@@ -1161,34 +1534,99 @@ html_template = """
                                         </td>                                        
                                     </tr>
 
-                                    <tr>
-                                        <td>
-                                            <code class="inline">--labeltree</code>
-                                        </td>
-                                        <td>
-                                            Simply reads the tree from the input mod file (<code class="inline">-m</code>), labels the internal nodes, and exits.
-                                        </td>
-                                        <td>
-                                            Optional.
-                                        </td>                                        
-                                    </tr>
+                                </table>
+                            </div>
+
+                            <!-- ---------- End PATH options ---------- -->
+
+                            <!-- ---------- Begin PHYLOACC options ---------- -->
+
                                     
+                            <a class="internal-link" name="phyloacc"></a>
+                            <div class="section-sub-header">Other PhyloAcc options</div>
+
+                            <div class="table-container">
+                                <table class="table-content">
+                                    <tr>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
+                                        <th>Description</th>
+                                        <th>Default value</th>
+                                    </tr>
+
                                     <tr>
                                         <td>
-                                            <code class="inline">--overwrite</code>
+                                            <code class="inline">-phyloacc "[STRING]"</code>
                                         </td>
                                         <td>
-                                            Set this to overwrite existing files.
+                                            <code class="inline">phyloacc_opts: [STRING]</code>
+                                        </td>                                        
+                                        <td>
+                                            A catch-all option for other PhyloAcc parameters. 
+                                            Enter as a semi-colon delimited list of options: 'OPT1 value;OPT2 value'
                                         </td>
                                         <td>
                                             Optional.
                                         </td>                                        
                                     </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">--options</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">options_flag: [true/false]</code>
+                                        </td>                                        
+                                        <td>
+                                            Print the full list of PhyloAcc options that can be specified with <code class="inline">-phyloacc</code> and exit.
+                                        </td>
+                                        <td>
+                                            Optional.
+                                        </td>                                        
+                                    </tr>
+
+                                </table>
+                            </div>
+
+                            <!-- ---------- End PHYLOACC options ---------- -->
+
+                            <!-- ---------- Begin MISCELLANEOUS options ---------- -->
+
+                            <a class="internal-link" name="misc"></a>
+                            <div class="section-sub-header">Miscellaneous options</div>
+
+                            <div class="table-container">
+                                <table class="table-content">
+                                    <tr>
+                                        <th>Command line option</th>
+                                        <th>Config file key</th>
+                                        <th>Description</th>
+                                        <th>Default value</th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">--depcheck</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">depcheck: [true/false]</code>
+                                        </td>                                        
+                                        <td>
+                                            Run this to check that all dependencies are installed at the provided path. 
+                                            No other options necessary.
+                                        </td>
+                                        <td>
+                                            Optional.
+                                        </td>                                        
+                                    </tr>                                                                
                                     
                                     <tr>
                                         <td>
                                             <code class="inline">--appendlog</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">append_log_flag: [true/false]</code>
+                                        </td>                                        
                                         <td>
                                             Set this to keep the old log file even if <code class="inline">--overwrite</code> is specified. 
                                             New log information will instead be appended to the previous log file.
@@ -1197,48 +1635,29 @@ html_template = """
                                             Optional.
                                         </td>                                        
                                     </tr>
-                                    
-                                    <tr>
-                                        <td>
-                                            <code class="inline">--summarize</code>
-                                        </td>
-                                        <td>
-                                            Only generate the input summary plots and page. Do not write or overwrite batch job files.
-                                        </td>
-                                        <td>
-                                            Optional.
-                                        </td>                                        
-                                    </tr>
-                                    
+
                                     <tr>
                                         <td>
                                             <code class="inline">--info</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">info_flag: [true/false]</code>
+                                        </td>                                        
                                         <td>
                                             Print some meta information about the program and exit. No other options required.
                                         </td>
                                         <td>
                                             Optional.
                                         </td>                                        
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>
-                                            <code class="inline">--depcheck</code>
-                                        </td>
-                                        <td>
-                                            Run this to check that all dependencies are installed at the provided path. 
-                                            No other options necessary.
-                                        </td>
-                                        <td>
-                                            Optional.
-                                        </td>                                        
-                                    </tr>
+                                    </tr>                                                                                                    
                                     
                                     <tr>
                                         <td>
                                             <code class="inline">--version</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">version_flag: [true/false]</code>
+                                        </td>                                        
                                         <td>
                                             Simply print the version and exit. Can also be called as <code class="inline">-version</code>, <code class="inline">-v</code>, or <code class="inline">--v</code>.
                                         </td>
@@ -1252,6 +1671,9 @@ html_template = """
                                             <code class="inline">--quiet</code>
                                         </td>
                                         <td>
+                                            <code class="inline">quiet_flag: [true/false]</code>
+                                        </td>                                        
+                                        <td>
                                             Set this flag to prevent PhyloAcc from reporting detailed information about each step.
                                         </td>
                                         <td>
@@ -1263,6 +1685,9 @@ html_template = """
                                         <td>
                                             <code class="inline">-h</code>
                                         </td>
+                                        <td>
+                                            <code class="inline">NA</code>
+                                        </td>                                        
                                         <td>
                                             Print a help menu and exit. Can also be called as <code class="inline">--help</code>.
                                         </td>

@@ -114,6 +114,10 @@
 	font-size: 1.4em;
 	font-weight: bold;
 }
+.usage-sub-header { 
+	border-top: 1px solid #294157;
+	padding-top: 10px;
+}
 @media (max-width: 1025px) {
 	#section-header  { padding:0; }
 	#section-header-row { width: 100%; text-align:center; }
@@ -256,6 +260,7 @@
 	overflow-y:auto;
 	display:flex;
 	align-items: center;
+	text-align: left;
 	/* justify-content: center; */
 }
 .table-content {
@@ -264,14 +269,18 @@
 	width: 100%;
 }
 
+.table-content th {
+	text-align: center;
+}
+
 .table-content  tr:nth-child(even) {
 	background-color:#E0DEDE;
 }
 
 .table-content td {
-	/* min-width: 8vw; */
+	min-width: 10vw;
 	padding: 10px;
-	text-align: left;
+	/* text-align: left; */
 }
 
 /* .table-content  tr td:nth-child(odd) {
