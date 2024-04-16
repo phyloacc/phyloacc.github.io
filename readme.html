@@ -816,7 +816,7 @@ targets: "species1;species2;species3"</code></pre>
                             </ul>
 
                             <p>
-                                All other parameters are optional and have default values. Options can be specified in the command line or in a config file. While they are optional, 
+                                All other parameters are optional or have default values. Options can be specified in the command line or in a config file. While they are optional, 
                                 it is encouraged to optimize the workflow by specifying the options that are relevant to your analysis. Specifically, a named output directory (<code class="inline">-o</code>) will
                                 help you organize your files. And the batching and cluster options should be set to match the resources available to you.
                             </p>
@@ -824,7 +824,8 @@ targets: "species1;species2;species3"</code></pre>
                             <p>
                                 Also note that while a cluster partition is required to be specified with <code class="inline">-part</code>, if you do not wish to run the resulting batches on a cluster you can specify any string
                                 since no checks are done to ensure the partition exists. Then you can run the batches via snakemake without specifying the <code class="inline">--profile</code> option, or run the batches individually 
-                                with the config files generated in <code class="inline">[your output directory]/phyloacc-job-files/cfgs/</code>. Though due to the run-time of the model, it his highly recommended to run the batches on a cluster.
+                                with the config files generated in <code class="inline">[your output directory]/phyloacc-job-files/cfgs/</code>. Though due to the run-time of the model, it his highly recommended to run the batches on a cluster
+                                with dedicated compute nodes.
                             </p>
 
                             <!-- ---------- Begin SEQUENCE INPUT options ---------- -->
@@ -1089,6 +1090,22 @@ targets: "species1;species2;species3"</code></pre>
                                         <th>Description</th>
                                         <th>Default value</th>
                                     </tr>  
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">--config [YAML FILE]</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">NA</code>
+                                        </td>                                        
+                                        <td>
+                                            The path to a YAML formatted configuration file that specifies the program options (see above). 
+                                            Note that options specified on the command line take precedence of those specified in the config file.
+                                        </td>
+                                        <td>
+                                            Optional
+                                        </td>                                        
+                                    </tr>
 
                                     <tr>
                                         <td>
@@ -1744,7 +1761,7 @@ targets: "species1;species2;species3"</code></pre>
     <div class="row" id="footer">
     <div class="col-1">
         <div id="footer_text">
-            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 04/15/2024 14:57:27 Eastern Daylight Time</center>
+            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 04/16/2024 11:45:48 Eastern Daylight Time</center>
         </div>
     </div>
 </div>

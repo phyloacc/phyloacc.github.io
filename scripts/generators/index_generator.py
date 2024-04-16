@@ -55,7 +55,7 @@ html_template = """
 						</div>
                         
                         <p>
-							You can also use <code class="inline">conda</code> to install PhyloAcc instead of <code class="inline">mamba</code>, though <code class="inline">mamba</code> is recommended for faster installation.
+							You can also use <code class="inline">conda install phyloacc</code> to install PhyloAcc instead of <code class="inline">mamba</code>, though <code class="inline">mamba</code> is recommended for faster installation.
 
 						<h3>
 							For more help or troubleshooting installation, please see the <a href="https://phyloacc.github.io/install.html">Install page</a>.
