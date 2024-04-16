@@ -18,7 +18,7 @@ html_template = r"""
 <body>
     {nav}
 
- <a class="internal-link" name="install"></a>
+ <a class="internal-link" id="install"></a>
     <div class="row" id="body-row">
         <div class="col-4-24" id="side-nav-cont">
             <div id="side-nav">
@@ -104,7 +104,7 @@ html_template = r"""
             </div>
 
 
-            <a class="internal-link" name="inputs"></a>
+            <a class="internal-link" id="inputs"></a>
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
                     <div id="section-header">Inputs</div>
@@ -163,8 +163,7 @@ html_template = r"""
             </div>
 
 
-
-            <a class="internal-link" name="usage"></a>
+            <a class="internal-link" id="usage"></a>
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
                     <div id="section-header">Usage</div>
@@ -217,7 +216,7 @@ html_template = r"""
     -batch [number of alignments per job/batch] \
     -part "[comma separated list of SLURM partitions to submit batches to as jobs]"</code></pre>
 -->
-                            <a class="internal-link" name="st"></a>
+                            <a class="internal-link" id="st"></a>
                             <div class="section-sub-header usage-sub-header">1. Setting up batches of loci for the species tree model with a directory of alignments:</div>
                             <pre class="long-cmd"><code>phyloacc.py \
     -d [directory containing multiple FASTA formatted nucleotide alignments] \
@@ -229,7 +228,7 @@ html_template = r"""
     -batch [number of alignments per job/batch] \
     -part "[comma separated list of SLURM partitions to submit batches to as jobs]"</code></pre>
 
-                            <a class="internal-link" name="gt"></a>
+                            <a class="internal-link" id="gt"></a>
                             <div class="section-sub-header usage-sub-header">2. Setting up batches of loci for the gene tree model with a directory of alignments and a provided tree with branch lengths in coalescent units:</div>
                             <pre class="long-cmd"><code>phyloacc.py \
     -d [directory containing multiple FASTA formatted nucleotide alignments] \
@@ -258,7 +257,7 @@ html_template = r"""
     -part "[comma separated list of SLURM partitions to submit batches to as jobs]"</code></pre>
 -->
 
-                            <a class="internal-link" name="adaptive"></a>
+                            <a class="internal-link" id="adaptive"></a>
                             <div class="section-sub-header usage-sub-header">3. Setting up batches of loci with the model determined by sCF cutoffs, with a directory of alignments, and with a provided tree with branch lengths in coalescent units:</div>
                             <pre class="long-cmd"><code>phyloacc.py \
     -d [directory containing multiple FASTA formatted nucleotide alignments] \
@@ -272,7 +271,7 @@ html_template = r"""
     -batch [number of alignments per job/batch] \
     -part "[comma separated list of SLURM partitions to submit batches to as jobs]"</code></pre>
 
-                            <a class="internal-link" name="config"></a>
+                            <a class="internal-link" id="config"></a>
                             <div class="section-sub-header usage-sub-header">4. Specifying options with a config file:</div>    
 
                             <p>
@@ -355,7 +354,7 @@ targets: "species1;species2;species3"</code></pre>
                                 In practice, for many of these boolean options, using the command line option may be easier than changing the config file each time.
                             </p>                        
 
-                            <a class="internal-link" name="snakemake"></a>
+                            <a class="internal-link" id="snakemake"></a>
                             <div class="section-sub-header usage-sub-header">5. Executing a generated snakefile to submit jobs to the cluster:</div>
 <pre class="long-cmd"><code>snakemake -p -s \
     [path to snakefile.smk] \
@@ -385,7 +384,7 @@ targets: "species1;species2;species3"</code></pre>
                             </div>
                             </br>
 
-                            <a class="internal-link" name="gather"></a>
+                            <a class="internal-link" id="gather"></a>
                             <div class="section-sub-header usage-sub-header">6. Gather outputs after all snakemake jobs are completed:</div>
 <pre class="long-cmd"><code>phyloacc_post.py \
     -i [path output directory specified when running phyloacc.py]</code></pre>
@@ -396,7 +395,7 @@ targets: "species1;species2;species3"</code></pre>
                 </div>
             </div>
 
-            <a class="internal-link" name="output"></a>
+            <a class="internal-link" id="output"></a>
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
                     <div id="section-header">Output</div>
@@ -422,7 +421,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <p>The raw files are tab delimited and described below.</p>
 
-                            <a class="internal-link" name="elem_lik"></a>
+                            <a class="internal-link" id="elem_lik"></a>
                             <div class="section-sub-header">elem_lik.txt</div>
 
                             <p>
@@ -625,7 +624,7 @@ targets: "species1;species2;species3"</code></pre>
 
 
                             <!--
-                            <a class="internal-link" name="id-key"></a>
+                            <a class="internal-link" id="id-key"></a>
                             <div class="section-sub-header">id-key.txt</div>
 
                             <p>
@@ -674,7 +673,7 @@ targets: "species1;species2;species3"</code></pre>
                             </div>
                             -->
 
-                            <a class="internal-link" name="elem_z"></a>
+                            <a class="internal-link" id="elem_z"></a>
                             <div class="section-sub-header">[prefix]_M*_elem_Z.txt</div>
 
                             <p>
@@ -689,7 +688,7 @@ targets: "species1;species2;species3"</code></pre>
                             </p>
 
 
-                            <a class="internal-link" name="rate_postZ"></a>
+                            <a class="internal-link" id="rate_postZ"></a>
                             <div class="section-sub-header">[prefix]_rate_postZ_M*.txt</div>
 
                             <p>
@@ -770,7 +769,7 @@ targets: "species1;species2;species3"</code></pre>
             </div>
 
 
-            <a class="internal-link" name="options"></a>
+            <a class="internal-link" id="options"></a>
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
                     <div id="section-header">Options</div>
@@ -809,7 +808,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <!-- ---------- Begin SEQUENCE INPUT options ---------- -->
 
-                            <a class="internal-link" name="seq-input"></a>
+                            <a class="internal-link" id="seq-input"></a>
                             <div class="section-sub-header">Sequence input options</div>
 
                             <div class="table-container">
@@ -891,7 +890,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <!-- ---------- Begin TREE INPUT options ---------- -->                                   
 
-                            <a class="internal-link" name="tree-input"></a>
+                            <a class="internal-link" id="tree-input"></a>
                             <div class="section-sub-header">Tree input options</div>                            
 
                             <div class="table-container">
@@ -1005,7 +1004,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <!-- ---------- Begin PHYLOACC METHOD options ---------- -->
 
-                            <a class="internal-link" name="phyloacc-method"></a>
+                            <a class="internal-link" id="phyloacc-method"></a>
                             <div class="section-sub-header">PhyloAcc method options</div>
 
                             <div class="table-container">
@@ -1058,7 +1057,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <!-- ---------- Begin OTHER INPUT options ---------- -->
 
-                            <a class="internal-link" name="other-input"></a>
+                            <a class="internal-link" id="other-input"></a>
                             <div class="section-sub-header">Other input options</div>
 
                             <div class="table-container">
@@ -1107,7 +1106,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <!-- ---------- Begin OUTPUT options ---------- -->
 
-                            <a class="internal-link" name="output"></a>
+                            <a class="internal-link" id="output"></a>
                             <div class="section-sub-header">Output options</div>
 
                             <div class="table-container">
@@ -1186,7 +1185,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <!-- ---------- Begin ALIGNMENT options ---------- -->
 
-                            <a class="internal-link" name="aln-options"></a>
+                            <a class="internal-link" id="aln-options"></a>
                             <div class="section-sub-header">Alignment options</div>
 
                             <div class="table-container">
@@ -1222,7 +1221,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <!-- ---------- Begin SCF options ---------- -->    
 
-                            <a class="internal-link" name="scf"></a>
+                            <a class="internal-link" id="scf"></a>
                             <div class="section-sub-header">sCF options</div>
 
                             <div class="table-container">
@@ -1272,7 +1271,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <!-- ---------- Begin MCMC options ---------- -->                                                                                                           
 
-                            <a class="internal-link" name="mcmc"></a>
+                            <a class="internal-link" id="mcmc"></a>
                             <div class="section-sub-header">MCMC options</div>
 
                             <div class="table-container">
@@ -1352,7 +1351,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <!-- ---------- Begin BATCHING options ---------- -->
 
-                            <a class="internal-link" name="batch"></a>
+                            <a class="internal-link" id="batch"></a>
                             <div class="section-sub-header">Batching and cluster options</div>
 
                             <div class="table-container">
@@ -1476,7 +1475,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <!-- ---------- Begin PATH options ---------- -->
 
-                            <a class="internal-link" name="paths"></a>
+                            <a class="internal-link" id="paths"></a>
                             <div class="section-sub-header">Executable path options</div>
 
                             <div class="table-container">
@@ -1559,7 +1558,7 @@ targets: "species1;species2;species3"</code></pre>
                             <!-- ---------- Begin PHYLOACC options ---------- -->
 
                                     
-                            <a class="internal-link" name="phyloacc"></a>
+                            <a class="internal-link" id="phyloacc"></a>
                             <div class="section-sub-header">Other PhyloAcc options</div>
 
                             <div class="table-container">
@@ -1609,7 +1608,7 @@ targets: "species1;species2;species3"</code></pre>
 
                             <!-- ---------- Begin MISCELLANEOUS options ---------- -->
 
-                            <a class="internal-link" name="misc"></a>
+                            <a class="internal-link" id="misc"></a>
                             <div class="section-sub-header">Miscellaneous options</div>
 
                             <div class="table-container">

@@ -18,7 +18,7 @@ html_template = """
 <body>
     {nav}
 
- <a class="internal-link" name="step-by-step"></a>
+ <a class="internal-link" id="step-by-step"></a>
     <div class="row" id="body-row">
         <div class="col-4-24" id="side-nav-cont">
             <div id="side-nav">
@@ -92,7 +92,7 @@ html_template = """
                                 </div>
                             </div>
 
-                            <a class="internal-link" name="install-conda"></a>
+                            <a class="internal-link" id="install-conda"></a>
                             <h2>1. Installing <a href="https://docs.conda.io/en/latest/" target="_blank">conda</a> and mamba</h2>
 
                             <p>
@@ -168,7 +168,7 @@ html_template = """
                             </p>
 
                             <!--
-                            <a class="internal-link" name="activate-anaconda"></a>
+                            <a class="internal-link" id="activate-anaconda"></a>
                             <h2>2. Activating Anaconda</a></h2>
 
                             <p>
@@ -216,7 +216,7 @@ html_template = """
                             -->                        
 
 
-                            <a class="internal-link" name="setup-channels"></a>
+                            <a class="internal-link" id="setup-channels"></a>
                             <h2>2. Setting up channels for bioconda</a></h2>
 
                             <p>
@@ -254,7 +254,7 @@ conda config --set channel_priority strict</code></pre>
                                 The output should look like the yellow box above.
                             </p>
 
-                            <a class="internal-link" name="create-env"></a>
+                            <a class="internal-link" id="create-env"></a>
                             <h2>3. Creating a conda environment for PhyloAcc</a></h2>
 
                             <p>
@@ -275,7 +275,7 @@ conda config --set channel_priority strict</code></pre>
                                 Follow any prompts on the screen to create the environment.
                             </p>
 
-                            <a class="internal-link" name="activate-env"></a>
+                            <a class="internal-link" id="activate-env"></a>
                             <h2>4. Activating your PhyloAcc conda environment</a></h2>
 
                             <p>
@@ -289,7 +289,7 @@ conda config --set channel_priority strict</code></pre>
                                 simply type <code>mamba deactivate</code>.
                             </p>
 
-                            <a class="internal-link" name="install-phyloacc"></a>
+                            <a class="internal-link" id="install-phyloacc"></a>
                             <h2>5. Installing PhyloAcc from bioconda</a></h2>
 
                             <p>
@@ -350,7 +350,7 @@ conda config --set channel_priority strict</code></pre>
                 </div>
             </div>
 
-            <a class="internal-link" name="troubleshooting"></a>
+            <a class="internal-link" id="troubleshooting"></a>
             <div class="sep_div"></div>
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
@@ -364,7 +364,7 @@ conda config --set channel_priority strict</code></pre>
                         <div class="col-2-24" id="inner-margin"></div>
                         <div class="col-20-24" id="section-content">
 
-                            <a class="internal-link" name="conda-not-found"></a>
+                            <a class="internal-link" id="conda-not-found"></a>
                             <h2>1. conda: command not found</a></h2>
 
                             <p>
@@ -378,7 +378,7 @@ conda config --set channel_priority strict</code></pre>
                                 </ol>
                             </p>
 
-                            <a class="internal-link" name="solve-fail"></a>
+                            <a class="internal-link" id="solve-fail"></a>
                             <h2>2. conda cannot solve the environment</a></h2>
 
                             <p>
@@ -395,7 +395,7 @@ conda config --set channel_priority strict</code></pre>
                                 </ol>
                             </p>
 
-                            <a class="internal-link" name="phyloacc-not-found"></a>
+                            <a class="internal-link" id="phyloacc-not-found"></a>
                             <h2>3. phyloacc.py: command not found</a></h2>
 
                             <p>
