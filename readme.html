@@ -184,7 +184,6 @@
             </div>
 
 
-
             <a class="internal-link" id="usage"></a>
             <div class="row" id="section-header-cont">
                 <div class="col-24-24" id="section-header-row">
@@ -1468,7 +1467,7 @@ targets: "species1;species2;species3"</code></pre>
                                             <code class="inline">cluster_mem: [INT]</code>
                                         </td>                                        
                                         <td>
-                                            The max memory for each job in GB.
+                                            The max memory for each job in MB.
                                         </td>
                                         <td>
                                             4
@@ -1483,12 +1482,27 @@ targets: "species1;species2;species3"</code></pre>
                                             <code class="inline">cluster_time [INT]</code>
                                         </td>                                        
                                         <td>
-                                            The time in hours to give each job.
+                                            The time in minutes to give each job.
                                         </td>
                                         <td>
                                             1
                                         </td>                                        
                                     </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">--local</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">local_flag [true/false]</code>
+                                        </td>                                        
+                                        <td>
+                                            Set this to generate a local snakemake workflow rather than one that will be submitted through SLURM with a profile. For testing purposes.
+                                        </td>
+                                        <td>
+                                            Optional.
+                                        </td>                                        
+                                    </tr>                                    
 
                                 </table>
                             </div>
@@ -1644,6 +1658,21 @@ targets: "species1;species2;species3"</code></pre>
 
                                     <tr>
                                         <td>
+                                            <code class="inline">--testcmd</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">testcmd_flag: [true/false]</code>
+                                        </td>                                        
+                                        <td>
+                                            Also print out a command to run a single batch of PhyloAcc directly (without snakemake). For testing purposes.
+                                        </td>
+                                        <td>
+                                            Optional.
+                                        </td>                                        
+                                    </tr>                                       
+
+                                    <tr>
+                                        <td>
                                             <code class="inline">--depcheck</code>
                                         </td>
                                         <td>
@@ -1761,7 +1790,7 @@ targets: "species1;species2;species3"</code></pre>
     <div class="row" id="footer">
     <div class="col-1">
         <div id="footer_text">
-            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 04/16/2024 12:22:22 Eastern Daylight Time</center>
+            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 09/27/2024 22:20:05 Eastern Daylight Time</center>
         </div>
     </div>
 </div>

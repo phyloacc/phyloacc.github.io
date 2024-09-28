@@ -1446,7 +1446,7 @@ targets: "species1;species2;species3"</code></pre>
                                             <code class="inline">cluster_mem: [INT]</code>
                                         </td>                                        
                                         <td>
-                                            The max memory for each job in GB.
+                                            The max memory for each job in MB.
                                         </td>
                                         <td>
                                             4
@@ -1461,12 +1461,27 @@ targets: "species1;species2;species3"</code></pre>
                                             <code class="inline">cluster_time [INT]</code>
                                         </td>                                        
                                         <td>
-                                            The time in hours to give each job.
+                                            The time in minutes to give each job.
                                         </td>
                                         <td>
                                             1
                                         </td>                                        
                                     </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">--local</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">local_flag [true/false]</code>
+                                        </td>                                        
+                                        <td>
+                                            Set this to generate a local snakemake workflow rather than one that will be submitted through SLURM with a profile. For testing purposes.
+                                        </td>
+                                        <td>
+                                            Optional.
+                                        </td>                                        
+                                    </tr>                                    
 
                                 </table>
                             </div>
@@ -1619,6 +1634,21 @@ targets: "species1;species2;species3"</code></pre>
                                         <th>Description</th>
                                         <th>Default value</th>
                                     </tr>
+
+                                    <tr>
+                                        <td>
+                                            <code class="inline">--testcmd</code>
+                                        </td>
+                                        <td>
+                                            <code class="inline">testcmd_flag: [true/false]</code>
+                                        </td>                                        
+                                        <td>
+                                            Also print out a command to run a single batch of PhyloAcc directly (without snakemake). For testing purposes.
+                                        </td>
+                                        <td>
+                                            Optional.
+                                        </td>                                        
+                                    </tr>                                       
 
                                     <tr>
                                         <td>
