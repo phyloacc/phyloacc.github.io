@@ -1,0 +1,199 @@
+
+<!doctype html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">	
+    <link rel='shortcut icon' href='img/favicon.ico' type='image/x-icon'/ >
+    <link type="text/css" rel="stylesheet" href="css/grid.css"  media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/global.css"  media="screen,projection" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet"> 
+    <title>PhyloAcc OEB275R - Fall 2022</title>
+</head>
+
+<body>
+    <div class="row" id="desktop_nav">
+		<div class="col-2-24" id="margin"></div>
+		<div class="col-4-24" id="nav_link_cell"><a class="nav_link" href="index.html">Intro</a></div>
+		<!-- <div class="col-4-24" id="nav_link_cell"><a class="nav_link" href="start.html">Workshop</a></div> -->
+		<div class="col-4-24 dropdown" id="nav_link_cell">
+			<a href="start.html" class="nav_link">Workshop</a>
+			<div class="dropdown_container desktop_drop">
+				<ul class="dropdown_list">
+					<li class="dropdown_list_item"><a href="start.html" id="dropdown_nav_link">Start</a></li>
+					<li class="dropdown_list_item"><a href="marine-mammals.html" id="dropdown_nav_link">Marine mammal data</a></li>
+					<li class="dropdown_list_item"><a href="run-phyloacc.html" id="dropdown_nav_link">Running PhyloAcc</a></li>
+					<li class="dropdown_list_item"><a href="phyloacc-results.html" id="dropdown_nav_link">Analyzing results</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4-24" id="nav_link_cell_active"><a class="nav_link" id="active" href="#">Terminology</a></div>
+		<div class="col-4-24" id="nav_link_cell"><a class="nav_link" href="programs.html">Programs</a></div>
+		<div class="col-4-24" id="nav_link_cell"><a class="nav_link" href="links.html">Links</a></div>
+		<div class="col-u-2-24" id="margin"></div>
+	</div>
+
+	<div class="row" id="mobile_nav">
+		<div class="col-24-24 dropdown" id="nav_link_cell">
+			<a href="#" class="nav_link"><img id="mobile_logo_nav" src="img/nav.png"></a>
+			<div class="dropdown_container mobile_drop">
+				<ul class="dropdown_list">
+					<li class="dropdown_list_item"><a href="index.html" id="mobile_nav_link">Intro</a></li>
+					<li class="dropdown_list_item"><a href="start.html" id="mobile_nav_link">Workshop</a></li>
+					<li class="dropdown_list_item"><a href="terms.html" id="mobile_nav_link">Terminology</a></li>
+					<li class="dropdown_list_item"><a href="programs.html" id="mobile_nav_link">Programs</a></li>
+					<li class="dropdown_list_item"><a href="links.html" id="mobile_nav_link">Links</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+    <a class="internal-link" name="terms"></a>
+    <div class="row" id="header">Terminology & File Formats</div>
+
+    <div class="row" id="body-row">
+        <div class="col-3-24" id="side-nav-cont">
+            <div id="side-nav">
+                <span id="side-header">Page contents</span>
+                <ul>
+                    <li><a href="terms.html#terms">Bioinformatics terms</a></li>
+                    <li><a href="phylo.html#terms">Phylogenetics terms</a></li>
+                    <li><a href="phyloacc.html#terms">PhyloAcc terms</a></li>
+                    <li><a href="formats.html#formats">Common file formats</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-21-24" id="main-cont">
+            <div class="row" id="top-row-cont">
+                <div class="col-24-24" id="top-row"></div>
+            </div>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Definitions of frequently used terms in bioinformatics</div>
+                </div>
+            </div>
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+
+                            <p>
+                                Sometimes the hardest part of learning a new topic is learning the terminology or jargon that those within
+                                the community commonly use. Here is a table of some terms that are common, but may be unfamiliar to someone new to the 
+                                field of data science. Some of these are my attempt to define abstract terms. If you want any terms defined or added to 
+                                the list, or you feel the definitions are inaccurate, please contact <a href="https://gwct.github.io/" target="_blank">me</a>.
+                            </p>
+
+                            <p>
+                                Importantly, while some terms technically have different meanings, they are often used synonymously. I have tried to indicate
+                                these terms with matching number of asterisks.
+                            </p>
+
+                            
+<div class="table-cont">
+    <table class="prog-table">
+        <thead><th>Term</th><th>Definition</th></thead><tr><td><b>Terminal*</b></td><td>The window in which you type commands in to be interpreted by the shell</td></tr><tr><td><b>Console*</b></td><td>Similar to terminal, but full screen with no graphical component.</td></tr><tr><td><b>Shell*</b></td><td>The program that interprets commands typed into a terminal. In your terminal you can type <code class=inline>echo $SHELL</code> to check which shell is loaded.</td></tr><tr><td><b>Bash</b></td><td>A common <b>shell</b> program.</td></tr><tr><td><b>Command line*</b></td><td>The location where commands are type within the terminal window</td></tr><tr><td><b>Command prompt*</b></td><td>The information displayed on the command line before the cursor</td></tr><tr><td><b>Command</b></td><td>A set of instructions (code) that can be interpreted by the <b>shell</b></td></tr><tr><td><b>Program</b></td><td>A set of code designed for a specific task. Similar to <b>command</b>, but more general (i.e., a program is not limited to the <b>shell's</b> scripting syntax).</td></tr><tr><td><b>Library</b></td><td>Files containing general code blocks that can be used widely by different programs</td></tr><tr><td><b>Dependency</b></td><td>A program or library that is required for another program to run.</td></tr><tr><td><b>Package</b></td><td>A <b>program</b> and all it's dependencies.</td></tr><tr><td><b>Module</b></td><td>Similar to library.</td></tr><tr><td><b>Argument</b></td><td>Options specified in the command line when running a program or command.</td></tr><tr><td><b>Directory</b></td><td>A named location on a computer that contains files and/or other directories.</td></tr><tr><td><b>File</b></td><td>A named location on a computer that contains data, commonly in the form of plain text.</td></tr><tr><td><b>Script</b></td><td>A type of file whose contents are code or commands to be interpreted by the shell or another interpreter (e.g., Python).</td></tr><tr><td><b>Repository/Repo</b></td><td>From git, a directory of files, possibly including code, documentation, or data.</td></tr><tr><td><b>File system</b></td><td>The way in which files and directories are organized in a nesting, tree-like structure.</td></tr><tr><td><b>Root</b></td><td>The lowest level in the file system in which all directories and files are stored. Critical system files are stored close to the <b>root</b>. Usually located at <code class=inline>/</code> and usually only accessible by the computer's administrators.</td></tr><tr><td><b>Home</b></td><td>A user's home directory is where that user has read, write, and execute permissions within the file system.</td></tr><tr><td><b>Path</b></td><td>The location of a file or directory within the file system, with directories separated by slash characters (<code class=inline>/</code>).</td></tr><tr><td><b>Absolute path</b></td><td>The full name of a file or directory that includes all directories and sub-directories starting from the root of the file system to the specified file or directory.</td></tr><tr><td><b>Relative path</b></td><td>The name of a file or directory that includes all directories and sub-directories starting from the user's current location.</td></tr><tr><td><b>Operating system</b></td><td>The software that interfaces between the computer's hardware and other user facing software.</td></tr><tr><td><b>Server</b></td><td>A computer setup to have users connect and work on it remotely, usually with more resources than personal computers to accommodate more resource intensive commands and multiple users.</td></tr><tr><td><b>Cluster</b></td><td>An interconnected collection of <b>servers</b> setup such that users can connect to one and specify high resource commands to run which are distributed to the others based on available resources.</td></tr><tr><td><b>Node</b></td><td>One computer within a cluster.</td></tr><tr><td><b>Login node</b></td><td>The <b>node</b> within the <b>cluster</b> which users connect to and interact with.</td></tr><tr><td><b>Head node</b></td><td>The <b>node</b> within the <b>cluster</b> which handles job scheduling and resource allocation.</td></tr><tr><td><b>Job</b></td><td>A submitted <b>command</b> or set of commands passed from the user to the job scheduler on a <b>cluster</b>.</td></tr><tr><td><b>Job Scheduler</b></td><td>Software that runs on a <b>cluster</b> that monitors and configures resource usage. Users directly interact with the job scheduler to submit jobs to be run and the scheduler delegates when and on what node they will be run. On our Cannon cluster, our job scheduling software is <a href=https://slurm.schedmd.com/ target=_blank>SLURM</a>.</td></tr>
+    </table>
+</div>
+
+                            <div id="sep_div"></div>
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="internal-links" name="phylo"></a>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Definitions of frequently used terms in phylogenetics</div>
+                </div>
+            </div>
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+
+                            
+<div class="table-cont">
+    <table class="prog-table">
+        <thead><th>Term</th><th>Definition</th></thead><tr><td><b>Comparative genomics</b></td><td>The field in which DNA sequences from different species are compared to each other, often in the context of their phylogeny, to identify variants in the sequence that may play a role in adaptation.</td></tr><tr><td><b>Homolog</b></td><td>Sequences that share ancestry</td></tr><tr><td><b>Orthologs</b></td><td>Homologs that descend from a speciation event</td></tr><tr><td><b>Paralogs</b></td><td>Homologs that descend from a duplication event</td></tr><tr><td><b>Alignment</b></td><td>When DNA or amino acid sequences are arrayed in a matrix such that rows represent different sequences and columns represent individual sites, with adjustment for insertions and deletions by gap insertion. In comparative genomics, alignments are usually performed among sequences that share ancestry (are <b>homologs</b>).</td></tr><tr><td><b>Whole genome alignment</b></td><td>An alignment of complete genome sequences with others</td></tr><tr><td><b>Locus</b></td><td>A general name for any discrete region of the genome. Plural: loci.</td></tr><tr><td><b>Conserved non-coding elements</b></td><td>Regions of the genome that do not code for proteins but are nevertheless conserved relative to the rest of the genome. Examples include regulatory regions or non-coding RNAs.</td></tr><tr><td><b>Phylogeny</b></td><td>A branching representation of the evolution of species, genomes, or individual loci</td></tr><tr><td><b>Newick format</b></td><td>A way to represent phylogenies in text format using nested parentheses, e.g. ((A,B),C);</td></tr><tr><td><b>Node</b></td><td>The joining point of two branches in a phylogeny, representing the ancestor of the two descending branches.</td></tr><tr><td><b>Branch length</b></td><td>A number that represents the length of a branch in a phylogeny, commonly in units of either relative number of substitutions that occurred on that branch or absolute time. In <b>Newick format</b> branch lengths are indicated by a colon and a number, e.g. ((A:1,B:2):3,C:2);</td></tr><tr><td><b>Substitution rate</b></td><td>The rate at which mutations fix in a population, becoming the dominant allele.</td></tr><tr><td><b>4-fold degenerate sites</b></td><td>Sites within the protein coding region of a gene that result in the same amino acid translation regardless of the nucleotide present. Often used to estimate the neutral rate of evolution as these sites are assumed to be unconstrained by selection.</td></tr><tr><td><b>Species tree</b></td><td>A phylogeny inferred for a set of species by combining information across the genome in order to represent the history of speciation. Common methods for species tree inference are maximum likelihood on concatenated gene alignments or summaries of gene trees.</td></tr><tr><td><b>Gene tree</b></td><td>A phylogeny inferred for a set of species from the alignment of a single protein coding gene. Gene trees can capture speciation history as well as gene duplication events. Gene tree is also an umbrella term to refer to phylogenies inferred from the alignment of ANY short genomic region (e.g. conserved non-coding elements).</td></tr><tr><td><b>Phylogenetic discordance</b></td><td>Processes like ancestral polymorphisms and introgression, combined with recombination over generations lead to different regions of the genome having different evolutionary histories. As a result, a phylogeny inferred from one region of the genome may be different than from another region (i.e. gene trees may differ from one another). This also refers to an individual gene tree differing from that of a species tree.</td></tr><tr><td><b>Concordance factors</b></td><td>A method to assess the underlying concordance of a phylogeny by measuring how many gene trees or alignment sites agree with the inferred topology.</td></tr>
+    </table>
+</div>
+
+                            <div id="sep_div"></div>
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="internal-links" name="phyloacc"></a>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Definitions of frequently used terms in the context of PhyloAcc</div>
+                </div>
+            </div>
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+
+                            
+<div class="table-cont">
+    <table class="prog-table">
+        <thead><th>Term</th><th>Definition</th></thead><tr><td><b>.mod file</b></td><td>The output file from phyloFit that contains the transition rate matrix for the probabilty of each nucleotide to change to another as well as the input phylogeny with branch lengths estimated from likely neutrally evolving sites (e.g. <b>4-fold degenerate sites</b>).</td></tr><tr><td><b>Model</b></td><td>The probability of three models is calculated for each locus, M0, M1, and M2.</td></tr><tr><td><b>M0</b></td><td>A model which constrains substitution rates to either background/neutral or conserved rates for all branches.</td></tr><tr><td><b>M1 (target model)</b></td><td>A model which allows a pre-specified set of target branches to have acclerated substitution rates.</td></tr><tr><td><b>M2 (full or free model)</b></td><td>A model which allows any branch to have any substitution rate (background, conserved, or accelerated).</td></tr><tr><td><b>Bayes factor</b></td><td>The ratio of the marginal probabilities of two models to assess which model better fits the data.</td></tr><tr><td><b>BF1 or logBF1</b></td><td>The Bayes factor comparing M1 to M0. logBF1 = P(M1) / P(M0)</td></tr><tr><td><b>BF2 or logBF2</b></td><td>The Bayes factor comparing M1 to M2. logBF1 = P(M1) / P(M2)</td></tr><tr><td><b>BF3 or logBF3</b></td><td>The Bayes factor comparing M2 to M0. logBF1 = P(M2) / P(M0)</td></tr><tr><td><b>Bayes factor cut-off</b></td><td>A number specified such that a model is considered supported relative to another if the Bayes factor is above it.</td></tr><tr><td><b>Conservation state</b></td><td>For any given locus, each branch in the input phylogeny is estimated to be in one of 3 states regarding its substitution rate: conserved, background (neutral), or accelerated.</td></tr><tr><td><b>Z matrix</b></td><td>The matrix that represents conservation states for each branch in the input phylogeny. Conservation states are coded as 0 = background, 1 = conserved, and 2 = accelerated.</td></tr><tr><td><b>Z score</b></td><td>The coded conservation state for any given branch in a locus (e.g. 0, 1, or 2).</td></tr>
+    </table>
+</div>
+
+                            <div id="sep_div"></div>
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="internal-links" name="formats"></a>
+            <div class="row" id="section-header-cont">
+                <div class="col-24-24" id="section-header-row">
+                    <div id="section-header">Common bioinformatics file formats</div>
+                </div>
+            </div>
+            <div class="row" id="section-cont">
+                <div class="col-24-24" id="section-col">
+                    <div class="row" id="section-row">
+                        <div class="col-2-24" id="inner-margin"></div>
+                        <div class="col-20-24" id="section-content">
+
+                            
+<div class="table-cont">
+    <table class="prog-table">
+        <thead><th>Format</th><th>Use</th><th>Link</th><th>Specs</th></thead><tr><td><b>.txt</b></td><td>General plain text. May be formatted in some way that is unspecified by this extension (i.e., a .txt file could contain comma separated values).</td><td><a href='https://en.wikipedia.org/wiki/Text_file' target='_blank'>Wikipedia</a></td><td>NA</td></tr><tr><td><b>.csv</b></td><td>General data storage with rows and columns. Columns are separated by commas.</td><td><a href='https://en.wikipedia.org/wiki/Comma-separated_values' target='_blank'>Wikipedia</a></td><td><a href='https://datatracker.ietf.org/doc/html/rfc4180' target='_blank'>Link</a></td></tr><tr><td><b>.tab/.tsv</b></td><td>General data storage with rows and columns. Columns are separated by tabs.</td><td><a href='https://en.wikipedia.org/wiki/Tab-separated_values' target='_blank'>Wikipedia</a></td><td>NA</td></tr><tr><td><b>FASTA</b></td><td>Stores sequence data.</td><td><a href='https://en.wikipedia.org/wiki/FASTA_format' target='_blank'>Wikipedia</a></td><td>NA</td></tr><tr><td><b>FASTQ</b></td><td>Stores sequence data and quality scores.</td><td><a href='https://en.wikipedia.org/wiki/FASTQ_format' target='_blank'>Wikipedia</a></td><td><a href='https://doi.org/10.1093/nar/gkp1137' target='_blank'>Link</a></td></tr><tr><td><b>SAM</b></td><td>Sequence Alignment Map format. Stores information about reads mapped to a reference genome.</td><td><a href='https://en.wikipedia.org/wiki/SAM_(file_format)' target='_blank'>Wikipedia</a></td><td><a href='https://samtools.github.io/hts-specs/SAMv1.pdf' target='_blank'>Link</a></td></tr><tr><td><b>BAM</b></td><td>Binary Alignment Map format. The compressed binary version of SAM format.</td><td><a href='https://en.wikipedia.org/wiki/SAM_(file_format)' target='_blank'>Wikipedia</a></td><td><a href='https://samtools.github.io/hts-specs/SAMv1.pdf' target='_blank'>Link</a></td></tr><tr><td><b>CRAM</b></td><td>Another compressed format to store read mapping information.</td><td><a href='https://en.wikipedia.org/wiki/CRAM_(file_format)' target='_blank'>Wikipedia</a></td><td><a href='https://samtools.github.io/hts-specs/CRAMv3.pdf' target='_blank'>Link</a></td></tr><tr><td><b>VCF</b></td><td>Variant Call Format. Used to store information about variants inferred for a given sample(s). .vcf files are a specific type of tab delmited format.</td><td><a href='https://en.wikipedia.org/wiki/Variant_Call_Format' target='_blank'>Wikipedia</a></td><td><a href='https://samtools.github.io/hts-specs/VCFv4.2.pdf' target='_blank'>Link</a></td></tr><tr><td><b>BCF</b></td><td>Binary variant Call Format. The binary compressed verion of a VCF.</td><td><a href='https://en.wikipedia.org/wiki/Variant_Call_Format' target='_blank'>Wikipedia</a></td><td><a href='https://samtools.github.io/hts-specs/VCFv4.2.pdf' target='_blank'>Link</a></td></tr><tr><td><b>BED</b></td><td>Stores coordinates of regions of interest. .bed files are a specific type of tab delimited format.</td><td><a href='https://en.wikipedia.org/wiki/BED_(file_format)' target='_blank'>Wikipedia</a></td><td><a href='https://bedtools.readthedocs.io/en/latest/content/general-usage.html' target='_blank'>Link</a></td></tr><tr><td><b>GFF</b></td><td>Stores annotation information from a genome. .gff files are a specific type of tab delimited format.</td><td><a href='https://en.wikipedia.org/wiki/General_feature_format' target='_blank'>Wikipedia</a></td><td><a href='https://genome.ucsc.edu/FAQ/FAQformat.html#format3' target='_blank'>Link</a></td></tr><tr><td><b>GTF</b></td><td>Stores annotation information from a genome. GTF is an earlier version of GFF, but still commonly used, notably by the Ensembl database. .gtf files are a specific type of tab delmited format.</td><td><a href='https://en.wikipedia.org/wiki/Gene_transfer_format' target='_blank'>Wikipedia</a></td><td><a href='https://genome.ucsc.edu/FAQ/FAQformat.html#format4' target='_blank'>Link</a></td></tr>
+    </table>
+</div>
+
+                            <div id="sep_div"></div>
+
+                        </div>
+                        <div class="col-2-24" id="inner-margin"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row" id="footer">
+		<div class="col-1">
+			<div id="footer_text">
+				<center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 10/25/2022 23:17:25 Eastern Daylight Time</center>
+			</div>
+		</div>
+	</div>
+</body>

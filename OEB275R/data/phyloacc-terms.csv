@@ -1,0 +1,14 @@
+Term,Definition
+.mod file,The output file from phyloFit that contains the transition rate matrix for the probabilty of each nucleotide to change to another as well as the input phylogeny with branch lengths estimated from likely neutrally evolving sites (e.g. <b>4-fold degenerate sites</b>).
+Model,"The probability of three models is calculated for each locus, M0, M1, and M2."
+M0,A model which constrains substitution rates to either background/neutral or conserved rates for all branches.
+M1 (target model),A model which allows a pre-specified set of target branches to have acclerated substitution rates.
+M2 (full or free model),"A model which allows any branch to have any substitution rate (background, conserved, or accelerated)."
+Bayes factor,The ratio of the marginal probabilities of two models to assess which model better fits the data.
+BF1 or logBF1,The Bayes factor comparing M1 to M0. logBF1 = P(M1) / P(M0)
+BF2 or logBF2,The Bayes factor comparing M1 to M2. logBF1 = P(M1) / P(M2)
+BF3 or logBF3,The Bayes factor comparing M2 to M0. logBF1 = P(M2) / P(M0)
+Bayes factor cut-off,A number specified such that a model is considered supported relative to another if the Bayes factor is above it.
+Conservation state,"For any given locus, each branch in the input phylogeny is estimated to be in one of 3 states regarding its substitution rate: conserved, background (neutral), or accelerated."
+Z matrix,"The matrix that represents conservation states for each branch in the input phylogeny. Conservation states are coded as 0 = background, 1 = conserved, and 2 = accelerated."
+Z score,"The coded conservation state for any given branch in a locus (e.g. 0, 1, or 2)."

@@ -1,0 +1,18 @@
+.
+├── data
+│   ├── macaque-svs
+│   │   ├── annotation-files
+│   │   │   ├── Macaca_mulatta.Mmul_8.0.1.97.chromes.gtf.gz
+│   │   │   └── macaque-genes.bed
+│   │   └── macaque-svs-filtered.bed
+│   └── wolf-snps
+│       ├── Filtered_NAwolf_n35_variableSites_GenicRegions.recode.vcf
+│       ├── pop_borealForest.txt
+│       ├── pop_coastal.txt
+│       └── pop_highArctic.txt
+├── etc
+├── README.md
+├── results
+└── scripts
+
+7 directories, 8 files

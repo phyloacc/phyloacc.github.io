@@ -1,0 +1,164 @@
+#NEXUS
+begin taxa;
+	dimensions ntax=62;
+	taxlabels
+	Aardvark_oryAfe1
+	Alpaca_vicPac2
+	Armadillo_dasNov3
+	Baboon_papAnu2
+	Big_brown_bat_eptFus1
+	Black_flying_fox_pteAle1
+	Brush_tailed_rat_octDeg1
+	Bushbaby_otoGar3
+	Cape_elephant_shrew_eleEdw1
+	Cape_golden_mole_chrAsi1
+	Cat_felCat8
+	Chimp_panTro4
+	Chinchilla_chiLan1
+	Chinese_hamster_criGri1
+	Chinese_tree_shrew_tupChi1
+	Cow_bosTau8
+	Crab_eating_macaque_macFas5
+	'David''s_myotis_myoDav1'
+	Dog_canFam3
+	Dolphin_turTru2
+	Domestic_goat_capHir1
+	Elephant_loxAfr3
+	Ferret_musFur1
+	Gibbon_nomLeu3
+	Golden_hamster_mesAur1
+	Gorilla_gorGor3
+	Green_monkey_chlSab2
+	Guinea_pig_cavPor3
+	Hedgehog_eriEur2
+	Horse_equCab2
+	Human_hg38
+	Killer_whale_orcOrc1
+	Lesser_Egyptian_jerboa_jacJac1
+	Manatee_triMan1
+	Marmoset_calJac3
+	Megabat_pteVam1
+	Microbat_myoLuc2
+	Mouse_mm10
+	Naked_mole_rat_hetGal2
+	Opossum_monDom5
+	Orangutan_ponAbe2
+	Pacific_walrus_odoRosDiv1
+	Panda_ailMel1
+	Pig_susScr3
+	Pika_ochPri3
+	Platypus_ornAna1
+	Prairie_vole_micOch1
+	Rabbit_oryCun2
+	Rat_r6
+	Rhesus_rheMac3
+	Sheep_oviAri3
+	Shrew_sorAra2
+	Squirrel_monkey_saiBol1
+	Squirrel_speTri1
+	Star-nosed_mole_conCri1
+	Tasmanian_devil_sarHar1
+	Tenrec_echTel2
+	Tibetan_antelope_panHod1
+	Wallaby_macEug2
+	Weddell_seal_lepWed1
+	White_rhinoceros_cerSim1
+	Wild_bactrian_camel_camFer1
+;
+end;
+
+begin trees;
+	tree tree_1 = [&R] (((((((((((((Human_hg38:0.00655,Chimp_panTro4:0.00684):0.00422,Gorilla_gorGor3:0.008964):0.009693,Orangutan_ponAbe2:0.01894):0.003471,Gibbon_nomLeu3:0.02227):0.01204,(((Rhesus_rheMac3:0.004991,Crab_eating_macaque_macFas5:0.004991):0.003,Baboon_papAnu2:0.008042):0.01061,Green_monkey_chlSab2:0.027):0.025):0.02183,(Marmoset_calJac3:0.03,Squirrel_monkey_saiBol1:0.01035):0.01965):0.07261,Bushbaby_otoGar3:0.13992):0.013494,Chinese_tree_shrew_tupChi1:0.174937):0.002,(((Squirrel_speTri1:0.125468,(Lesser_Egyptian_jerboa_jacJac1:0.1,((Prairie_vole_micOch1:0.08,(Chinese_hamster_criGri1:0.04,Golden_hamster_mesAur1:0.04):0.04):0.06,(Mouse_mm10:0.084509,Rat_r6:0.091589):0.047773):0.06015):0.1):0.022992,(Naked_mole_rat_hetGal2:0.1,(Guinea_pig_cavPor3:0.065629,(Chinchilla_chiLan1:0.06,Brush_tailed_rat_octDeg1:0.1):0.06):0.05):0.06015):0.025746,(Rabbit_oryCun2:0.114227,Pika_ochPri3:0.201069):0.101463):0.015313):0.020593,(((Pig_susScr3:0.12,((Alpaca_vicPac2:0.047275,Wild_bactrian_camel_camFer1:0.04):0.04,((Dolphin_turTru2:0.034688,Killer_whale_orcOrc1:0.039688)[&!hilight={2,0.2167200000000002,#9999ff},!color=#00ff66]:0.03,(Tibetan_antelope_panHod1:0.1,(Cow_bosTau8:0.1,(Sheep_oviAri3:0.05,Domestic_goat_capHir1:0.05):0.05):0.01):0.013592):0.025153):0.020335):0.02,(((Horse_equCab2:0.059397,White_rhinoceros_cerSim1:0.025):0.05,(Cat_felCat8:0.098612,(Dog_canFam3:0.052458,(Ferret_musFur1:0.05,(Panda_ailMel1:0.02,(Pacific_walrus_odoRosDiv1:0.02,Weddell_seal_lepWed1:0.02)[&!hilight={2,0.17132400000000014,#9999ff},!color=#00ff66]:0.02):0.03):0.03):0.02):0.049845):0.006219,((Black_flying_fox_pteAle1:0.05,Megabat_pteVam1:0.063399):0.05,(Big_brown_bat_eptFus1:0.02,('David''s_myotis_myoDav1':0.04,Microbat_myoLuc2:0.04254):0.05):0.06):0.033706):0.004508):0.011671,(Hedgehog_eriEur2:0.221785,(Shrew_sorAra2:0.169562,Star-nosed_mole_conCri1:0.1):0.1):0.056393):0.021227):0.023664,(((((Elephant_loxAfr3:0.002242,Cape_elephant_shrew_eleEdw1:0.05):0.04699,Manatee_triMan1[&!color=#00ff66]:0.1):0.049697,(Cape_golden_mole_chrAsi1:0.03,Tenrec_echTel2:0.235936):0.01):0.03,Aardvark_oryAfe1:0.03):0.02,Armadillo_dasNov3:0.169809):0.006717):0.234728,(Opossum_monDom5:0.125686,(Tasmanian_devil_sarHar1:0.1,Wallaby_macEug2:0.072008):0.05):0.2151):0.071664,Platypus_ornAna1:0.456592);
+end;
+
+begin figtree;
+	set appearance.backgroundColorAttribute="Default";
+	set appearance.backgroundColour=#ffffff;
+	set appearance.branchColorAttribute="User selection";
+	set appearance.branchColorGradient=false;
+	set appearance.branchLineWidth=2.0;
+	set appearance.branchMinLineWidth=0.0;
+	set appearance.branchWidthAttribute="Fixed";
+	set appearance.foregroundColour=#000000;
+	set appearance.hilightingGradient=false;
+	set appearance.selectionColour=#2d3680;
+	set branchLabels.colorAttribute="User selection";
+	set branchLabels.displayAttribute="Branch times";
+	set branchLabels.fontName="sansserif";
+	set branchLabels.fontSize=8;
+	set branchLabels.fontStyle=0;
+	set branchLabels.isShown=false;
+	set branchLabels.significantDigits=4;
+	set layout.expansion=57;
+	set layout.layoutType="RECTILINEAR";
+	set layout.zoom=0;
+	set legend.attribute=null;
+	set legend.fontSize=10.0;
+	set legend.isShown=false;
+	set legend.significantDigits=4;
+	set nodeBars.barWidth=4.0;
+	set nodeBars.displayAttribute=null;
+	set nodeBars.isShown=false;
+	set nodeLabels.colorAttribute="User selection";
+	set nodeLabels.displayAttribute="Node ages";
+	set nodeLabels.fontName="sansserif";
+	set nodeLabels.fontSize=8;
+	set nodeLabels.fontStyle=0;
+	set nodeLabels.isShown=false;
+	set nodeLabels.significantDigits=4;
+	set nodeShapeExternal.colourAttribute="User selection";
+	set nodeShapeExternal.isShown=false;
+	set nodeShapeExternal.minSize=10.0;
+	set nodeShapeExternal.scaleType=Width;
+	set nodeShapeExternal.shapeType=Circle;
+	set nodeShapeExternal.size=4.0;
+	set nodeShapeExternal.sizeAttribute="Fixed";
+	set nodeShapeInternal.colourAttribute="User selection";
+	set nodeShapeInternal.isShown=false;
+	set nodeShapeInternal.minSize=10.0;
+	set nodeShapeInternal.scaleType=Width;
+	set nodeShapeInternal.shapeType=Circle;
+	set nodeShapeInternal.size=4.0;
+	set nodeShapeInternal.sizeAttribute="Fixed";
+	set polarLayout.alignTipLabels=false;
+	set polarLayout.angularRange=0;
+	set polarLayout.rootAngle=0;
+	set polarLayout.rootLength=100;
+	set polarLayout.showRoot=true;
+	set radialLayout.spread=0.0;
+	set rectilinearLayout.alignTipLabels=false;
+	set rectilinearLayout.curvature=0;
+	set rectilinearLayout.rootLength=388;
+	set scale.offsetAge=0.0;
+	set scale.rootAge=1.0;
+	set scale.scaleFactor=1.0;
+	set scale.scaleRoot=false;
+	set scaleAxis.automaticScale=true;
+	set scaleAxis.fontSize=8.0;
+	set scaleAxis.isShown=false;
+	set scaleAxis.lineWidth=1.0;
+	set scaleAxis.majorTicks=1.0;
+	set scaleAxis.minorTicks=0.5;
+	set scaleAxis.origin=0.0;
+	set scaleAxis.reverseAxis=false;
+	set scaleAxis.showGrid=true;
+	set scaleBar.automaticScale=true;
+	set scaleBar.fontSize=10.0;
+	set scaleBar.isShown=false;
+	set scaleBar.lineWidth=1.0;
+	set scaleBar.scaleRange=0.08;
+	set tipLabels.colorAttribute="User selection";
+	set tipLabels.displayAttribute="Names";
+	set tipLabels.fontName="Consolas";
+	set tipLabels.fontSize=20;
+	set tipLabels.fontStyle=0;
+	set tipLabels.isShown=true;
+	set tipLabels.significantDigits=4;
+	set trees.order=true;
+	set trees.orderType="increasing";
+	set trees.rooting=false;
+	set trees.rootingType="User Selection";
+	set trees.transform=false;
+	set trees.transformType="cladogram";
+end;
+

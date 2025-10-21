@@ -1,0 +1,125 @@
+# Welcome to PhyloAcc -- Bayesian rate analysis of conserved non-coding genomic elements.
+# Version 2.0.0 released on April 1, 2022
+# PhyloAcc was developed by Zhirui Hu, Han Yan, Gregg Thomas, Tim Sackton, Scott Edwards, and Jun Liu
+# Citation:      https://doi.org/10.1093/molbev/msz049
+# Website:       https://phyloacc.github.io
+# Report issues: https://github.com/phyloacc/PhyloAcc
+#
+# The date and time at the start is: 10.23.2022 | 10:05:48
+# Using Python version:              3.9.13
+#
+# The program was called as:         /n/home07/gthomas/anaconda3/envs/phyloacc-pkg/bin/phyloacc.py -d /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/mammal-input-accelerated/seq/ -m /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/mammal-input-accelerated/mammal_acc1.mod -l /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/mammal-input-accelerated/tree_coal_unit.mod -t turTru2;orcOrc1;odoRosDiv1;lepWed1;triMan1 -g monDom5;sarHar1;macEug2;ornAna1 -r adaptive -burnin 1000 -mcmc 7000 -n 24 -p 8 -j 20 -batch 25 -part holy-info,shared,holy-smokes -time 24 -o /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/ -phyloacc CONSERVE_PRIOR_B 0.1;ACCE_PRIOR_A 4; ACCE_PRIOR_B 0.5; CONSERVE_PROP 0.5; CONSERVE_RATE 0.3; TRIM_GAP_PERCENT 0.7 --overwrite
+#
+# -----------------------------------------------------------------------------------------------------------------------------
+# INPUT/OUTPUT INFO:
+# Alignment directory:                       /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/mammal-input-accelerated/seq
+# Tree/rate file (mod file from PHAST):      /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/mammal-input-accelerated/mammal_acc1.mod
+# Tree read from mod file:                   (((((((((((((hg38:0.00635811,panTro4:0.00639727)hg38-panTro4:0.00214587,gorGor3:0.00871122)hg38-gorGor3:0.00953503,ponAbe2:0.0183964)hg38-ponAbe2:0.00336551,nomLeu3:0.0213327)hg38-nomLeu3:0.0110901,(((rheMac3:0.0028622,macFas5:0.00197199)rheMac3-macFas5:0.0050833,papAnu2:0.00751373)rheMac3-papAnu2:0.0040709,chlSab2:0.0122377)rheMac3-chlSab2:0.0255202)hg38-rheMac3:0.0208042,(calJac3:0.0333897,saiBol1:0.0323178)calJac3-saiBol1:0.0347897)hg38-calJac3:0.0650259,otoGar3:0.152902)hg38-otoGar3:0.0175657,tupChi1:0.187728)hg38-tupChi1:0.00510076,(((speTri2:0.140811,(jacJac1:0.185825,((micOch1:0.109359,(criGri1:0.054378,mesAur1:0.0666414)criGri1-mesAur1:0.0360916)micOch1-criGri1:0.0282033,(mm10:0.0855261,rn6:0.0922028)mm10-rn6:0.0652661)micOch1-mm10:0.116838)jacJac1-micOch1:0.0569671)speTri2-jacJac1:0.00771378,(hetGla2:0.0893915,(cavPor3:0.119187,(chiLan1:0.0829668,octDeg1:0.122014)chiLan1-octDeg1:0.0152716)cavPor3-chiLan1:0.0266244)hetGla2-cavPor3:0.105307)speTri2-hetGla2:0.0272505,(oryCun2:0.110274,ochPri3:0.195376)oryCun2-ochPri3:0.104344)speTri2-oryCun2:0.0129379)hg38-speTri2:0.0212441,(((susScr3:0.124351,((vicPac2:0.0166038,camFer1:0.0158169)vicPac2-camFer1:0.0985397,((turTru2:0.00615913,orcOrc1:0.00529173)turTru2-orcOrc1:0.0574423,(panHod1:0.017308,(bosTau8:0.0505552,(oviAri3:0.0125618,capHir1:0.0120594)oviAri3-capHir1:0.00662765)bosTau8-oviAri3:0.0017629)panHod1-bosTau8:0.112657)turTru2-panHod1:0.0224037)vicPac2-turTru2:0.00440398)susScr3-vicPac2:0.0445492,(((equCab2:0.0801931,cerSim1:0.0618011)equCab2-cerSim1:0.0347784,(felCat8:0.0887721,(canFam3:0.0890799,(musFur1:0.091856,(ailMel1:0.0607956,(odoRosDiv1:0.0259317,lepWed1:0.0233111)odoRosDiv1-lepWed1:0.0279745)ailMel1-odoRosDiv1:0.00450724)musFur1-ailMel1:0.0200318)canFam3-musFur1:0.0210109)felCat8-canFam3:0.0518729)equCab2-felCat8:0.00483835,((pteAle1:0.00745471,pteVam1:0.00849452)pteAle1-pteVam1:0.105708,(eptFus1:0.0398389,(myoDav1:0.0277149,myoLuc2:0.0160484)myoDav1-myoLuc2:0.0236592)eptFus1-myoDav1:0.104754)pteAle1-eptFus1:0.0341993)equCab2-pteAle1:0.00373968)susScr3-equCab2:0.0122512,(eriEur2:0.245692,(sorAra2:0.288669,conCri1:0.163421)sorAra2-conCri1:0.0166079)eriEur2-sorAra2:0.0360627)susScr3-eriEur2:0.0230746)hg38-susScr3:0.0223121,(((((loxAfr3:0.0902075,eleEdw1:0.225293)loxAfr3-eleEdw1:0.00281432,triMan1:0.0759834)loxAfr3-triMan1:0.016517,(chrAsi1:0.145989,echTel2:0.232419)chrAsi1-echTel2:0.0223786)loxAfr3-chrAsi1:0.00370578,oryAfe1:0.117489)loxAfr3-oryAfe1:0.055983,dasNov3:0.160081)loxAfr3-dasNov3:0.0071811)hg38-loxAfr3:0.24482,(monDom5:0.135945,(sarHar1:0.12595,macEug2:0.17055)sarHar1-macEug2:0.0276415)monDom5-sarHar1:0.21065)hg38-monDom5:0.0768943,ornAna1:0.501668)hg38-ornAna1;
+# Output directory:                          /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/
+# PhyloAcc run directory:                    /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/phyloacc-job-files
+# Log file:                                  adaptive-test-branches.log
+# -----------------------------------------------------------------------------------------------------------------------------
+# DEPENDENCY PATHS:
+# Program                                    Specified Path
+# PhyloAcc                                   PhyloAcc-ST
+# -----------------------------------------------------------------------------------------------------------------------------
+# SPECIES GROUPS:
+# Group                                      Species                                           
+# Targets (-t)                               turTru2;orcOrc1;odoRosDiv1;lepWed1;triMan1
+# Conserved (-c)                             hg38;panTro4;gorGor3;ponAbe2;nomLeu3;rheMac3;macFas5;papAnu2;chlSab2;calJac3;saiBol1;otoGar3;tupChi1;speTri2;jacJac1;micOch1;criGri1;mesAur1;mm10;rn6;hetGla2;cavPor3;chiLan1;octDeg1;oryCun2;ochPri3;susScr3;vicPac2;camFer1;panHod1;bosTau8;oviAri3;capHir1;equCab2;cerSim1;felCat8;canFam3;musFur1;ailMel1;pteAle1;pteVam1;eptFus1;myoDav1;myoLuc2;eriEur2;sorAra2;conCri1;loxAfr3;eleEdw1;chrAsi1;echTel2;oryAfe1;dasNov3
+# Outgroups (-g)                             monDom5;sarHar1;macEug2;ornAna1
+# -----------------------------------------------------------------------------------------------------------------------------
+# CLUSTER OPTIONS:
+# Option                                     Setting                                           
+# Partition(s)                               holy-info,shared,holy-smokes
+# Number of nodes                            1
+# Max mem per job (gb)                       4
+# Time per job                               24:00:00
+# -----------------------------------------------------------------------------------------------------------------------------
+# PHYLOACC OPTIONS:
+# Option                                     Setting                                           
+# CONSERVE_PRIOR_B                           0.1
+# ACCE_PRIOR_A                               4
+# ACCE_PRIOR_B                               0.5
+# CONSERVE_PROP                              0.5
+# CONSERVE_RATE                              0.3
+# TRIM_GAP_PERCENT                           0.7
+# -----------------------------------------------------------------------------------------------------------------------------
+# OPTIONS INFO:
+# Option                                     Current setting                                   Current action
+# -r:                                        adaptive                                          Loci with many branches with low sCF will be run using the gene tree model of PhyloAcc while all others will use the species tree model
+# -burnin:                                   1000                                              This number of steps in the chain will discarded as burnin
+# -mcmc:                                     7000                                              The number of steps in each chain
+# -chain:                                    1                                                 The number of chains to run
+# Loci per batch (-batch)                    25                                                PhyloAcc will run this many loci in a single command.
+# Current processes (-n)                     24                                                This interface will use this many processes.
+# Jobs (-j)                                  20                                                PhyloAcc will submit this many jobs concurrently.
+# Processes per job (-p)                     8                                                 Each job will use this many processes.
+# --summarize                                False                                             PhyloAcc batch files will be generated and written to the job directory specified above.
+# --theta                                    False                                             A species tree with branch lengths in coalescent units will NOT be estimated.
+# -l                                         /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/mammal-input-accelerated/tree_coal_unit.modThe species tree but with branch lengths in coalescent units.
+# --overwrite                                True                                              PhyloAcc will OVERWRITE the existing files in the specified output directory.
+# --quiet                                    False                                             Time, memory, and status info will be printed to the screen while PhyloAcc is running.
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Date        Time      Current step                            Status                                  Elapsed time (s)    Step time (s)   Current mem usage (MB)   Virtual mem usage (MB)
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# 10.23.2022  10:05:48  Getting FASTA files in input dir        Success: 2030 FASTA files found         0.812               0.01322         53.83594                 619.03516           
+# 10.23.2022  10:05:48  Detecting compression of seq files      Success: No compression detected        0.82341             0.00554         53.83594                 619.16797           
+# 10.23.2022  10:06:00  Reading input FASTA files               Success: 2030 files read                13.06457            12.23516        87.07812                 654.58203           
+# 10.23.2022  10:06:01  Calculating alignment stats             Success: 2030 alignments processed      14.07517            1.00227         90.50391                 656.58203           
+# INFO: 1 loci have 0 informative sites and will be removed from the analysis.
+# 10.23.2022  10:06:02  Sampling quartets                       Success                                 14.52134            0.4331          95.70703                 663.58984           
+# 10.23.2022  10:06:18  Calculating per-locus sCF               Processed 100 / 2030 loci...            30.97067            16.44312        99.73047                 665.83984           
+# 10.23.2022  10:06:31  Calculating per-locus sCF               Processed 200 / 2030 loci...            44.20136            29.67381        100.61719                666.08984           
+# 10.23.2022  10:06:47  Calculating per-locus sCF               Processed 300 / 2030 loci...            59.53271            45.00516        100.6875                 666.08984           
+# 10.23.2022  10:06:59  Calculating per-locus sCF               Processed 400 / 2030 loci...            71.62385            57.0963         100.9375                 666.33984           
+# 10.23.2022  10:07:12  Calculating per-locus sCF               Processed 500 / 2030 loci...            85.00027            70.47272        101.6875                 667.08984           
+# 10.23.2022  10:07:24  Calculating per-locus sCF               Processed 600 / 2030 loci...            96.71806            82.19051        101.4375                 666.83984           
+# 10.23.2022  10:07:39  Calculating per-locus sCF               Processed 700 / 2030 loci...            111.44857           96.92102        101.69531                667.33984           
+# 10.23.2022  10:07:51  Calculating per-locus sCF               Processed 800 / 2030 loci...            124.07478           109.54723       102.63672                667.83984           
+# 10.23.2022  10:08:04  Calculating per-locus sCF               Processed 900 / 2030 loci...            136.43141           121.90386       102.63672                667.83984           
+# 10.23.2022  10:08:17  Calculating per-locus sCF               Processed 1000 / 2030 loci...           149.82927           135.30172       102.63672                667.83984           
+# 10.23.2022  10:08:28  Calculating per-locus sCF               Processed 1100 / 2030 loci...           161.20591           146.67836       102.63672                667.83984           
+# 10.23.2022  10:08:43  Calculating per-locus sCF               Processed 1200 / 2030 loci...           175.275             160.74745       102.63672                667.83984           
+# 10.23.2022  10:08:55  Calculating per-locus sCF               Processed 1300 / 2030 loci...           187.95297           173.42542       102.63672                667.83984           
+# 10.23.2022  10:09:07  Calculating per-locus sCF               Processed 1400 / 2030 loci...           199.53745           185.0099        102.63672                667.83984           
+# 10.23.2022  10:09:22  Calculating per-locus sCF               Processed 1500 / 2030 loci...           214.25311           199.72556       102.63672                667.83984           
+# 10.23.2022  10:09:35  Calculating per-locus sCF               Processed 1600 / 2030 loci...           227.758             213.23045       102.63672                667.83984           
+# 10.23.2022  10:09:48  Calculating per-locus sCF               Processed 1700 / 2030 loci...           240.81238           226.28483       102.63672                667.83984           
+# 10.23.2022  10:10:02  Calculating per-locus sCF               Processed 1800 / 2030 loci...           254.67621           240.14866       102.65625                667.83984           
+# 10.23.2022  10:10:16  Calculating per-locus sCF               Processed 1900 / 2030 loci...           268.42078           253.89323       102.65625                667.83984           
+# 10.23.2022  10:10:28  Calculating per-locus sCF               Processed 2000 / 2030 loci...           280.58842           266.06087       102.65625                667.83984           
+# 10.23.2022  10:10:34  Calculating per-locus sCF               Success: 29 st, 2001 gt loci.           287.15238           272.62483       102.67578                667.83984           
+# 10.23.2022  10:10:34  Averaging sCF per node                  Success                                 287.1592            0.00018         102.67578                667.83984           
+# 10.23.2022  10:10:34  Writing: phyloacc-aln-stats.csv         Success: align stats written            287.25154           0.08397         102.80469                667.83984           
+# 10.23.2022  10:10:35  Writing: phyloacc-scf-stats.csv         Success: sCF stats written              287.27808           0.02046         102.80469                667.83984           
+# 10.23.2022  10:10:35  Writing: phyloacc-scf.tree              Success: sCF tree written               287.30471           0.02117         102.89844                667.83984           
+# 10.23.2022  10:10:42  Writing PhyloAcc job files              Success: 83 jobs written                294.81089           7.50018         104.90234                667.83984           
+# 10.23.2022  10:10:42  Writing Snakemake file                  Success: Snakemake file written         294.83932           0.02237         104.90234                667.83984           
+# 10.23.2022  10:10:42  Writing Snakemake config file           Success: Snakemake config written       294.86774           0.02255         104.90234                667.83984           
+# 10.23.2022  10:10:42  Writing Snakemake cluster profile       Success: Snakemake profile written      294.91246           0.03909         104.90234                667.83984           
+# 10.23.2022  10:10:49  Generating summary plots                Success                                 301.67118           6.75287         146.05078                836.05078           
+# 10.23.2022  10:10:49  Writing HTML summary file               Success                                 301.69793           0.02034         146.07422                836.05078           
+# ===============================================================================================================================================================================
+#
+# Done!
+# The date and time at the end is: 10.23.2022 | 10:10:49
+# Total execution time:            301.704 seconds.
+# Output directory for this run:   /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/
+# Log file for this run:           /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/adaptive-test-branches.log
+# Alignment stats file:            /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/phyloacc-aln-stats.csv
+# Concordance factor stats file:   /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/phyloacc-scf-stats.csv
+# Concordance factor tree file:    /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/phyloacc-scf.tree
+# HTML summary file:               /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/phyloacc-pre-run-summary.html
+#
+# PhyloAcc job files successfully generated
+# Run the following command to run the PhyloAcc batches:
+
+
+snakemake -p -s /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/phyloacc-job-files/snakemake/run_phyloacc.smk --configfile /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/phyloacc-job-files/snakemake/phyloacc-config.yaml --profile /n/holylfs05/LABS/informatics/Everyone/phyloacc-data/workshop-20221027/mammal/adaptive-test-branches/phyloacc-job-files/snakemake/profiles/slurm_profile --dryrun
+
+
+# Then, if everything looks right, remove --dryrun to execute
+# You may also want to start your favorite terminal multiplexer (e.g. screen, tmux)
+# ===============================================================================================================================================================================
+#

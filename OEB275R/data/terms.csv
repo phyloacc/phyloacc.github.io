@@ -1,0 +1,32 @@
+Term,Definition
+Terminal*,The window in which you type commands in to be interpreted by the shell
+Console*,"Similar to terminal, but full screen with no graphical component."
+Shell*,"The program that interprets commands typed into a terminal. In your terminal you can type <code class=""inline"">echo $SHELL</code> to check which shell is loaded."
+Bash,A common <b>shell</b> program.
+Command line*,The location where commands are type within the terminal window
+Command prompt*,The information displayed on the command line before the cursor
+Command,A set of instructions (code) that can be interpreted by the <b>shell</b>
+Program,"A set of code designed for a specific task. Similar to <b>command</b>, but more general (i.e., a program is not limited to the <b>shell's</b> scripting syntax)."
+Library,Files containing general code blocks that can be used widely by different programs
+Dependency,A program or library that is required for another program to run.
+Package,A <b>program</b> and all it's dependencies.
+Module,Similar to library.
+Argument,Options specified in the command line when running a program or command.
+Directory,A named location on a computer that contains files and/or other directories.
+File,"A named location on a computer that contains data, commonly in the form of plain text."
+Script,"A type of file whose contents are code or commands to be interpreted by the shell or another interpreter (e.g., Python)."
+Repository/Repo,"From git, a directory of files, possibly including code, documentation, or data."
+File system,"The way in which files and directories are organized in a nesting, tree-like structure."
+Root,"The lowest level in the file system in which all directories and files are stored. Critical system files are stored close to the <b>root</b>. Usually located at <code class=""inline"">/</code> and usually only accessible by the computer's administrators."
+Home,"A user's home directory is where that user has read, write, and execute permissions within the file system."
+Path,"The location of a file or directory within the file system, with directories separated by slash characters (<code class=""inline"">/</code>)."
+Absolute path,The full name of a file or directory that includes all directories and sub-directories starting from the root of the file system to the specified file or directory.
+Relative path,The name of a file or directory that includes all directories and sub-directories starting from the user's current location.
+Operating system,The software that interfaces between the computer's hardware and other user facing software.
+Server,"A computer setup to have users connect and work on it remotely, usually with more resources than personal computers to accommodate more resource intensive commands and multiple users."
+Cluster,An interconnected collection of <b>servers</b> setup such that users can connect to one and specify high resource commands to run which are distributed to the others based on available resources.
+Node,One computer within a cluster.
+Login node,The <b>node</b> within the <b>cluster</b> which users connect to and interact with.
+Head node,The <b>node</b> within the <b>cluster</b> which handles job scheduling and resource allocation.
+Job,A submitted <b>command</b> or set of commands passed from the user to the job scheduler on a <b>cluster</b>.
+Job Scheduler,"Software that runs on a <b>cluster</b> that monitors and configures resource usage. Users directly interact with the job scheduler to submit jobs to be run and the scheduler delegates when and on what node they will be run. On our Cannon cluster, our job scheduling software is <a href=""https://slurm.schedmd.com/"" target=""_blank"">SLURM</a>."

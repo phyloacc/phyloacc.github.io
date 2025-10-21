@@ -1,0 +1,19 @@
+Term,Definition
+Comparative genomics,"The field in which DNA sequences from different species are compared to each other, often in the context of their phylogeny, to identify variants in the sequence that may play a role in adaptation."
+Homolog,Sequences that share ancestry
+Orthologs,Homologs that descend from a speciation event
+Paralogs,Homologs that descend from a duplication event
+Alignment,"When DNA or amino acid sequences are arrayed in a matrix such that rows represent different sequences and columns represent individual sites, with adjustment for insertions and deletions by gap insertion. In comparative genomics, alignments are usually performed among sequences that share ancestry (are <b>homologs</b>)."
+Whole genome alignment,An alignment of complete genome sequences with others
+Locus,A general name for any discrete region of the genome. Plural: loci.
+Conserved non-coding elements,Regions of the genome that do not code for proteins but are nevertheless conserved relative to the rest of the genome. Examples include regulatory regions or non-coding RNAs.
+Phylogeny,"A branching representation of the evolution of species, genomes, or individual loci"
+Newick format,"A way to represent phylogenies in text format using nested parentheses, e.g. ((A,B),C);"
+Node,"The joining point of two branches in a phylogeny, representing the ancestor of the two descending branches."
+Branch length,"A number that represents the length of a branch in a phylogeny, commonly in units of either relative number of substitutions that occurred on that branch or absolute time. In <b>Newick format</b> branch lengths are indicated by a colon and a number, e.g. ((A:1,B:2):3,C:2);"
+Substitution rate,"The rate at which mutations fix in a population, becoming the dominant allele."
+4-fold degenerate sites,Sites within the protein coding region of a gene that result in the same amino acid translation regardless of the nucleotide present. Often used to estimate the neutral rate of evolution as these sites are assumed to be unconstrained by selection.
+Species tree,A phylogeny inferred for a set of species by combining information across the genome in order to represent the history of speciation. Common methods for species tree inference are maximum likelihood on concatenated gene alignments or summaries of gene trees.
+Gene tree,A phylogeny inferred for a set of species from the alignment of a single protein coding gene. Gene trees can capture speciation history as well as gene duplication events. Gene tree is also an umbrella term to refer to phylogenies inferred from the alignment of ANY short genomic region (e.g. conserved non-coding elements).
+Phylogenetic discordance,"Processes like ancestral polymorphisms and introgression, combined with recombination over generations lead to different regions of the genome having different evolutionary histories. As a result, a phylogeny inferred from one region of the genome may be different than from another region (i.e. gene trees may differ from one another). This also refers to an individual gene tree differing from that of a species tree."
+Concordance factors,A method to assess the underlying concordance of a phylogeny by measuring how many gene trees or alignment sites agree with the inferred topology.
