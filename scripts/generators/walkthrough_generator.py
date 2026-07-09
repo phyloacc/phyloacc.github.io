@@ -194,6 +194,8 @@ html_template = """
                             <a class="internal-link" id="wga"></a>
                             <h3>2. Generating a whole-genome alignment</h3>
 
+                            <img class="fig-img" src="img/fig1-cactus.png" alt="">
+
                             <p> 
                                 We recommend
                                 <a href="https://github.com/ComparativeGenomicsToolkit/cactus" target="_blank">Cactus</a> for building this; see
@@ -206,6 +208,8 @@ html_template = """
 
                             <a class="internal-link" id="cnee-neutral-model"></a>
                             <h3>3. Generating conserved elements and a neutral model</h3>
+
+                            <img class="fig-img" src="img/fig1-workflows.png" alt="">
 
                             <p>
                                 We provide a set of <code class="inline">phyloacc-workflows</code> for fitting a neutral model, scoring
@@ -234,6 +238,8 @@ html_template = """
                     <div class="row" id="section-row">
                         <div class="col-2-24" id="inner-margin"></div>
                         <div class="col-20-24" id="section-content">
+
+                            <img class="fig-img" src="img/fig1-phyloacc.png" alt="">
 
                             <p>
                                 Once you have your loci and neutral model (and tree) in hand &mdash; whether from your own alignments or from the
