@@ -15,6 +15,17 @@
     text-align: justify;
     text-justify: inter-word;
 }
+#main-content-col-page b, #main-content-col-page strong {
+	/* At font-weight: 200 the UA default of "bolder" for b/strong only resolves to ~400 (normal),
+	   so bold text doesn't look bold. Force it explicitly. */
+	font-weight: bold;
+}
+.fig-img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin: 20px auto;
+}
 
 /*------------------------------------------------------*/
 /* Page side navigation styles */
@@ -170,12 +181,10 @@
 #rec_banner {
     width:100%;
 	align-items:left;
-    /* background-color:#8cd9af; */
-	background-color: #bfbfbf;
+    background-color:#8cd9af;
     padding:5px;
     font-size:1.4em;
-    /* border-left: 5px solid #3CB371; */
-	border-left: 5px solid #999999;
+    border-left: 5px solid #3CB371;
     border-top-left-radius:2px;
     border-top-right-radius:2px;
     box-shadow: 2px 2px 2px #cccccc;
@@ -186,8 +195,7 @@
     background-color:#ffffff;
 	padding:1px 5px;
 	font-size:0.9em;
-    /* border-left: 5px solid #3CB371; */
-	border-left: 5px solid #999999;
+    border-left: 5px solid #3CB371;
     border-bottom-left-radius:2px;
     border-bottom-right-radius:2px;
     box-shadow: 2px 2px 2px #cccccc;
