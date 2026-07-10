@@ -12,6 +12,7 @@ parser.add_argument("--install", dest="install", help="Without --install: build 
 # parser.add_argument("--scores", dest="scores", help="Without --all: build scores.html. With --all: exlude scores.html", action="store_true", default=False);
 parser.add_argument("--readme", dest="readme", help="Without --all: build readme.html. With --all: exlude readme.html", action="store_true", default=False);
 parser.add_argument("--walkthrough", dest="walkthrough", help="Without --all: build walkthrough.html. With --all: exlude walkthrough.html", action="store_true", default=False);
+parser.add_argument("--workflow", dest="workflow", help="Without --all: build workflow.html. With --all: exlude workflow.html", action="store_true", default=False);
 parser.add_argument("--links", dest="links", help="Without --all: build links.html. With --all: exlude links.html", action="store_true", default=False);
 args = parser.parse_args();
 # Input options.
@@ -24,6 +25,7 @@ pages = {
     'install' : args.install,
     'readme' : args.readme,
     'walkthrough' : args.walkthrough,
+    'workflow' : args.workflow,
     'links' : args.links,
 }
 
@@ -41,6 +43,9 @@ if pages['readme']:
 
 if pages['walkthrough']:
     os.system("python walkthrough_generator.py");
+
+if pages['workflow']:
+    os.system("python workflow_generator.py");
 
 if pages['links']:
     os.system("python links_generator.py");
