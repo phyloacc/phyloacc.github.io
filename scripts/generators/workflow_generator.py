@@ -61,6 +61,8 @@ html_template = """
                 Walkthrough: Predicting conserved elements and neutral models from a whole-genome alignment
             </div>
 
+            <img class="fig-img" src="img/fig1-workflows.png" alt="">
+
             <center>
                 <p><a href="walkthrough.html">&laquo; Back to the PhyloAcc walkthrough overview</a></p>
             </center>
@@ -79,9 +81,9 @@ html_template = """
                             <p>
                                 A typical set of loci for analysis with PhyloAcc are conserved non-exonic elements (CNEEs). The
                                 <a href="https://github.com/phyloacc/phyloacc-workflows" target="_blank">phyloacc-workflows</a> repository contains
-                                Snakemake workflows that take a whole-genome alignment (in MAF format) and a reference genome and produce exactly
-                                this: a neutral substitution model, conservation scores, and a final set of CNEE alignments ready to hand to
-                                <code class="inline">phyloacc.py</code> (see the <a href="readme.html#inputs">README</a> for how PhyloAcc uses these
+                                Snakemake workflows that take a whole-genome alignment (in MAF format) and a reference genome and produce
+                                a neutral substitution models and trees (one per chromosome), conserved elements, and a final set of CNEE alignments ready to hand to
+                                <code class="inline">PhyloAcc</code> (see the <a href="readme.html#inputs">README</a> for how PhyloAcc uses these
                                 as input).
                             </p>
 
@@ -110,7 +112,7 @@ html_template = """
                             </p>
 
                             <p>
-                                Outputs of the pipeline include the neutral model (<code class="inline">.mod</code> files), and the final CNEE alignments 
+                                Outputs of the pipeline include the neutral model and tree (<code class="inline">.mod</code> files), and the final CNEE alignments 
                                 (FASTA files).
                             </p>
 
@@ -157,21 +159,39 @@ html_template = """
                                 Use the following command to clone the repository:
                             </p>
 
-                            <pre class="cmd"><code>git clone https://github.com/phyloacc/phyloacc-workflows.git
-cd phyloacc-workflows
-git checkout dev</code></pre>
+                            <pre class="cmd"><code>git clone https://github.com/phyloacc/phyloacc-workflows.git</code></pre>
 
                             <p>
-                                Everything below assumes your working directory is the root of this clone. You may always provide the full path
-                                to the workflow files.
+                                If you do not have or wish to use git, download the archive directly from GitHub or with the following command:
                             </p>
 
+                            <pre class="cmd"><code>wget https://github.com/phyloacc/phyloacc-workflows/archive/main.zip</code></pre>
+
+                            <p>
+
+                            </p>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="caution_banner">Note - Work in the phyloacc-workflows directory, or provide full paths to the workflow files.</div>
+                                    <div id="caution_text">
+                                        <p>
+                                            Everything below assumes your working directory is the phyloacc-workflows directory. If you work from a different
+                                            directory, you may always provide the full path to the workflow files.
+                                        </p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            
                             <a class="internal-link" id="check-conda"></a>
                             <h2>2. Ensure conda is installed</h2>
 
                             <p>
                                 The workflow uses conda to manage dependencies. You can check if conda is installed with 
-                                <code class="inline">conda --version</code>. If you don't have conda, check out our tutorial to install it:
+                                <code class="inline">conda --version</code>. If you don't have conda (<em>i.e.</em> if conda command 
+                                returns a "command not found" error), check out our tutorial to install it:
                             </p>
 
                             <center><a class="main-btn" href="https://informatics.fas.harvard.edu/resources/tutorials/installing-command-line-software-conda-mamba/" target="_blank">Installing conda &raquo;</a></center>
@@ -182,11 +202,11 @@ git checkout dev</code></pre>
 
                             <p>
                                 The repository includes a small wrapper script, <code class="inline">phyloacc_workflows</code>, that manages a
-                                dedicated conda environment for you (with <code class="inline">snakemake</code>, <code class="inline">samtools</code>,
+                                dedicated conda environment for you with all the required dependencies. <!--(with <code class="inline">snakemake</code>, <code class="inline">samtools</code>,
                                 <code class="inline">picard</code>, <code class="inline">phast</code> 
                                 (<code class="inline">phyloFit</code> and <code class="inline">phastCons</code>),
                                 <code class="inline">ncbi-datasets-cli</code>, and <code class="inline">mafutils</code>) so you don't need to install
-                                any of these by hand. To create it, run:
+                                any of these by hand. --> To create it, run:
                             </p>
 
                             <center><pre class="cmd"><code>./phyloacc_workflows setup</code></pre></center>
@@ -418,7 +438,13 @@ maf_ref_chr_joiner: "."</code></pre>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">rule_resources</code></td>
-                                        <td>Per-rule cluster resources (SLURM partition, memory, CPUs, time limit).</td>
+                                        <td>
+                                            Per-rule cluster resources (SLURM partition, memory, CPUs, time limit). Resources required depends on the number
+                                            of species in the alignment and the size of the genomes. This is hard to predict. Many rules are fast and light, but some 
+                                            (especially <code class="inline">run_phastcons</code>) can be slow and memory-intensive. 
+                                            If you run out of memory or time on a rule, increase the resources for that rule in your config file and re-run the workflow.
+                                            <b>You must provide a partition name applicable to your cluster</b>.
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
@@ -503,6 +529,11 @@ maf_ref_chr_joiner: "."</code></pre>
                                 </div>
                             </div>
 
+                            <h4>Here is an example rulegraph for fitting neutral models and extracting CNEEs</h4>
+                            
+                            <center><a class="main-btn" href="https://github.com/phyloacc/phyloacc-workflows/blob/main/phylofit-phastcons-rulgraph.png" target="_blank">Pipeline rulegraph &raquo;</a></center>
+
+
                             <a class="internal-link" id="execute"></a>
                             <h2>2. Executing the workflow</h2>
 
@@ -514,7 +545,7 @@ maf_ref_chr_joiner: "."</code></pre>
     --configfile my-config.yaml \\
     -j 20 \\
     -e slurm</code></pre>
-
+    
                             <p>
                                 Depending on the size of your alignment and how many chromosomes/scaffolds you're analyzing, this can take anywhere
                                 from minutes to many hours. Snakemake will print progress as jobs are submitted and complete, and each rule also
@@ -526,9 +557,8 @@ maf_ref_chr_joiner: "."</code></pre>
                             <h2>3. Re-running and troubleshooting</h2>
 
                             <p>
-                                Snakemake only re-runs rules whose outputs are missing or out of date, so if a run is interrupted &mdash; a job hits a
-                                cluster time limit, a node fails, you kill it and come back later &mdash; simply run the exact same command again and
-                                it will pick up where it left off rather than starting over.
+                                Snakemake only re-runs rules whose outputs are missing or out of date, so if a run is interrupted or errors out, address the
+                                cause of the failure and then run the exact same command again and it will pick up where it left off rather than starting over.
                             </p>
 
                             <p>
@@ -585,7 +615,7 @@ maf_ref_chr_joiner: "."</code></pre>
                                         sequence removed and short fragments filtered out.</td>
                                     </tr>
                                     <tr>
-                                        <td><code class="inline">05-cnees/phastcons/maf/&lt;group&gt;/&lt;chromosome&gt;/</code></td>
+                                        <td><code class="inline">05-cnees/phastcons/fasta/&lt;group&gt;/&lt;chromosome&gt;/</code></td>
                                         <td>One alignment file per CNEE (in the format set by <code class="inline">cnee_output_format</code>), plus a
                                         <code class="inline">manifest.txt</code> listing them. This directory is what you point PhyloAcc's
                                         <code class="inline">-d</code> option at (see the <a href="readme.html#inputs">README</a>).</td>
@@ -599,7 +629,7 @@ maf_ref_chr_joiner: "."</code></pre>
 
                             <p>
                                 From here, the CNEE alignment directory for a chromosome (or all of them pooled together) is ready to hand straight to
-                                <code class="inline">phyloacc.py</code> along with the neutral model produced above &mdash; see the PhyloAcc
+                                <code class="inline">phyloacc.py</code> along with the neutral model produced above. See the PhyloAcc
                                 <a href="readme.html">README</a> for how to set up and run PhyloAcc itself on these inputs.
                             </p>
 
