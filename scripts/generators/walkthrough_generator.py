@@ -122,7 +122,7 @@ html_template = """
                                     <b>Sequence alignments</b> for the regions you're testing (<em>e.g.</em> CNEEs).
                                 </li>
                                 <li>
-                                    <b>A neutral substitution model</b>: the expected, background rate of substitution in the absence of selection.
+                                    <b>A neutral substitution model</b>: the expected, background rate of substitution in the absence of selective constraint.
                                     This is estimated (e.g. with <code class="inline">phyloFit</code>) from putatively neutral sites, typically 4-fold
                                     degenerate sites in genes, and given to PhyloAcc as a <code class="inline">.mod</code> file (output from 
                                     <code class="inline">phyloFit</code>).
@@ -144,16 +144,16 @@ html_template = """
                             <img class="fig-img" src="img/fig1.png" alt="Overview of inputs and pipelines: genome assemblies and a species tree go into a Cactus-snakemake pipeline to produce a whole-genome alignment (MAF); the MAF, a sample sheet, and a reference genome and annotation go into phyloacc-workflows to produce neutral substitution models and CNEE alignments; those are then fed into PhyloAcc to produce accelerated elements.">
 
                             <p>
-                                If starting from scratch, in other words if you need to infer the conserved elements and neutral model yourself, you will 
-                                need to generate a whole genome alignment in order to predict conserved elements and neutral models. This requires the following inputs:
+                                If starting from scratch, in other words if you need to infer the conserved elements and neutral models and trees yourself, you will 
+                                need to generate a whole genome alignment in order to predict them. This requires the following inputs:
                             </p>
 
                             <ol>
                                 <li>
-                                    The genome FASTA files of the species you wish to analyze.
+                                    The <b>softmasked</b> genome FASTA files of the species you wish to analyze.
                                 </li>
                                 <li>
-                                    At least one annotated reference genome (GFF file).
+                                    At least one <b>hardmasked</b> reference genome FASTA file and corresponding annotation GFF file.
                                 </li>
                                 <li>
                                     A Newick-formatted tree containing at least the topology of the species in the FASTA files.
@@ -169,7 +169,7 @@ html_template = """
                             </p>
 
                             <p>
-                                Here a a couple ways you could get a species tree:
+                                Here are a couple ways you could get a species tree:
                             </p>
 
                             <ul>
@@ -193,13 +193,16 @@ html_template = """
 
                             <p>
                                 A whole genome alignment (WGA) gives us access to any locus in the genome and is the best starting point for inferring both conserved elements
-                                and neutral models. For this step, all you need are the genome FASTA files of each species you want to include in your analysis and a species
+                                and neutral models. We recommend
+                                <a href="https://github.com/ComparativeGenomicsToolkit/cactus" target="_blank">Cactus</a> for building whole genome alignments.
+                            </p>
+                                
+                            <p>
+                                For this, all you need are the genome FASTA files of each species you want to include in your analysis and a species
                                 tree in Newick format (branch lengths in units of expected substitutions per site are helpful, but just the topology is required). 
                             </p>
 
                             <p> 
-                                We recommend
-                                <a href="https://github.com/ComparativeGenomicsToolkit/cactus" target="_blank">Cactus</a> for building whole genome alignments. 
                                 We have developed Snakemake workflows for running Cactus. Get started here:
                             </p>
                             
@@ -217,7 +220,7 @@ html_template = """
                             <p>
                                 With the whole-genome alignment MAF file, you can predict conserved elements and estimate a neutral model. You will also
                                 need an annotation (GFF file) for at least one species in your alignment in order to extract 4-fold degenerate sites for estimating
-                                the neutral model and a sample sheet (CSV file) that lists the species in your alignment (and optionally their corresponding NCBI accessions
+                                the neutral model, and a sample sheet (CSV file) that lists the species in your alignment (and optionally their corresponding NCBI accessions
                                 or pre-calculated GC content).
                             </p>
 

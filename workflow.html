@@ -55,8 +55,19 @@
                     <li><a href="workflow.html#inputs">Preparing your inputs</a></li>
                     <ol>
                         <li><a href="workflow.html#required-inputs">Required inputs</a></li>
-                        <li><a href="workflow.html#chromosome-ids">Matching chromosome IDs</a></li>
-                        <li><a href="workflow.html#config-file">Building a config file</a></li>
+                        <ul>
+                            <li><a href="workflow.html#hard-masking">The reference genome must be hard masked</a></li>
+                        </ul>
+                        <li><a href="workflow.html#config-file">Pipeline config file</a></li>
+                        <ul>
+                            <li><a href="workflow.html#config-template">Config template</a></li>
+                            <li><a href="workflow.html#chromosome-ids">Matching chromosome IDs</a></li>
+                            <li><a href="workflow.html#gc-correction">Optional GC content correction</a></li>
+                            <li><a href="workflow.html#rho-estimation">Estimating rho, or using a global value</a></li>
+                            <li><a href="workflow.html#filtering">Filtering parameters</a></li>
+                            <li><a href="workflow.html#rule-resources">Specifying resources</a></li>
+                            <li><a href="workflow.html#config-reference">Full config reference</a></li>
+                        </ul>
                     </ol>
                     <li><a href="workflow.html#running">Running the workflow</a></li>
                     <ol>
@@ -311,10 +322,150 @@
                             <h2>1. Required inputs</h2>
 
                             <p>
-                                Everything the workflow needs is specified in a single YAML config file, a template of which is found in the repository at
-                                <code class="inline">config-template.yaml</code>. Copy this template and fill
-                                in the paths for your project (more on this <a href="workflow.html#config-file">below</a>). At minimum, you'll
-                                need to gather the following before you start:
+                                This workflow works in two steps: 1) predict neutral models (one per chromosome) and then 2) using the neutral models, 
+                                predict conserved elements. These steps require the following inputs:
+                            </p>
+
+                            <div class="table-container">
+                                <table class="table-content">
+                                    <tr>
+                                        <th>Input</th>
+                                        <th>File format</th>
+                                        <th>Config key</th>
+                                        <th>Description</th>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Whole-genome alignment</b></td>
+                                        <td>MAF</td>
+
+                                        <td><code class="inline">maf</code></td>                                        
+                                        <td>The alignment the pipeline scans for conserved elements. If you don't have one yet, see
+                                        <a href="walkthrough.html#wga">generating a whole-genome alignment</a> in the walkthrough overview.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Reference genome assembly</b></td>
+                                        <td>FASTA</td>
+                                        <td><code class="inline">ref_fasta</code></td>
+                                        <td>The MAF file uses one species' genome as the reference for coordinates. This same assembly is used to split
+                                        the alignment into chunks based on runs of Ns, so the conserved element prediction can be done on smaller pieces
+                                        of the alignment for scalability. <b>IMPORTANT: The reference assembly must contain Ns</b>. See
+                                        <a href="workflow.html#hard-masking">hard-masking the reference genome</a> below.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Reference genome annotation</b></td>
+                                        <td>GFF</td>
+                                        <td><code class="inline">ref_gff</code></td>
+                                        <td>Used both to extract 4-fold degenerate sites for the neutral model and to exclude coding sequence from the
+                                        final CNEEs.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Species tree</b></td>
+                                        <td>Newick</td>
+                                        <td><code class="inline">tree_file</code></td>
+                                        <td>The topology is used when estimating the neutral model. If you ran the 
+                                        <a href="walkthrough.html#wga">Cactus snakemake</a> pipeline to generate your whole-genome alignment, you should
+                                        already have this. If you have a .hal file from a previous alignment, you can extract the tree with the
+                                        <a href="https://github.com/ComparativeGenomicsToolkit/hal" target="_blank">HAL tools</a> command
+                                        <code class="inline">halStats <hal file> --tree</code>. Otherwise, you will have to infer a tree.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Sample sheet</b></td>
+                                        <td>CSV</td>
+                                        <td><code class="inline">sample_file</code></td>
+                                        <td><b>Required only if correcting neutral models for GC content (<code class="inline">use_gc_corrected_models: true</code>)</b>. 
+                                        With, at minimum, either a column called <code class="inline">accession</code> containing an NCBI assembly
+                                        accession for each genome in the MAF, used to look up GC content for neutral model correction <b>OR</b> a column called
+                                        <code class="inline">gc</code> with precomputed values can be supplied instead of accessions. </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <p>
+                                The paths to these files and other pipeline options are specified in a single YAML config file, described in the pipeline configuration section.
+                            </p>                            
+
+                            <a class="internal-link" id="hard-masking"></a>
+                            <h3>The reference genome must be hard masked</h3>
+
+                            <p>
+                                For scalability, the pipeline splits the alignment into chunks wherever the reference assembly has a run of Ns (see
+                                <a href="workflow.html#filtering">Filtering parameters</a>), and the resulting chunks are scored for conservation.
+                                If your assembly is highly contiguous and mostly free of Ns, there will be few natural places to split the alignment,
+                                chunks will be large, and repetitive sequence will be included in the <code class="inline">phastCons</code> scan. Practically,
+                                the pipeline will take prohibitively long to run.
+                            </p>
+
+                            <p>
+                                If your assembly doesn't contain Ns, we recommend hard-masking it with
+                                <a href="https://www.repeatmasker.org/" target="_blank">RepeatMasker</a>. Hard-masking replaces repetitive sequence 
+                                with <code class="inline">N</code>, which both gives the pipeline's Ns-based splitting real breakpoints
+                                to work with and excludes those repeat regions from conservation scoring entirely.
+                            </p>
+
+                            <center><pre class="cmd"><code>RepeatMasker -pa [threads] -species "[species or clade name]" -dir [output directory] [genome.fasta]</code></pre></center>
+
+                            <p>
+                                This produces <code class="inline">[genome.fasta].masked</code> alongside a few report files. Specify this masked assembly as
+                                <code class="inline">ref_fasta</code> in the pipeline config and make sure it's the exact same assembly/coordinates already
+                                used to build your MAF since masking a different assembly version will shift coordinates and break the Ns-based
+                                chunking.
+                            </p>
+
+                            <h4>Checking runs of Ns</h4>
+                                <p>
+                                    You can also check whether your assembly has meaningful runs of Ns, both before and after masking, with a few quick bash commands.
+                                </p>
+
+                                <p>
+                                    First, extract the runs of Ns and write their lengths to a file:
+                                </p>
+
+                                <center><pre class="cmd"><code>awk '/^>/{if(seq)print seq; seq=""; next}{seq=seq $0}END{if(seq)print seq}' [genome.fasta] | grep -oE 'N+' | awk '{print length($0)}' > n-run-lengths.txt</code></pre></center>
+
+                                <p>
+                                    You can check how many run there are in total:
+                                </p>
+
+                                <center><pre class="cmd"><code>wc -l < n-run-lengths.txt</code></pre></center>
+
+                                <p>
+                                    Display a distribution of run lengths:
+                                </p>
+
+                                <center><pre class="cmd"><code>echo "# digits in length of run: 1 = 1-9bp, 2 = 10-99bp, 3 = 100-999bp, etc."; printf "%-8s %s\n" digits count; awk '{print length($1)}' n-run-lengths.txt | sort -n | uniq -c | awk '{printf "%-8s %s\n", $2, $1}'</code></pre></center>
+                                
+                                <p>
+                                    And also explicitly display how many are at least 100bp, the pipeline's default
+                                    <code class="inline">min_Ns_to_split_by</code>, and so the actual split points it would find:
+                                </p>
+
+                                <center><pre class="cmd"><code>awk '$1 >= 100' n-run-lengths.txt | wc -l</code></pre></center>
+
+                            <a class="internal-link" id="config-file"></a>
+                            <h2>2. Pipeline config file</h2>
+
+                            <p>
+                                Everything the workflow needs, including the paths to the raw inputs above is specified in a single YAML config file. YAML is a format
+                                that works by pairing keys and values as <code class="inline">key: value</code> pairs. The keys are provided and represent
+                                specific settings the workflow needs, and you fill in the values.
+                            </p>
+
+                            <a class="internal-link" id="config-template"></a>
+                            <h3>Config template</h3>
+
+                            <p>
+                                We provide a fully commented template, 
+                                <a href="https://github.com/phyloacc/phyloacc-workflows/blob/main/config-template.yaml" target="_blank">config-template.yaml</a>. 
+                                Copy it from the link above or the internal path below from your local copy of the repository and start
+                                filling in the paths and chromosome groups for your project:
+                            </p>
+
+                            <center><pre class="cmd"><code>cp config-template.yaml my-config.yaml</code></pre></center>
+
+                            <p>
+                                Open <code class="inline">my-config.yaml</code> in an editor. The required inputs from above are all near the top of
+                                the file, under a section marked <code class="inline">YOU MUST FILL THESE IN</code>, and map onto the following config
+                                keys, along with a few other required settings:
                             </p>
 
                             <div class="table-container">
@@ -325,44 +476,40 @@
                                     </tr>
                                     <tr>
                                         <td><code class="inline">maf</code></td>
-                                        <td>The whole-genome alignment to scan for conserved elements, in MAF format.</td>
+                                        <td>Path to the whole-genome alignment described above.</td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">tree_file</code></td>
-                                        <td>A Newick-formatted tree containing the species in the MAF.</td>
+                                        <td>Path to the species tree described above.</td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">maf_ref_id</code></td>
                                         <td>The species label used for the reference genome in the MAF (the one whose coordinates the MAF, and
-                                        ultimately the CNEEs, are reported in).</td>
+                                        ultimately the CNEEs, are reported in). See <a href="workflow.html#chromosome-ids">below</a>.</td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">ref_fasta</code></td>
-                                        <td>The FASTA file for the reference genome named in <code class="inline">maf_ref_id</code>.</td>
+                                        <td>Path to the reference genome FASTA file described above.</td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">ref_fasta_index</code></td>
-                                        <td>The <code class="inline">.fai</code> index for <code class="inline">ref_fasta</code>. This must literally
-                                        be <code class="inline">ref_fasta + ".fai"</code>; if it doesn't exist yet the workflow will build it for you
-                                        the first time it runs (via <code class="inline">samtools faidx</code>).</td>
+                                        <td>Path to the reference FASTA's <code class="inline">.fai</code> index described above. This must literally
+                                        be <code class="inline">ref_fasta + ".fai"</code>. If blank, the index will be generated with 
+                                        <code class="inline">samtools faidx</code></td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">ref_gff</code></td>
-                                        <td>A GFF annotation of the reference genome, used both to extract 4-fold sites for neutral model estimation and
-                                        to exclude coding sequences from the final CNEEs.</td>
+                                        <td>Path to the GFF annotation for the reference genome described above.</td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">ref_chromosome_groups</code></td>
                                         <td>The reference chromosomes/scaffolds to analyze, organized into named groups (see
-                                        <a href="workflow.html#chromosome-ids">below</a>). Group names are organizational only and do not affect the 
+                                        <a href="workflow.html#chromosome-ids">below</a>). Group names are organizational only and do not affect the
                                         analysis. They simply become subdirectories of your output.</td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">sample_file</code></td>
-                                        <td>A CSV sample sheet with, at minimum, a column called <code class="inline">accession</code> containing an
-                                        NCBI assembly accession for each genome in the MAF which is used to look up GC content for model correction, or
-                                        a column called <code class="inline">gc</code> with precomputed values can be supplied instead of accessions.
-                                        Not needed if you set <code class="inline">use_gc_corrected_models: false</code>.</td>
+                                        <td>Path to the sample sheet CSV described above.</td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">output_dir</code></td>
@@ -370,19 +517,27 @@
                                     </tr>
                                     <tr>
                                         <td><code class="inline">tmp_dir</code></td>
-                                        <td>A scratch directory for temporary files. Make sure it has sufficient space as whole-genome MAFs and their
+                                        <td>A directory for temporary files. Make sure it has sufficient space as whole-genome MAFs and their
                                         intermediate splits can be large.</td>
                                     </tr>
                                 </table>
                             </div>
 
+                            <p>
+                                There are many other settings in the config file that are commented within it. In the following sections we highlight
+                                a few that are important to understand to know if you need to adjust them for your dataset.
+                            </p>
+                            
                             <a class="internal-link" id="chromosome-ids"></a>
-                            <h2>2. Matching chromosome IDs</h2>
+                            <h3>Matching chromosome IDs</h3>
+
+                            <h4>Relevant config keys: <code class="inline">ref_chromosome_groups</code>, <code class="inline">maf_ref_id</code>
+                                <code class="inline">maf_ref_chr_joiner</code>, <code class="inline">maf_chr_prefix</code></h4>
 
                             <p>
                                 A common source of early errors is that the reference chromosome/scaffold IDs don't line up between the MAF, the
-                                reference FASTA/index, and the GFF. The workflow expects the IDs listed in
-                                <code class="inline">ref_chromosome_groups</code> to match those in <code class="inline">ref_fasta_index</code> and
+                                reference FASTA/GFF. The workflow expects the IDs listed in
+                                <code class="inline">ref_chromosome_groups</code> to match those in <code class="inline">ref_fasta</code> and
                                 <code class="inline">ref_gff</code> exactly, and it derives the expected MAF <code class="inline">src</code> label for
                                 each chromosome from three settings:
                             </p>
@@ -395,10 +550,10 @@
                                     in the GFF/FASTA index.</li>
                             </ul>
 
-                            <p>For example, if the MAF's <code class="inline">src</code> field looks like <code class="inline">Mus_musculus.CM001010.3</code>,
-                            and the GFF/FASTA index also call that chromosome <code class="inline">CM001010.3</code>, you'd set:</p>
+                            <p>For example, if the MAF's <code class="inline">src</code> field looks like <code class="inline">Homo_sapiens.chr1</code>,
+                            and the GFF/FASTA index also call that chromosome <code class="inline">chr1</code>, you'd set:</p>
 
-                            <pre class="long-cmd"><code>maf_ref_id: "Mus_musculus"
+                            <pre class="long-cmd"><code>maf_ref_id: "Homo_sapiens"
 maf_chr_prefix: ""
 maf_ref_chr_joiner: "."</code></pre>
 
@@ -412,60 +567,72 @@ maf_ref_chr_joiner: "."</code></pre>
                             <p>and list <code class="inline">"1"</code> (not <code class="inline">"chr1"</code>) under
                             <code class="inline">ref_chromosome_groups</code>.</p>
 
-                            <a class="internal-link" id="config-file"></a>
-                            <h2>3. Building a config file</h2>
+                            <a class="internal-link" id="gc-correction"></a>
+                            <h3>Optional GC content correction</h3>
+
+                            <h4>Relevant config keys: <code class="inline">use_gc_corrected_models</code>, <code class="inline">sample_file</code></h4>
 
                             <p>
-                                Copy the template and start filling in the paths and chromosome groups for your project:
+                                Because the neutral models are estimated from 4-fold degenerate sites and subsequently applied to the whole genome, if
+                                those sites have different GC content the models may be inaccurate. The models can be corrected by adjusting for genome-wide
+                                GC content.
                             </p>
-
-                            <center><pre class="cmd"><code>cp config-template.yaml my-config.yaml</code></pre></center>
 
                             <p>
-                                Open <code class="inline">my-config.yaml</code> in an editor. The required inputs described above are all near the top
-                                of the file, under a section marked <code class="inline">YOU MUST FILL THESE IN</code>. Everything below that has a
-                                working default and generally doesn't need to change for a first run, but a few settings are worth knowing about:
+                                Set <code class="inline">use_gc_corrected_models: true</code> and provide a <code class="inline">sample_file</code> to have 
+                                the pipeline correct each chromosome's neutral model for the GC content of the genomes in the alignment.
+                            </p>
+                            
+                            <p>
+                                If accessions are provided, the pipeline uses <code class="inline">ncbi-datasets-cli</code> to look up the GC content. If GC
+                                values exist in the <code class="inline">gc</code> column of the <code class="inline">sample_file</code>, those values are used instead.
+                                Both columns can exist and different samples can use different methods to provide GC content.
                             </p>
 
-                            <div class="table-container">
-                                <table class="table-content">
-                                    <tr>
-                                        <th>Config key</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    <tr>
-                                        <td><code class="inline">run_phylofit</code>, <!--<code class="inline">run_phylop</code>,-->
-                                        <code class="inline">run_phastcons</code>, <code class="inline">build_cnees</code></td>
-                                        <td>The primary on/off switches for each stage of the pipeline.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code class="inline">cnee_output_format</code></td>
-                                        <td>Format for the final, per-element CNEE alignments: <code class="inline">fasta</code>,
-                                        <code class="inline">maf</code>, or <code class="inline">none</code> to skip extraction and keep only the
-                                        CNEE coordinates.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code class="inline">rho_mode</code>, <code class="inline">fixed_rho</code></td>
-                                        <td>By default (<code class="inline">rho_mode: fixed</code>) phastCons uses a fixed conservation parameter
-                                        (<code class="inline">fixed_rho: 0.3</code>) for every chunk. Set <code class="inline">rho_mode: estimate</code>
-                                        to instead estimate rho per chunk and derive a chromosome-wide value from it.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code class="inline">cnee_min_len_bp</code></td>
-                                        <td>Minimum length (bp) for a conserved region to be kept as a CNEE after removing coding sequence.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code class="inline">rule_resources</code></td>
-                                        <td>
-                                            Per-rule cluster resources (SLURM partition, memory, CPUs, time limit). Resources required depends on the number
-                                            of species in the alignment and the size of the genomes. This is hard to predict. Many rules are fast and light, but some 
-                                            (especially <code class="inline">run_phastcons</code>) can be slow and memory-intensive. 
-                                            If you run out of memory or time on a rule, increase the resources for that rule in your config file and re-run the workflow.
-                                            <b>You must provide a partition name applicable to your cluster</b>.
-                                        </td>
-                                    </tr>
-                                </table>
+                            
+                            <p>
+                                With the GC content read, the pipeline uses PHAST's <code class="inline">mod_freqs</code> script to adjust neutral models for each chromosome.
+                            </p>                  
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="warn_banner">Warning - GC correction may or may not be necessary</div>
+                                    <div id="warn_text">
+                                        <p>
+                                            In many species, the GC content of 4-fold degenerate sites is similar to the genome-wide GC content, and the
+                                            correction may not make a difference. However, in others (<em>e.g.</em> Drosophila), the 4-fold degenerate
+                                            sites differ from the genome overall, and the correction is important. If you are unsure,
+                                            we recommend either confirming the consistency of GC content across your genomes or just running the workflow
+                                            with the correction.
+                                        </p>
+
+                                        <p>
+                                            And for these reasons, <code class="inline">use_gc_corrected_models: true</code> is the default setting in the config.
+                                        <p></p>
+                                    </div>
+                                </div>
                             </div>
+
+                            <a class="internal-link" id="rho-estimation"></a>
+                            <h3>Estimating rho, or using a global value</h3>
+
+                            <h4>Relevant config keys: <code class="inline">rho_mode</code>, <code class="inline">fixed_rho</code>, <code class="inline">global_rho_stat</code></h4>
+
+                            <p>
+                                <code class="inline">phastCons</code> needs a single "rho" parameter describing how conserved the alignment is overall
+                                relative to the neutral model, and the pipeline applies one such value per chromosome to every chunk it scores. By
+                                default (<code class="inline">rho_mode: fixed</code>), that's simply the value you set for
+                                <code class="inline">fixed_rho</code> (default <code class="inline">0.3</code>), which we've found to be a reasonable
+                                value for typical vertebrate datasets.
+                            </p>
+
+                            <p>
+                                Alternatively, set <code class="inline">rho_mode: estimate</code> to instead have <code class="inline">phastCons</code> estimate rho
+                                separately for each alignment chunk, then summarize those per-chunk estimates into a single chromosome-wide value using
+                                <code class="inline">global_rho_stat</code> (<code class="inline">p90</code> (value of the 90th percentile of chunk estimates) by default, or
+                                <code class="inline">median</code>/<code class="inline">mean</code> of the chunk estimates). Any chunk whose own estimated rho exceeds that
+                                chromosome-wide value is skipped for conservation calling, rather than scored with an inflated rho.
+                            </p>
 
                             <!--
                             <div id="msg_cont">
@@ -482,6 +649,291 @@ maf_ref_chr_joiner: "."</code></pre>
                                 </div>
                             </div>
                             -->
+
+                            <a class="internal-link" id="filtering"></a>
+                            <h3>Filtering parameters</h3>
+
+                            <h4>Relevant config keys: <code class="inline">filter_threshold_4d</code>, <code class="inline">min_Ns_to_split_by</code>,
+                                <code class="inline">min_keep_region_len</code>, <code class="inline">max_gap_pct</code>,
+                                <code class="inline">cnee_ces_merge_gap_bp</code>, <code class="inline">cnee_min_len_bp</code></h4>
+
+                            <p>
+                                Several thresholds control how aggressively data is filtered at different stages of the pipeline:
+                            </p>
+
+                            <ul>
+                                <li>
+                                    <b>4-fold degenerate sites</b> (<code class="inline">filter_threshold_4d</code>, default
+                                    <code class="inline">0.5</code>): sites used to fit the neutral model are dropped if more than this fraction of
+                                    sequences are missing at that site.
+                                </li>
+                                <li>
+                                    <b>Alignment chunk splitting</b> (<code class="inline">min_Ns_to_split_by</code>, default
+                                    <code class="inline">100</code>; <code class="inline">min_keep_region_len</code>, default
+                                    <code class="inline">6</code>): the alignment is split wherever the reference has a run of at least
+                                    <code class="inline">min_Ns_to_split_by</code> Ns, and any resulting chunk shorter than
+                                    <code class="inline">min_keep_region_len</code> bp is discarded before scoring.
+                                </li>
+                                <li>
+                                    <b>Chunk quality</b> (<code class="inline">max_gap_pct</code>, default <code class="inline">0.9</code>): after
+                                    splitting, a chunk is dropped entirely if more than this fraction of its non-reference alignment columns are gaps
+                                    &mdash; a proxy for chunks with too little real alignment to score meaningfully.
+                                </li>
+                                <li>
+                                    <b>Final CNEE filtering</b> (<code class="inline">cnee_ces_merge_gap_bp</code>, default
+                                    <code class="inline">5</code>; <code class="inline">cnee_min_len_bp</code>, default
+                                    <code class="inline">50</code>): conserved regions within <code class="inline">cnee_ces_merge_gap_bp</code> bp of
+                                    each other (after coding sequence is removed) are merged into a single element, and anything shorter than
+                                    <code class="inline">cnee_min_len_bp</code> bp afterward is dropped.
+                                </li>
+                            </ul>
+
+                            <p>
+                                The defaults are reasonable for typical vertebrate-scale alignments, but you may want to loosen them for smaller or
+                                more divergent datasets, or tighten them for very large ones.
+                            </p>
+
+                            <a class="internal-link" id="rule-resources"></a>
+                            <h3>Specifying resources</h3>
+
+                            <h4>Relevant config keys: <code class="inline">rule_resources</code></h4>
+
+                            <p>
+                                At the bottom of the config is a list of per-rule cluster resources, which the workflow passes to Snakemake when submitting jobs. 
+                                The required resources depend on the number of species in the alignment and the size of the genomes. 
+                                Many rules are fast and light and will use the <code class="inline">default</code> resouces. 
+                                Others can be slow and memory-intensive and have their own resource settings.
+                            </p>
+
+                            <p>
+                                Values in the template are based on a benchmark of a 15 species alignment of mammals. The config notes which rules should scale with
+                                genome size and which with sample size. If you run out of memory or time on a rule, increase the resources for that rule in your config
+                                file and re-run the workflow.
+                            </p>
+
+                            <a class="internal-link" id="config-reference"></a>
+                            <h3>Full config reference</h3>
+
+                            <p>
+                                Every key recognized by the config file, in the order it appears in <code class="inline">config-template.yaml</code>:
+                            </p>
+
+                            <div class="table-container">
+                                <table class="table-content">
+                                    <tr>
+                                        <th>Config key</th>
+                                        <th>Default</th>
+                                        <th>Description</th>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">maf</code></td>
+                                        <td><b>Required</b></td>
+                                        <td>Path to the input MAF alignment.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">maf_ref_id</code></td>
+                                        <td><b>Required</b></td>
+                                        <td>Reference species label as it appears in the MAF (see <a href="workflow.html#chromosome-ids">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">ref_fasta</code></td>
+                                        <td><b>Required</b></td>
+                                        <td>Path to the reference genome FASTA file.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">ref_fasta_index</code></td>
+                                        <td>Auto-generated if blank</td>
+                                        <td>Path to the reference FASTA's <code class="inline">.fai</code> index.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">ref_gff</code></td>
+                                        <td><b>Required</b></td>
+                                        <td>Path to the reference genome's GFF annotation.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">tree_file</code></td>
+                                        <td><b>Required</b></td>
+                                        <td>Path to the Newick species tree.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">ref_chromosome_groups</code></td>
+                                        <td><b>Required</b></td>
+                                        <td>Named groups of reference chromosomes/scaffolds to analyze.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">output_dir</code></td>
+                                        <td><b>Required</b></td>
+                                        <td>Output directory for the workflow.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">tmp_dir</code></td>
+                                        <td><b>Required</b></td>
+                                        <td>Directory for temporary files.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">accession_header</code></td>
+                                        <td><code class="inline">accession</code></td>
+                                        <td>Column name in <code class="inline">sample_file</code> holding NCBI assembly accessions.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">maf_chr_prefix</code></td>
+                                        <td><code class="inline">""</code></td>
+                                        <td>Prefix on MAF chromosome IDs not present in the GFF/FASTA index (see <a href="workflow.html#chromosome-ids">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">maf_ref_chr_joiner</code></td>
+                                        <td><code class="inline">"."</code></td>
+                                        <td>Character joining the reference ID and chromosome name in the MAF <code class="inline">src</code> field.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">filter_threshold_4d</code></td>
+                                        <td><code class="inline">0.5</code></td>
+                                        <td>Maximum fraction of sequences allowed to be missing at a 4-fold degenerate site (see <a href="workflow.html#filtering">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">use_gc_corrected_models</code></td>
+                                        <td><code class="inline">true</code></td>
+                                        <td>Toggle GC correction of <code class="inline">phyloFit</code> models (see <a href="workflow.html#gc-correction">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">sample_file</code></td>
+                                        <td><b>Required</b> if <code class="inline">use_gc_corrected_models: true</code></td>
+                                        <td>CSV sample sheet used for GC correction (see <a href="workflow.html#gc-correction">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">min_Ns_to_split_by</code></td>
+                                        <td><code class="inline">100</code></td>
+                                        <td>Minimum run of Ns used as a split point (see <a href="workflow.html#filtering">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">min_keep_region_len</code></td>
+                                        <td><code class="inline">6</code></td>
+                                        <td>Minimum chunk length (bp) to keep (see <a href="workflow.html#filtering">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">max_gap_pct</code></td>
+                                        <td><code class="inline">0.9</code></td>
+                                        <td>Maximum non-reference gap fraction allowed before a chunk is filtered out (see <a href="workflow.html#filtering">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">rho_mode</code></td>
+                                        <td><code class="inline">fixed</code></td>
+                                        <td><code class="inline">fixed</code> or <code class="inline">estimate</code> (see <a href="workflow.html#rho-estimation">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">fixed_rho</code></td>
+                                        <td><code class="inline">0.3</code></td>
+                                        <td>Fixed rho value used when <code class="inline">rho_mode: fixed</code>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">global_rho_stat</code></td>
+                                        <td><code class="inline">p90</code></td>
+                                        <td>Summary statistic (<code class="inline">p90</code>/<code class="inline">median</code>/<code class="inline">mean</code>)
+                                        used when <code class="inline">rho_mode: estimate</code>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">cnee_output_format</code></td>
+                                        <td><code class="inline">fasta</code></td>
+                                        <td>Final CNEE alignment format: <code class="inline">none</code>, <code class="inline">fasta</code>, or
+                                        <code class="inline">maf</code>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">cnee_ces_merge_gap_bp</code></td>
+                                        <td><code class="inline">5</code></td>
+                                        <td>Gap (bp) allowed when merging adjacent conserved regions into a single CNEE (see <a href="workflow.html#filtering">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">cnee_min_len_bp</code></td>
+                                        <td><code class="inline">50</code></td>
+                                        <td>Minimum length (bp) for a conserved region to be kept as a CNEE (see <a href="workflow.html#filtering">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">cnee_fasta_header</code></td>
+                                        <td><code class="inline">species-coords-id</code></td>
+                                        <td>Header format used for extracted CNEE FASTA sequences.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">cnee_expected_species</code></td>
+                                        <td><code class="inline">""</code>; read from <code class="inline">tree_file</code> if blank</td>
+                                        <td>Optional comma-separated species list to validate CNEE FASTA extraction against.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">cnee_expected_species_file</code></td>
+                                        <td><code class="inline">""</code>; read from <code class="inline">tree_file</code> if blank</td>
+                                        <td>Optional file with a newline-delimited species list, as an alternative to <code class="inline">cnee_expected_species</code>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">rule_resources</code></td>
+                                        <td>See <a href="workflow.html#rule-resources">above</a></td>
+                                        <td>Per-rule cluster resources (see <a href="workflow.html#rule-resources">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">maf_split_chr_dir</code></td>
+                                        <td><code class="inline">""</code></td>
+                                        <td>Optional override for the chromosome-split MAF directory.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">phylofit_chr_dir</code></td>
+                                        <td><code class="inline">""</code></td>
+                                        <td>Optional override for the chromosome-specific <code class="inline">phyloFit</code> model directory.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">target_ref_chromosomes</code></td>
+                                        <td><code class="inline">[]</code></td>
+                                        <td>Optional subset of chromosomes to restrict analysis to, overriding <code class="inline">ref_chromosome_groups</code>.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">debug_keep_intermediates</code></td>
+                                        <td><code class="inline">false</code></td>
+                                        <td>Keep intermediate files that would otherwise be cleaned up.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">cleanup_chunk_intermediates</code></td>
+                                        <td><code class="inline">true</code></td>
+                                        <td>Remove per-chunk intermediate files once a chromosome finishes.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">keep_cnee_sidecars</code></td>
+                                        <td><code class="inline">false</code></td>
+                                        <td>Keep extra per-CNEE sidecar files produced during extraction.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">run_phylofit</code></td>
+                                        <td><code class="inline">true</code></td>
+                                        <td>Enable/disable the neutral model (<code class="inline">phyloFit</code>) stage.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">run_phastcons</code></td>
+                                        <td><code class="inline">true</code></td>
+                                        <td>Enable/disable the <code class="inline">phastCons</code> conservation scoring stage.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">build_cnees</code></td>
+                                        <td><code class="inline">true</code></td>
+                                        <td>Enable/disable CNEE extraction from the conserved regions.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">display</code></td>
+                                        <td><code class="inline">false</code></td>
+                                        <td>Print the resolved config and exit, without running anything (debugging).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">version</code></td>
+                                        <td><code class="inline">false</code></td>
+                                        <td>Print the pipeline version and exit.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">info</code></td>
+                                        <td><code class="inline">false</code></td>
+                                        <td>Print pipeline meta information and exit.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">debug</code></td>
+                                        <td><code class="inline">false</code></td>
+                                        <td>Enable verbose debug logging.</td>
+                                    </tr>
+                                </table>
+                            </div>
 
                         </div>
                         <div class="col-2-24" id="inner-margin"></div>
@@ -517,11 +969,7 @@ maf_ref_chr_joiner: "."</code></pre>
                                 anything is actually submitted or executed:
                             </p>
 
-                            <pre class="long-cmd"><code>./phyloacc_workflows run \
-    --configfile my-config.yaml \
-    -j 20 \
-    -e slurm \
-    --dryrun</code></pre>
+                            <center><pre class="cmd"><code>./phyloacc_workflows run --configfile my-config.yaml -j 20 -e slurm --dryrun</code></pre></center>
 
                             <p>
                                 Here, <code class="inline">-j 20</code> is the maximum number of jobs Snakemake will have in flight at once, and
@@ -559,10 +1007,7 @@ maf_ref_chr_joiner: "."</code></pre>
                                 Once the dry run looks right, drop <code class="inline">--dryrun</code> to actually run it:
                             </p>
 
-                            <pre class="long-cmd"><code>./phyloacc_workflows run \
-    --configfile my-config.yaml \
-    -j 20 \
-    -e slurm</code></pre>
+                            <center><pre class="cmd"><code>./phyloacc_workflows run --configfile my-config.yaml -j 20 -e slurm</code></pre></center>
     
                             <p>
                                 Depending on the size of your alignment and how many chromosomes/scaffolds you're analyzing, this can take anywhere
@@ -669,7 +1114,7 @@ maf_ref_chr_joiner: "."</code></pre>
     <div class="row" id="footer">
     <div class="col-1">
         <div id="footer_text">
-            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 07/10/2026 14:26:30 Eastern Daylight Time</center>
+            <center>Site designed and maintained by <a href="https://gwct.github.io" target="_blank">Gregg Thomas</a> | Page built: 07/15/2026 14:28:33 Eastern Daylight Time</center>
         </div>
     </div>
 </div>
