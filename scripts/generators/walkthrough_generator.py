@@ -141,7 +141,7 @@ html_template = """
 
                             <h4>High level flowchart of inferring conserved elements and running PhyloAcc</h4>
 
-                            <img class="fig-img" src="img/fig1.png" alt="Overview of inputs and pipelines: genome assemblies and a species tree go into a Cactus-snakemake pipeline to produce a whole-genome alignment (MAF); the MAF, a sample sheet, and a reference genome and annotation go into phyloacc-workflows to produce neutral substitution models and CNEE alignments; those are then fed into PhyloAcc to produce accelerated elements.">
+                            <img class="fig-img" src="img/fig1.png" alt="Overview of inputs and pipelines: genome assemblies and a species tree go into a Cactus-snakemake pipeline to produce a whole-genome alignment (MAF); the MAF and a reference genome and annotation go into phyloacc-workflows to produce neutral substitution models and CNEE alignments; those are then fed into PhyloAcc to produce accelerated elements.">
 
                             <p>
                                 If starting from scratch, in other words if you need to infer the conserved elements and neutral models and trees yourself, you will 
@@ -220,8 +220,7 @@ html_template = """
                             <p>
                                 With the whole-genome alignment MAF file, you can predict conserved elements and estimate a neutral model. You will also
                                 need an annotation (GFF file) for at least one species in your alignment in order to extract 4-fold degenerate sites for estimating
-                                the neutral model, and a sample sheet (CSV file) that lists the species in your alignment (and optionally their corresponding NCBI accessions
-                                or pre-calculated GC content).
+                                the neutral model.
                             </p>
 
                             <p>

@@ -44,7 +44,7 @@ html_template = """
                         <ul>
                             <li><a href="workflow.html#config-template">Config template</a></li>
                             <li><a href="workflow.html#chromosome-ids">Matching chromosome IDs</a></li>
-                            <li><a href="workflow.html#gc-correction">Optional GC content correction</a></li>
+                            <li><a href="workflow.html#gc-correction">GC content correction of neutral models</a></li>
                             <li><a href="workflow.html#rho-estimation">Estimating rho, or using a global value</a></li>
                             <li><a href="workflow.html#filtering">Filtering parameters</a></li>
                             <li><a href="workflow.html#rule-resources">Specifying resources</a></li>
@@ -350,15 +350,6 @@ html_template = """
                                         <a href="https://github.com/ComparativeGenomicsToolkit/hal" target="_blank">HAL tools</a> command
                                         <code class="inline">halStats <hal file> --tree</code>. Otherwise, you will have to infer a tree.</td>
                                     </tr>
-                                    <tr>
-                                        <td><b>Sample sheet</b></td>
-                                        <td>CSV</td>
-                                        <td><code class="inline">sample_file</code></td>
-                                        <td><b>Required only if correcting neutral models for GC content (<code class="inline">use_gc_corrected_models: true</code>)</b>. 
-                                        With, at minimum, either a column called <code class="inline">accession</code> containing an NCBI assembly
-                                        accession for each genome in the MAF, used to look up GC content for neutral model correction <b>OR</b> a column called
-                                        <code class="inline">gc</code> with precomputed values can be supplied instead of accessions. </td>
-                                    </tr>
                                 </table>
                             </div>
 
@@ -490,10 +481,6 @@ html_template = """
                                         analysis. They simply become subdirectories of your output.</td>
                                     </tr>
                                     <tr>
-                                        <td><code class="inline">sample_file</code></td>
-                                        <td>Path to the sample sheet CSV described above.</td>
-                                    </tr>
-                                    <tr>
                                         <td><code class="inline">output_dir</code></td>
                                         <td>Where all workflow outputs will be written. Created automatically if it doesn't already exist.</td>
                                     </tr>
@@ -550,31 +537,31 @@ maf_ref_chr_joiner: "."</code></pre>
                             <code class="inline">ref_chromosome_groups</code>.</p>
 
                             <a class="internal-link" id="gc-correction"></a>
-                            <h3>Optional GC content correction</h3>
+                            <h3>GC content correction of neutral models</h3>
 
                             <h4>Relevant config keys: <code class="inline">use_gc_corrected_models</code>, <code class="inline">sample_file</code></h4>
 
                             <p>
                                 Because the neutral models are estimated from 4-fold degenerate sites and subsequently applied to the whole genome, if
-                                those sites have different GC content the models may be inaccurate. The models can be corrected by adjusting for genome-wide
-                                GC content.
+                                those sites have different GC content the models may be inaccurate. <b>By default, the models are corrected for this by computing
+                                GC content directly from the MAF.</b>
                             </p>
 
                             <p>
-                                Set <code class="inline">use_gc_corrected_models: true</code> and provide a <code class="inline">sample_file</code> to have 
-                                the pipeline correct each chromosome's neutral model for the GC content of the genomes in the alignment.
-                            </p>
-                            
-                            <p>
-                                If accessions are provided, the pipeline uses <code class="inline">ncbi-datasets-cli</code> to look up the GC content. If GC
-                                values exist in the <code class="inline">gc</code> column of the <code class="inline">sample_file</code>, those values are used instead.
+                                Alternatively, a <code class="inline">sample_file</code> can be provided for GC correction.
+                                If a column called <code class="inline">accessions</code> exists in the sample file, the pipeline uses 
+                                <code class="inline">ncbi-datasets-cli</code> to look up the GC content. If pre-computed GC values exist 
+                                in a <code class="inline">gc</code> column, those values are used instead.
                                 Both columns can exist and different samples can use different methods to provide GC content.
                             </p>
 
-                            
                             <p>
                                 With the GC content read, the pipeline uses PHAST's <code class="inline">mod_freqs</code> script to adjust neutral models for each chromosome.
                             </p>                  
+
+                            <p>
+                                Set <code class="inline">use_gc_corrected_models: false</code> to disable GC correction.
+                            </p>
 
                             <div id="msg_cont">
                                 <div id="msg">
@@ -780,7 +767,13 @@ maf_ref_chr_joiner: "."</code></pre>
                                     <tr>
                                         <td><code class="inline">sample_file</code></td>
                                         <td><b>Required</b> if <code class="inline">use_gc_corrected_models: true</code></td>
-                                        <td>CSV sample sheet used for GC correction (see <a href="workflow.html#gc-correction">above</a>).</td>
+                                        <td>
+                                            CSV sample sheet used for GC correction (see <a href="workflow.html#gc-correction">above</a>).
+                                            By default, the pipeline calculates GC content directly from the sequences in the MAF. However, if a sample sheet is
+                                            provided with a column called <code class="inline">accession</code> containing an NCBI assembly accession for each 
+                                            genome in the MAF then the GC content will be looked up automatically. Alternatively, if GC has been pre-calculated,
+                                            a column called <code class="inline">gc</code> can be supplied and those values will be used instead.
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">min_Ns_to_split_by</code></td>
