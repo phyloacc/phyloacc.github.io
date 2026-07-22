@@ -37,13 +37,11 @@ html_template = """
                     <li><a href="workflow.html#inputs">Preparing your inputs</a></li>
                     <ol>
                         <li><a href="workflow.html#required-inputs">Required inputs</a></li>
-                        <ul>
-                            <li><a href="workflow.html#hard-masking">The reference genome must be hard masked</a></li>
-                        </ul>
                         <li><a href="workflow.html#config-file">Pipeline config file</a></li>
                         <ul>
                             <li><a href="workflow.html#config-template">Config template</a></li>
                             <li><a href="workflow.html#chromosome-ids">Matching chromosome IDs</a></li>
+                            <li><a href="workflow.html#splitting">Splitting the alignment into chunks</a></li>
                             <li><a href="workflow.html#gc-correction">GC content correction of neutral models</a></li>
                             <li><a href="workflow.html#rho-estimation">Estimating rho, or using a global value</a></li>
                             <li><a href="workflow.html#filtering">Filtering parameters</a></li>
@@ -92,8 +90,8 @@ html_template = """
                             <p>
                                 A typical set of loci for analysis with PhyloAcc are conserved non-exonic elements (CNEEs). The
                                 <a href="https://github.com/phyloacc/phyloacc-workflows" target="_blank">phyloacc-workflows</a> repository contains
-                                Snakemake workflows that take a whole-genome alignment (in MAF format) and a reference genome and produce
-                                a neutral substitution models and trees (one per chromosome), conserved elements, and a final set of CNEE alignments ready to hand to
+                                Snakemake workflows that take a whole-genome alignment (in MAF format) and a reference genome annotation (in GFF format) and produce
+                                a set of neutral substitution models and trees (one per scaffold/chromosome), conserved elements, and a final set of CNEE alignments ready to hand to
                                 <code class="inline">PhyloAcc</code> (see the <a href="readme.html#inputs">README</a> for how PhyloAcc uses these
                                 as input).
                             </p>
@@ -105,7 +103,7 @@ html_template = """
                             <ol>
                                 <li>
                                     <b>Neutral model estimation</b>: 4-fold degenerate codons are extracted from the alignment and used to fit a
-                                    neutral substitution model with <code class="inline">phyloFit</code>, optionally GC-corrected per chromosome.
+                                    neutral substitution model with <code class="inline">phyloFit</code>.
                                 </li>
                                 <li>
                                     <b>Conservation scoring</b>: the alignment is split into manageable chunks and scored with
@@ -123,7 +121,7 @@ html_template = """
                             </p>
 
                             <p>
-                                Outputs of the pipeline include the neutral model and tree (<code class="inline">.mod</code> files), and the final CNEE alignments 
+                                Outputs of the pipeline include the neutral models and trees (<code class="inline">.mod</code> files), and the final CNEE alignments 
                                 (FASTA files).
                             </p>
 
@@ -320,35 +318,27 @@ html_template = """
                                         <td><b>Whole-genome alignment</b></td>
                                         <td>MAF</td>
 
-                                        <td><code class="inline">maf</code></td>                                        
+                                        <td><code class="inline">maf</code></td>
                                         <td>The alignment the pipeline scans for conserved elements. If you don't have one yet, see
                                         <a href="walkthrough.html#wga">generating a whole-genome alignment</a> in the walkthrough overview.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Reference genome assembly</b></td>
-                                        <td>FASTA</td>
-                                        <td><code class="inline">ref_fasta</code></td>
-                                        <td>The MAF file uses one species' genome as the reference for coordinates. This same assembly is used to split
-                                        the alignment into chunks based on runs of Ns, so the conserved element prediction can be done on smaller pieces
-                                        of the alignment for scalability. <b>IMPORTANT: The reference assembly must contain Ns</b>. See
-                                        <a href="workflow.html#hard-masking">hard-masking the reference genome</a> below.</td>
                                     </tr>
                                     <tr>
                                         <td><b>Reference genome annotation</b></td>
                                         <td>GFF</td>
                                         <td><code class="inline">ref_gff</code></td>
-                                        <td>Used both to extract 4-fold degenerate sites for the neutral model and to exclude coding sequence from the
-                                        final CNEEs.</td>
+                                        <td>During whole genome alignment, a reference species is specified for the coordinate system in the MAF file.
+                                        The GFF annotation for this species is necessary for neutral model estimation to extract 4-fold degenerate sites
+                                        and to exclude coding sequence from the final CNEEs.</td>
                                     </tr>
                                     <tr>
                                         <td><b>Species tree</b></td>
                                         <td>Newick</td>
                                         <td><code class="inline">tree_file</code></td>
-                                        <td>The topology is used when estimating the neutral model. If you ran the 
+                                        <td>The topology is used when estimating the neutral model. If you ran the
                                         <a href="walkthrough.html#wga">Cactus snakemake</a> pipeline to generate your whole-genome alignment, you should
                                         already have this. If you have a .hal file from a previous alignment, you can extract the tree with the
                                         <a href="https://github.com/ComparativeGenomicsToolkit/hal" target="_blank">HAL tools</a> command
-                                        <code class="inline">halStats <hal file> --tree</code>. Otherwise, you will have to infer a tree.</td>
+                                        <code class="inline">halStats <hal file> --tree</code>. Otherwise, you will have to infer or obtain a tree.</td>
                                     </tr>
                                 </table>
                             </div>
@@ -356,63 +346,6 @@ html_template = """
                             <p>
                                 The paths to these files and other pipeline options are specified in a single YAML config file, described in the pipeline configuration section.
                             </p>                            
-
-                            <a class="internal-link" id="hard-masking"></a>
-                            <h3>The reference genome must be hard masked</h3>
-
-                            <p>
-                                For scalability, the pipeline splits the alignment into chunks wherever the reference assembly has a run of Ns (see
-                                <a href="workflow.html#filtering">Filtering parameters</a>), and the resulting chunks are scored for conservation.
-                                If your assembly is highly contiguous and mostly free of Ns, there will be few natural places to split the alignment,
-                                chunks will be large, and repetitive sequence will be included in the <code class="inline">phastCons</code> scan. Practically,
-                                the pipeline will take prohibitively long to run.
-                            </p>
-
-                            <p>
-                                If your assembly doesn't contain Ns, we recommend hard-masking it with
-                                <a href="https://www.repeatmasker.org/" target="_blank">RepeatMasker</a>. Hard-masking replaces repetitive sequence 
-                                with <code class="inline">N</code>, which both gives the pipeline's Ns-based splitting real breakpoints
-                                to work with and excludes those repeat regions from conservation scoring entirely.
-                            </p>
-
-                            <center><pre class="cmd"><code>RepeatMasker -pa [threads] -species "[species or clade name]" -dir [output directory] [genome.fasta]</code></pre></center>
-
-                            <p>
-                                This produces <code class="inline">[genome.fasta].masked</code> alongside a few report files. Specify this masked assembly as
-                                <code class="inline">ref_fasta</code> in the pipeline config and make sure it's the exact same assembly/coordinates already
-                                used to build your MAF since masking a different assembly version will shift coordinates and break the Ns-based
-                                chunking.
-                            </p>
-
-                            <h4>Checking runs of Ns</h4>
-                                <p>
-                                    You can also check whether your assembly has meaningful runs of Ns, both before and after masking, with a few quick bash commands.
-                                </p>
-
-                                <p>
-                                    First, extract the runs of Ns and write their lengths to a file:
-                                </p>
-
-                                <center><pre class="cmd"><code>awk '/^>/{{if(seq)print seq; seq=""; next}}{{seq=seq $0}}END{{if(seq)print seq}}' [genome.fasta] | grep -oE 'N+' | awk '{{print length($0)}}' > n-run-lengths.txt</code></pre></center>
-
-                                <p>
-                                    You can check how many run there are in total:
-                                </p>
-
-                                <center><pre class="cmd"><code>wc -l < n-run-lengths.txt</code></pre></center>
-
-                                <p>
-                                    Display a distribution of run lengths:
-                                </p>
-
-                                <center><pre class="cmd"><code>echo "# digits in length of run: 1 = 1-9bp, 2 = 10-99bp, 3 = 100-999bp, etc."; printf "%-8s %s\\n" digits count; awk '{{print length($1)}}' n-run-lengths.txt | sort -n | uniq -c | awk '{{printf "%-8s %s\\n", $2, $1}}'</code></pre></center>
-                                
-                                <p>
-                                    And also explicitly display how many are at least 100bp, the pipeline's default
-                                    <code class="inline">min_Ns_to_split_by</code>, and so the actual split points it would find:
-                                </p>
-
-                                <center><pre class="cmd"><code>awk '$1 >= 100' n-run-lengths.txt | wc -l</code></pre></center>
 
                             <a class="internal-link" id="config-file"></a>
                             <h2>2. Pipeline config file</h2>
@@ -461,16 +394,6 @@ html_template = """
                                         ultimately the CNEEs, are reported in). See <a href="workflow.html#chromosome-ids">below</a>.</td>
                                     </tr>
                                     <tr>
-                                        <td><code class="inline">ref_fasta</code></td>
-                                        <td>Path to the reference genome FASTA file described above.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code class="inline">ref_fasta_index</code></td>
-                                        <td>Path to the reference FASTA's <code class="inline">.fai</code> index described above. This must literally
-                                        be <code class="inline">ref_fasta + ".fai"</code>. If blank, the index will be generated with 
-                                        <code class="inline">samtools faidx</code></td>
-                                    </tr>
-                                    <tr>
                                         <td><code class="inline">ref_gff</code></td>
                                         <td>Path to the GFF annotation for the reference genome described above.</td>
                                     </tr>
@@ -504,11 +427,10 @@ html_template = """
                                 <code class="inline">maf_ref_chr_joiner</code>, <code class="inline">maf_chr_prefix</code></h4>
 
                             <p>
-                                A common source of early errors is that the reference chromosome/scaffold IDs don't line up between the MAF, the
-                                reference FASTA/GFF. The workflow expects the IDs listed in
-                                <code class="inline">ref_chromosome_groups</code> to match those in <code class="inline">ref_fasta</code> and
-                                <code class="inline">ref_gff</code> exactly, and it derives the expected MAF <code class="inline">src</code> label for
-                                each chromosome from three settings:
+                                A common source of early errors is that the reference chromosome/scaffold IDs don't line up between the MAF and the
+                                reference GFF. The workflow expects the IDs listed in <code class="inline">ref_chromosome_groups</code> to match those in
+                                <code class="inline">ref_gff</code> exactly, and it derives the expected MAF <code class="inline">src</code> label 
+                                for each chromosome from three settings:
                             </p>
 
                             <ul>
@@ -516,17 +438,17 @@ html_template = """
                                 <li><code class="inline">maf_ref_chr_joiner</code>: the character joining the reference ID and the chromosome name in
                                     the MAF (usually <code class="inline">"."</code>).</li>
                                 <li><code class="inline">maf_chr_prefix</code>: an optional prefix on the chromosome name in the MAF that isn't present
-                                    in the GFF/FASTA index.</li>
+                                    in the GFF.</li>
                             </ul>
 
                             <p>For example, if the MAF's <code class="inline">src</code> field looks like <code class="inline">Homo_sapiens.chr1</code>,
-                            and the GFF/FASTA index also call that chromosome <code class="inline">chr1</code>, you'd set:</p>
+                            and the GFF also call that chromosome <code class="inline">chr1</code>, you'd set:</p>
 
                             <pre class="long-cmd"><code>maf_ref_id: "Homo_sapiens"
 maf_chr_prefix: ""
 maf_ref_chr_joiner: "."</code></pre>
 
-                            <p>But if the MAF instead labels it <code class="inline">Homo_sapiens.chr1</code> while the GFF/FASTA index just call it
+                            <p>But if the MAF instead labels it <code class="inline">Homo_sapiens.chr1</code> while the GFF just calls it
                             <code class="inline">1</code>, you'd set:</p>
 
                             <pre class="long-cmd"><code>maf_ref_id: "Homo_sapiens"
@@ -535,6 +457,59 @@ maf_ref_chr_joiner: "."</code></pre>
 
                             <p>and list <code class="inline">"1"</code> (not <code class="inline">"chr1"</code>) under
                             <code class="inline">ref_chromosome_groups</code>.</p>
+
+                            <a class="internal-link" id="splitting"></a>
+                            <h3>Splitting the alignment into chunks</h3>
+
+                            <h4>Relevant config keys: <code class="inline">split_strategy</code>, <code class="inline">num_seqs_max_for_gap</code>,
+                                <code class="inline">num_seqs_min_gap_bp</code>, <code class="inline">num_seqs_min_keep_region_len</code>
+
+                            <p>
+                                Before scoring conservation, each chromosome's alignment is split into smaller chunks, both for scalability, and
+                                so that long stretches with little or no real alignment data don't get scored at all.
+                                <code class="inline">split_strategy</code> controls how the pipeline decides where to split.
+                            </p>
+
+                            <p>
+                                By default (<code class="inline">split_strategy: num_seqs</code>), the pipeline looks directly at the MAF's own
+                                alignment blocks: any stretch where too few species are aligned is treated as a gap and used as a split point.
+                                Three settings control split behavior:
+                            </p>
+
+                            <ul>
+                                <li>
+                                    <code class="inline">num_seqs_max_for_gap</code> (default <code class="inline">3</code>): a MAF block with this
+                                    many species or fewer counts toward a "gap" run.
+                                </li>
+                                <li>
+                                    <code class="inline">num_seqs_min_gap_bp</code> (default <code class="inline">100</code>): the minimum contiguous
+                                    length of such a low-coverage run to actually count as a split point. Short blocks with low coverage may not be 
+                                    true split points.
+                                </li>
+                                <li>
+                                    <code class="inline">num_seqs_min_keep_region_len</code> (default <code class="inline">6</code>): chunks shorter
+                                    than this, after splitting, are dropped.
+                                </li>
+                            </ul>
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="caution_banner">Note - these defaults aren't a tuned recommendation</div>
+                                    <div id="caution_text">
+                                        <p>
+                                            The <code class="inline">num_seqs_*</code> defaults are a starting point from exploratory analysis on one
+                                            real alignment, not a tuned recommendation. Review the number and size of chunks they produce on your own
+                                            data before trusting them.
+                                        </p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                Other split strategies include <code class="inline">ns</code> (split by Ns in a provided reference genome)
+                                and <code class="inline">fixed_windows</code> (split into fixed-size windows). These are documented in the config template.
+                            </p>
 
                             <a class="internal-link" id="gc-correction"></a>
                             <h3>GC content correction of neutral models</h3>
@@ -622,12 +597,13 @@ maf_ref_chr_joiner: "."</code></pre>
                             <a class="internal-link" id="filtering"></a>
                             <h3>Filtering parameters</h3>
 
-                            <h4>Relevant config keys: <code class="inline">filter_threshold_4d</code>, <code class="inline">min_Ns_to_split_by</code>,
-                                <code class="inline">min_keep_region_len</code>, <code class="inline">max_gap_pct</code>,
+                            <h4>Relevant config keys: <code class="inline">filter_threshold_4d</code>, <code class="inline">max_gap_pct</code>,
                                 <code class="inline">cnee_ces_merge_gap_bp</code>, <code class="inline">cnee_min_len_bp</code></h4>
 
                             <p>
-                                Several thresholds control how aggressively data is filtered at different stages of the pipeline:
+                                Several thresholds control how aggressively data is filtered at different stages of the pipeline (see also
+                                <a href="workflow.html#splitting">splitting the alignment into chunks</a> for the settings that control where chunk
+                                boundaries themselves are placed):
                             </p>
 
                             <ul>
@@ -637,16 +613,8 @@ maf_ref_chr_joiner: "."</code></pre>
                                     sequences are missing at that site.
                                 </li>
                                 <li>
-                                    <b>Alignment chunk splitting</b> (<code class="inline">min_Ns_to_split_by</code>, default
-                                    <code class="inline">100</code>; <code class="inline">min_keep_region_len</code>, default
-                                    <code class="inline">6</code>): the alignment is split wherever the reference has a run of at least
-                                    <code class="inline">min_Ns_to_split_by</code> Ns, and any resulting chunk shorter than
-                                    <code class="inline">min_keep_region_len</code> bp is discarded before scoring.
-                                </li>
-                                <li>
                                     <b>Chunk quality</b> (<code class="inline">max_gap_pct</code>, default <code class="inline">0.9</code>): after
-                                    splitting, a chunk is dropped entirely if more than this fraction of its non-reference alignment columns are gaps
-                                    &mdash; a proxy for chunks with too little real alignment to score meaningfully.
+                                    splitting, a chunk is dropped entirely if more than this fraction of its non-reference alignment columns are gaps.
                                 </li>
                                 <li>
                                     <b>Final CNEE filtering</b> (<code class="inline">cnee_ces_merge_gap_bp</code>, default
@@ -705,16 +673,6 @@ maf_ref_chr_joiner: "."</code></pre>
                                         <td>Reference species label as it appears in the MAF (see <a href="workflow.html#chromosome-ids">above</a>).</td>
                                     </tr>
                                     <tr>
-                                        <td><code class="inline">ref_fasta</code></td>
-                                        <td><b>Required</b></td>
-                                        <td>Path to the reference genome FASTA file.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><code class="inline">ref_fasta_index</code></td>
-                                        <td>Auto-generated if blank</td>
-                                        <td>Path to the reference FASTA's <code class="inline">.fai</code> index.</td>
-                                    </tr>
-                                    <tr>
                                         <td><code class="inline">ref_gff</code></td>
                                         <td><b>Required</b></td>
                                         <td>Path to the reference genome's GFF annotation.</td>
@@ -740,14 +698,9 @@ maf_ref_chr_joiner: "."</code></pre>
                                         <td>Directory for temporary files.</td>
                                     </tr>
                                     <tr>
-                                        <td><code class="inline">accession_header</code></td>
-                                        <td><code class="inline">accession</code></td>
-                                        <td>Column name in <code class="inline">sample_file</code> holding NCBI assembly accessions.</td>
-                                    </tr>
-                                    <tr>
                                         <td><code class="inline">maf_chr_prefix</code></td>
                                         <td><code class="inline">""</code></td>
-                                        <td>Prefix on MAF chromosome IDs not present in the GFF/FASTA index (see <a href="workflow.html#chromosome-ids">above</a>).</td>
+                                        <td>Prefix on MAF chromosome IDs not present in the GFF (see <a href="workflow.html#chromosome-ids">above</a>).</td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">maf_ref_chr_joiner</code></td>
@@ -766,24 +719,62 @@ maf_ref_chr_joiner: "."</code></pre>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">sample_file</code></td>
-                                        <td><b>Required</b> if <code class="inline">use_gc_corrected_models: true</code></td>
+                                        <td>None; GC computed from the MAF if blank</td>
                                         <td>
-                                            CSV sample sheet used for GC correction (see <a href="workflow.html#gc-correction">above</a>).
-                                            By default, the pipeline calculates GC content directly from the sequences in the MAF. However, if a sample sheet is
-                                            provided with a column called <code class="inline">accession</code> containing an NCBI assembly accession for each 
-                                            genome in the MAF then the GC content will be looked up automatically. Alternatively, if GC has been pre-calculated,
-                                            a column called <code class="inline">gc</code> can be supplied and those values will be used instead.
+                                            CSV sample sheet used for GC correction (see <a href="workflow.html#gc-correction">above</a>). Only
+                                            relevant if <code class="inline">use_gc_corrected_models: true</code>, and optional even then &mdash; by
+                                            default the pipeline calculates GC content directly from the sequences in the MAF. If a sample sheet is
+                                            provided with a column called <code class="inline">accession</code>, GC content is instead looked up via
+                                            NCBI assembly accessions; a column called <code class="inline">gc</code> can be supplied instead with
+                                            precomputed values.
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">accession_header</code></td>
+                                        <td><code class="inline">accession</code></td>
+                                        <td>Column name in <code class="inline">sample_file</code> holding NCBI assembly accessions.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">split_strategy</code></td>
+                                        <td><code class="inline">num_seqs</code></td>
+                                        <td><code class="inline">num_seqs</code> or <code class="inline">ns</code> (see <a href="workflow.html#splitting">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">num_seqs_max_for_gap</code></td>
+                                        <td><code class="inline">3</code></td>
+                                        <td>Max species count for a MAF block to count toward a gap run (see <a href="workflow.html#splitting">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">num_seqs_min_gap_bp</code></td>
+                                        <td><code class="inline">100</code></td>
+                                        <td>Minimum length of a low-coverage run to count as a split point (see <a href="workflow.html#splitting">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">num_seqs_min_keep_region_len</code></td>
+                                        <td><code class="inline">6</code></td>
+                                        <td>Minimum chunk length (bp) to keep, <code class="inline">split_strategy: num_seqs</code> (see <a href="workflow.html#splitting">above</a>).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">ref_fasta</code></td>
+                                        <td><b>Required</b> if <code class="inline">split_strategy: ns</code></td>
+                                        <td>Only needed if you set <code class="inline">split_strategy: ns</code> (see <a href="workflow.html#splitting">splitting the alignment into
+                                        chunks</a>). This assembly is used to split the alignment into chunks based on runs of Ns; if it doesn't already
+                                        have Ns in it, the assembly must be hard masked first.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="inline">ref_fasta_index</code></td>
+                                        <td>Auto-generated if blank; only used if <code class="inline">split_strategy: ns</code></td>
+                                        <td>Path to the reference FASTA's <code class="inline">.fai</code> index.</td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">min_Ns_to_split_by</code></td>
                                         <td><code class="inline">100</code></td>
-                                        <td>Minimum run of Ns used as a split point (see <a href="workflow.html#filtering">above</a>).</td>
+                                        <td>Minimum run of Ns used as a split point, <code class="inline">split_strategy: ns</code> (see <a href="workflow.html#splitting">above</a>).</td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">min_keep_region_len</code></td>
                                         <td><code class="inline">6</code></td>
-                                        <td>Minimum chunk length (bp) to keep (see <a href="workflow.html#filtering">above</a>).</td>
+                                        <td>Minimum chunk length (bp) to keep, <code class="inline">split_strategy: ns</code> (see <a href="workflow.html#splitting">above</a>).</td>
                                     </tr>
                                     <tr>
                                         <td><code class="inline">max_gap_pct</code></td>
@@ -972,7 +963,7 @@ maf_ref_chr_joiner: "."</code></pre>
 
                             <h4>Here is an example rulegraph for fitting neutral models and extracting CNEEs</h4>
                             
-                            <center><a class="main-btn" href="https://github.com/phyloacc/phyloacc-workflows/blob/main/phylofit-phastcons-rulgraph.png" target="_blank">Pipeline rulegraph &raquo;</a></center>
+                            <center><a class="main-btn" href="https://github.com/phyloacc/phyloacc-workflows/blob/main/phylofit-phastcons-rulegraph.png" target="_blank">Pipeline rulegraph &raquo;</a></center>
 
 
                             <a class="internal-link" id="execute"></a>
@@ -1002,7 +993,7 @@ maf_ref_chr_joiner: "."</code></pre>
                             <p>
                                 If a particular rule keeps failing, check its log file first, both under
                                 <code class="inline">&lt;output_dir&gt;/logs/&lt;rule name&gt;/</code> and (for cluster runs) in the SLURM job's own
-                                output. Common early culprits are a chromosome/scaffold ID that doesn't match between the MAF, FASTA index, and GFF
+                                output. Common early culprits are a chromosome/scaffold ID that doesn't match between the MAF and GFF
                                 (see <a href="workflow.html#chromosome-ids">Matching chromosome IDs</a>), or a cluster partition/resource in
                                 <code class="inline">rule_resources</code> that doesn't exist on your system.
                             </p>

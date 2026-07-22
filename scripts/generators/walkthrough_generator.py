@@ -123,7 +123,7 @@ html_template = """
                                 </li>
                                 <li>
                                     <b>A neutral substitution model</b>: the expected, background rate of substitution in the absence of selective constraint.
-                                    This is estimated (e.g. with <code class="inline">phyloFit</code>) from putatively neutral sites, typically 4-fold
+                                    This is estimated (<em>e.g.</em> with <code class="inline">phyloFit</code>) from putatively neutral sites, typically 4-fold
                                     degenerate sites in genes, and given to PhyloAcc as a <code class="inline">.mod</code> file (output from 
                                     <code class="inline">phyloFit</code>).
                                 </li>
@@ -153,7 +153,7 @@ html_template = """
                                     The <b>softmasked</b> genome FASTA files of the species you wish to analyze.
                                 </li>
                                 <li>
-                                    At least one <b>hardmasked</b> reference genome FASTA file and corresponding annotation GFF file.
+                                    An GFF annotation file for the reference sequence specified in the whole genome alignment.
                                 </li>
                                 <li>
                                     A Newick-formatted tree containing at least the topology of the species in the FASTA files.

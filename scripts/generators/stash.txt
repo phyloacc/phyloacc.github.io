@@ -1,0 +1,63 @@
+
+                            <a class="internal-link" id="hard-masking"></a>
+                            <h3>Hard-masking the reference genome</h3>
+
+                            <p>
+                                This section only applies if you set <code class="inline">split_strategy: ns</code> instead of the default
+                                <code class="inline">num_seqs</code> (see <a href="workflow.html#splitting">splitting the alignment into chunks</a>).
+                                With the default strategy, no reference FASTA or masking is needed at all.
+                            </p>
+
+                            <p>
+                                With <code class="inline">split_strategy: ns</code>, the pipeline splits the alignment into chunks wherever the
+                                reference assembly has a run of Ns, and the resulting chunks are scored for conservation. If your assembly is highly
+                                contiguous and mostly free of Ns, there will be few natural places to split the alignment, chunks will be large, and
+                                repetitive sequence will be included in the <code class="inline">phastCons</code> scan. Practically, the pipeline will
+                                take prohibitively long to run.
+                            </p>
+
+                            <p>
+                                If your assembly doesn't contain Ns, we recommend hard-masking it with
+                                <a href="https://www.repeatmasker.org/" target="_blank">RepeatMasker</a>. Hard-masking replaces repetitive sequence
+                                with <code class="inline">N</code>, which both gives the pipeline's Ns-based splitting real breakpoints
+                                to work with and excludes those repeat regions from conservation scoring entirely.
+                            </p>
+
+                            <center><pre class="cmd"><code>RepeatMasker -pa [threads] -species "[species or clade name]" -dir [output directory] [genome.fasta]</code></pre></center>
+
+                            <p>
+                                This produces <code class="inline">[genome.fasta].masked</code> alongside a few report files. Specify this masked assembly as
+                                <code class="inline">ref_fasta</code> in the pipeline config and make sure it's the exact same assembly/coordinates already
+                                used to build your MAF since masking a different assembly version will shift coordinates and break the Ns-based
+                                chunking.
+                            </p>
+
+                            <h4>Checking runs of Ns</h4>
+                                <p>
+                                    You can also check whether your assembly has meaningful runs of Ns, both before and after masking, with a few quick bash commands.
+                                </p>
+
+                                <p>
+                                    First, extract the runs of Ns and write their lengths to a file:
+                                </p>
+
+                                <center><pre class="cmd"><code>awk '/^>/{{if(seq)print seq; seq=""; next}}{{seq=seq $0}}END{{if(seq)print seq}}' [genome.fasta] | grep -oE 'N+' | awk '{{print length($0)}}' > n-run-lengths.txt</code></pre></center>
+
+                                <p>
+                                    You can check how many run there are in total:
+                                </p>
+
+                                <center><pre class="cmd"><code>wc -l < n-run-lengths.txt</code></pre></center>
+
+                                <p>
+                                    Display a distribution of run lengths:
+                                </p>
+
+                                <center><pre class="cmd"><code>echo "# digits in length of run: 1 = 1-9bp, 2 = 10-99bp, 3 = 100-999bp, etc."; printf "%-8s %s\\n" digits count; awk '{{print length($1)}}' n-run-lengths.txt | sort -n | uniq -c | awk '{{printf "%-8s %s\\n", $2, $1}}'</code></pre></center>
+
+                                <p>
+                                    And also explicitly display how many are at least 100bp, the pipeline's default
+                                    <code class="inline">min_Ns_to_split_by</code>, and so the actual split points it would find:
+                                </p>
+
+                                <center><pre class="cmd"><code>awk '$1 >= 100' n-run-lengths.txt | wc -l</code></pre></center>
