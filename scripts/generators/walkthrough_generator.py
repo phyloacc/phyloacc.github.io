@@ -225,7 +225,7 @@ html_template = """
 
                             <p>
                                 We provide a set of <code class="inline">phyloacc-workflows</code> that fits a neutral model by chromosome with 
-                                <code class="inline">phyloFit</code>, predicts conserved elements with <code class="inline">phastCons</code>, 
+                                <code class="inline">phyloFit</code>, predicts conserved elements with <code class="inline">phastCons</code> or <code class="inline">phyloP</code>,
                                 and extracts a final set of CNEE alignments. These are the direct inputs for PhyloAcc. See our walkthrough here:
                             </p>
 

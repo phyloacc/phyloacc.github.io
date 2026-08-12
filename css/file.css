@@ -26,6 +26,26 @@
 	display: block;
 	margin: 20px auto;
 }
+.fig-img-plot {
+	max-width: 650px;
+}
+.fig-toggle summary {
+	width: fit-content;
+	cursor: pointer;
+	color: #0072b2;
+	margin: 10px 0;
+	font-size: 1.2em;
+	border: 1px solid #0072b2;
+	border-radius: 5px;
+	padding: 5px;
+	padding-right: 10px;
+	transition: 0.2s ease;
+}
+.fig-toggle summary:hover {
+	text-decoration: underline;
+	background-color: #e6f0ff;
+	border-radius: 10px;
+}
 
 /*------------------------------------------------------*/
 /* Page side navigation styles */
