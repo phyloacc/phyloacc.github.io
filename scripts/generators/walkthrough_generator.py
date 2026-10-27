@@ -120,7 +120,7 @@ html_template = """
                             <ol>
                                 <li>
                                     <b>Sequence alignments</b> for the regions you're testing (<em>e.g.</em> CNEEs).
-                                </li>
+                                </li>                   
                                 <li>
                                     <b>A neutral substitution model</b>: the expected, background rate of substitution in the absence of selective constraint.
                                     This is estimated (<em>e.g.</em> with <code class="inline">phyloFit</code>) from putatively neutral sites, typically 4-fold
@@ -135,6 +135,24 @@ html_template = """
                                     automatically.)
                                 </li>
                             </ol>
+
+
+                            <div id="msg_cont">
+                                <div id="msg">
+                                    <div id="caution_banner">Already have your elements in FASTA format and only need them aligned?</div>
+                                    <div id="caution_text">
+                                        <p>
+                                            The workflow repository also provides an align only mode for this case. See instructions on the workflow README. <b>You will still need
+                                            the other two pieces of input listed above (a neutral model and a tree) to run PhyloAcc.</b>                                            
+                                        </p>
+                                        <center><a class="main-btn" href="https://github.com/phyloacc/phyloacc-workflows#align-only-mode" target="_blank">Align only mode README &raquo;</a></center>  
+                                        
+                                        <p>Otherwise, follow the "<em>Starting from scratch</em>" section below to predict conserved elements and align them.</p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>    
 
                             <a class="internal-link" id="scratch"></a>
                             <h2>Starting from scratch</h2>

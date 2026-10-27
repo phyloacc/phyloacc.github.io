@@ -20,10 +20,16 @@ def readNav(active_url):
 def readFooter():
     import time, subprocess
     from datetime import datetime
+    import zoneinfo
     footerfile = "../html-chunks/footer.html";
-    now = datetime.now().strftime("%m/%d/%Y %H:%M:%S");
-    zone = subprocess.check_output("date +%Z").decode().strip();
-    return open(footerfile, "r").read().replace("DATETIME", now + " " + zone);
+    now_obj = datetime.now()
+    now = now_obj.strftime("%m/%d/%Y %H:%M:%S")
+    zone = now_obj.astimezone().tzname()
+    return open(footerfile, "r").read().replace("DATETIME", now + " " + zone)
+
+    # now = datetime.now().strftime("%m/%d/%Y %H:%M:%S");
+    # zone = subprocess.check_output("date +%Z").decode().strip();
+    # return open(footerfile, "r").read().replace("DATETIME", now + " " + zone);
 
 def readCalcs():
     calcsfile = "../html-chunks/calcs_main.html";
